@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+  Copyright : 2012 Freescale, Inc. All Rights Reserved.
+
+  This configuration file is a standard interchange file that's format is maintained
+  by Freescale, Inc. The configuration file is a derivative work
+  of the Processor Expert Software technology licensed for use by customers
+  as defined as SOFTWARE in the product's End User License Agreement. This file
+  and format are free to use and distribute for read-only purposes. You do not have
+  the right to create these files or modify this format or use for any purposes other
+  than interchange with the Processor Expert Software technology.
+
+  THIS SOFTWARE IS PROVIDED "AS IS".
+
+  NO WARRANTIES, WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT
+  LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+  PURPOSE APPLY TO THIS SOFTWARE. IN NO EVENT WILL FREESCALE BE LIABLE, WHETHER
+  IN CONTRACT, TORT, OR OTHERWISE, FOR ANY INCIDENTAL, SPECIAL, INDIRECT,
+  CONSEQUENTIAL OR PUNITIVE DAMAGES, INCLUDING, BUT NOT LIMITED TO, DAMAGES FOR
+  ANY LOSS OF USE, LOSS OF TIME, INCONVENIENCE, COMMERCIAL LOSS, OR LOST PROFITS,
+  SAVINGS, OR REVENUES TO THE FULL EXTENT SUCH MAY BE DISCLAIMED BY LAW.
+
+-->
+<export xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ProjectInfoDescription.xsd">
+  <PROCESSOR>
+    <DeviceID>MKV10Z32xxx7</DeviceID>
+    <CoreNum>1</CoreNum>
+    <Cores>
+      <Core>
+        <CoreSet>Cortex-M0+</CoreSet>
+      </Core>
+    </Cores>
+    <SRAMsize>8192</SRAMsize>
+    <FLASHsize>32k</FLASHsize>
+  </PROCESSOR>
+  <PATHS>
+    <LinkerCommandFile>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Project_Settings\Linker_Files\ProcessorExpert.ld</LinkerCommandFile>
+    <IncludePaths>
+      <Path>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\</Path>
+      <Path>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\</Path>
+      <Path>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\iofiles\</Path>
+      <Path>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Sources\</Path>
+      <Path>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\</Path>
+    </IncludePaths>
+    <SourceCodePaths>
+      <Path>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\</Path>
+      <Path>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Project_Settings\Startup_Code\</Path>
+      <Path>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Sources\</Path>
+      <Path>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\</Path>
+    </SourceCodePaths>
+  </PATHS>
+  <FILES>
+    <GeneratedCs>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\ASerialLdd1.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\AdcLdd1.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\AdcLdd2.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd1.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd2.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd3.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd4.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd5.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd6.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd7.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd8.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd9.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\Cpu.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd1.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd2.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\FastLoop.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\LED_BLUE.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\LED_GREEN.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\LED_RED.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_ANALOG.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_DIR.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_EN.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_HALL1.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_HALL2.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_ANALOG.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_DIR.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_EN.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_HALL1.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_HALL2.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\PE_LDD.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\Pins1.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\PwmLdd1.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\PwmLdd2.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\SlowLoop.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\TU1.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\TU2.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\TU3.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\TXEN.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\TimerIntLdd1.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\TimerIntLdd2.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\UART.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\VREF.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Project_Settings\Startup_Code\startup.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Sources\Command.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Sources\Events.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Sources\main.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Sources\motor.c</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\CPU_Init.c</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\Peripherals_Init.c</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\Vectors.c</PathName>
+    </GeneratedCs>
+    <GeneratedHs>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\ASerialLdd1.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\AdcLdd1.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\AdcLdd2.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd1.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd2.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd3.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd4.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd5.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd6.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd7.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd8.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd9.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\CPU_Config.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\Cpu.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd1.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd2.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\FastLoop.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\IO_Map.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\Init_Config.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\LED_BLUE.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\LED_GREEN.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\LED_RED.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_ANALOG.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_DIR.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_EN.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_HALL1.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_HALL2.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_ANALOG.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_DIR.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_EN.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_HALL1.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_HALL2.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\PE_Const.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\PE_Error.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\PE_LDD.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\PE_Types.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\Pins1.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\PwmLdd1.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\PwmLdd2.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\SlowLoop.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\TU1.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\TU2.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\TU3.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\TXEN.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\TimerIntLdd1.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\TimerIntLdd2.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\UART.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\VREF.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\Vectors_Config.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Sources\Command.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Sources\Events.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Sources\motor.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\iofiles\MKV10Z7.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\ADC_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\CMP_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\CRC_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\DAC_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\DMAMUX_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\DMA_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\EWM_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\FTFA_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\FTM_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\GPIO_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\I2C_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\LLWU_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\LPTMR_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\MCG_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\MCM_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\NVIC_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\OSC_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\PDB_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\PDD_Types.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\PMC_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\PORT_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\RCM_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\SCB_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\SIM_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\SMC_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\SPI_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\SysTick_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\UART_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\WDOG_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\CPU_Init.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\PDD_Includes.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\Peripherals_Init.h</PathName>
+    </GeneratedHs>
+  </FILES>
+  <OPTIONS>
+  </OPTIONS>
+</export>
