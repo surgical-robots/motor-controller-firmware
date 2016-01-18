@@ -22,9 +22,10 @@ typedef enum {
 	CommandJog,
 	CommandResetCounters,
 	CommandDoubleMoveTo,
+	CommandSetPosGetData,
 	CommandGetHallPos,
-	CommandSetPosGetHalls,
-	CommandGetPots
+	CommandGetPots,
+	CommandGetCurremt
 } command_t;
 
 void Command_Init();

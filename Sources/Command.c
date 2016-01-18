@@ -54,6 +54,9 @@ commandState_t CommandStatus = CommandStateWaiting;
 bool ResponseReadyToSend = FALSE;
 uint32 MyAddress;
 bool IsAssociated = FALSE;
+bool GetHalls = FALSE;
+bool GetPots = FALSE;
+bool GetCurrent = FALSE;
 
 
 /// Internal methods
@@ -69,9 +72,10 @@ void _IdentifyLed(uint8 val);
 void _Configure(uint8* buffer);
 void _Jog(uint8* buffer);
 void _DoubleMoveTo(char* buffer);
+void _SetPosGetData(char* buffer);
 void _GetHallPos();
-void _SetPosGetHalls(char* buffer);
 void _GetPots();
+void _GetCurrent();
 bool _CheckCanSend();
 
 /**
@@ -148,6 +152,9 @@ void _Configure(uint8* buffer)
 		Motor1_CurrentMax = buffer[7] | (buffer[8] << 8);
 		Motor1_PotZero = buffer[9] | (buffer[10] << 8);
 		Motor1_ClicksPerRev = buffer[11] | (buffer[12] << 8);
+		GetHalls = buffer[13];
+		GetPots = buffer [14];
+		GetCurrent = buffer[15];
 		break;
 	case 1:
 		Motor2_ControlMode = buffer[1];
@@ -164,6 +171,9 @@ void _Configure(uint8* buffer)
 		Motor2_CurrentMax = buffer[7] | (buffer[8] << 8);
 		Motor2_PotZero = buffer[9] | (buffer[10] << 8);
 		Motor2_ClicksPerRev = buffer[11] | (buffer[12] << 8);
+		GetHalls = buffer[13];
+		GetPots = buffer [14];
+		GetCurrent = buffer[15];
 		break;
 	}
 }
@@ -252,12 +262,32 @@ void _GetStatus()
 	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
 //	*((uint32*)&(ResponseBuffer[1])) = MyAddress;
 	ResponseBuffer[5] = CommandGetStatus;
-	ResponseBuffer[6] = Motor1_ControlMode;
-	ResponseBuffer[7] = Motor2_ControlMode;
-	*((uint32*)&(ResponseBuffer[8])) = Motor1_ShaftCounter;
-	*((uint32*)&(ResponseBuffer[12])) = Motor2_ShaftCounter;
-	*((uint32*)&(ResponseBuffer[16])) = (uint32)Motor1_Current << 16 | (uint32)Motor1_PotVal;
-	*((uint32*)&(ResponseBuffer[20])) = (uint32)Motor2_Current << 16 | (uint32)Motor2_PotVal;
+//	ResponseBuffer[6] = Motor1_ControlMode;
+//	ResponseBuffer[7] = Motor2_ControlMode;
+	int i = 6;
+	if(GetHalls)
+	{
+		ResponseBuffer[6] = (Motor1_ShaftCounter & 0x000000ff);
+		ResponseBuffer[7] = (Motor1_ShaftCounter & 0x0000ff00) >> 8;
+		ResponseBuffer[8] = (Motor1_ShaftCounter & 0x00ff0000) >> 16;
+		ResponseBuffer[9] = (Motor1_ShaftCounter & 0xff000000) >> 24;
+		ResponseBuffer[10] = (Motor2_ShaftCounter & 0x000000ff);
+		ResponseBuffer[11] = (Motor2_ShaftCounter & 0x0000ff00) >> 8;
+		ResponseBuffer[12] = (Motor2_ShaftCounter & 0x00ff0000) >> 16;
+		ResponseBuffer[13] = (Motor2_ShaftCounter & 0xff000000) >> 24;
+		i += 8;
+	}
+	if(GetPots)
+	{
+		*((uint16*)&(ResponseBuffer[i])) = Motor1_PotVal;
+		*((uint16*)&(ResponseBuffer[i + 2])) = Motor2_PotVal;
+		i += 4;
+	}
+	if(GetCurrent)
+	{
+		*((uint16*)&(ResponseBuffer[i])) = Motor1_AvgCurrent;
+		*((uint16*)&(ResponseBuffer[i + 2])) = Motor2_AvgCurrent;
+	}
 	_SendResponse();
 }
 
@@ -286,6 +316,12 @@ void _DoubleMoveTo(char* buffer)
 	Motor2_Setpoint = setpointTwo;
 }
 
+void _SetPosGetData(char* buffer)
+{
+	_DoubleMoveTo(buffer);
+	_GetStatus();
+}
+
 void _GetHallPos()
 {
 	if(ResponseReadyToSend == TRUE) // We're still sending our last response, so exit immediately
@@ -309,12 +345,6 @@ void _GetHallPos()
 	_SendResponse();
 }
 
-void _SetPosGetHalls(char* buffer)
-{
-	_DoubleMoveTo(buffer);
-	_GetHallPos();
-}
-
 void _GetPots()
 {
 	if(ResponseReadyToSend == TRUE) // We're still sending our last response, so exit immediately
@@ -330,6 +360,20 @@ void _GetPots()
 	_SendResponse();
 }
 
+void _GetCurrent()
+{
+	if(ResponseReadyToSend == TRUE) // We're still sending our last response, so exit immediately
+		return;
+	*((uint32*)ResponseBuffer) = 200;
+	ResponseBuffer[1] = (MyAddress & 0x000000ff);
+	ResponseBuffer[2] = (MyAddress & 0x0000ff00) >> 8;
+	ResponseBuffer[3] = (MyAddress & 0x00ff0000) >> 16;
+	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
+	ResponseBuffer[5] = CommandGetCurremt;
+	*((uint16*)&(ResponseBuffer[6])) = (uint16)Motor1_AvgCurrent;
+	*((uint16*)&(ResponseBuffer[8])) = (uint16)Motor2_AvgCurrent;
+	_SendResponse();
+}
 /**
  * Call this function periodically outside the interrupt context to process commands
  */
@@ -393,14 +437,17 @@ void Command_Task()
 		case CommandDoubleMoveTo:
 			_DoubleMoveTo(&ReceiveBuffer[6]);
 			break;
+		case CommandSetPosGetData:
+			_SetPosGetData(&ReceiveBuffer[6]);
+			break;
 		case CommandGetHallPos:
 			_GetHallPos();
 			break;
-		case CommandSetPosGetHalls:
-			_SetPosGetHalls(&ReceiveBuffer[6]);
-			break;
 		case CommandGetPots:
 			_GetPots();
+			break;
+		case CommandGetCurremt:
+			_GetCurrent();
 			break;
 		}
 	}
