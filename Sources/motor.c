@@ -107,6 +107,8 @@ void Motor_Update() {
 				Motor1_LimitedSpeed++;
 			}
 
+			if(Motor1_LimitedSpeed > Motor1_SpeedMax) Motor1_LimitedSpeed = Motor1_SpeedMax;
+
 			if (abs(m1_error) < 5) {
 				m1_output = 0;
 				M1_EN_SetRatio8(0);
@@ -154,12 +156,14 @@ void Motor_Update() {
 
 			if((Motor2_AvgCurrent > Motor2_CurrentMax) && (Motor2_LimitedSpeed > 0))
 			{
-				Motor1_LimitedSpeed--;
+				Motor2_LimitedSpeed--;
 			}
 			else if((Motor2_AvgCurrent < Motor2_CurrentMax) && (Motor2_LimitedSpeed < Motor2_SpeedMax))
 			{
-				Motor1_LimitedSpeed++;
+				Motor2_LimitedSpeed++;
 			}
+
+			if(Motor2_LimitedSpeed > Motor2_SpeedMax) Motor2_LimitedSpeed = Motor2_SpeedMax;
 
 			if (abs(m2_error) < 5) {
 				m2_output = 0;
