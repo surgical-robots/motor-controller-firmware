@@ -58,8 +58,8 @@ uint16 Motor2_CurrentMax;
 uint16 Motor1_PotZero;
 uint16 Motor2_PotZero;
 
-uint16 Motor1_ClicksPerRev;
-uint16 Motor2_ClicksPerRev;
+int16 Motor1_ClicksPerRev;
+int16 Motor2_ClicksPerRev;
 
 uint32 Motor1_AvgCurrent;
 uint32 Motor2_AvgCurrent;

@@ -182,14 +182,14 @@ void _ResetCounter(byte motor, bool resetSetpoint)
 {
 	if(motor == 0)
 	{
-		Motor1_ShaftCounter = ((Motor1_ClicksPerRev * SHIFT_SIZE / 65536) * (Motor1_PotVal - Motor1_PotZero)) / SHIFT_SIZE;
+		Motor1_ShaftCounter = ((abs(Motor1_ClicksPerRev) * SHIFT_SIZE / 65536) * (Motor1_PotVal - Motor1_PotZero)) / SHIFT_SIZE;
 		if(resetSetpoint)
 			Motor1_Setpoint = Motor1_ShaftCounter;
 	}
 
 	if(motor == 1)
 	{
-		Motor2_ShaftCounter = ((Motor1_ClicksPerRev * SHIFT_SIZE / 65536) * (Motor2_PotVal - Motor2_PotZero)) / SHIFT_SIZE;
+		Motor2_ShaftCounter = ((abs(Motor2_ClicksPerRev) * SHIFT_SIZE / 65536) * (Motor2_PotVal - Motor2_PotZero)) / SHIFT_SIZE;
 		if(resetSetpoint)
 			Motor2_Setpoint = Motor2_ShaftCounter;
 	}
