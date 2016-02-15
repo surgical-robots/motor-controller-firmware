@@ -70,6 +70,8 @@
 #include "SlowLoop.h"
 #include "TimerIntLdd2.h"
 #include "TU3.h"
+#include "I2C.h"
+#include "IntI2cLdd1.h"
 #include "TU1.h"
 #include "UART.h"
 #include "PwmLdd2.h"
@@ -333,6 +335,38 @@ void M1_HALL1_OnInterrupt(void);
 ** ===================================================================
 */
 void UART_OnError(void);
+
+/*
+** ===================================================================
+**     Event       :  I2C_OnReceiveData (module Events)
+**
+**     Component   :  I2C [InternalI2C]
+**     Description :
+**         This event is invoked when I2C finishes the reception of the
+**         data successfully. This event is not available for the SLAVE
+**         mode and if both RecvChar and RecvBlock are disabled. This
+**         event is enabled only if interrupts/events are enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void I2C_OnReceiveData(void);
+
+/*
+** ===================================================================
+**     Event       :  I2C_OnTransmitData (module Events)
+**
+**     Component   :  I2C [InternalI2C]
+**     Description :
+**         This event is invoked when I2C finishes the transmission of
+**         the data successfully. This event is not available for the
+**         SLAVE mode and if both SendChar and SendBlock are disabled.
+**         This event is enabled only if interrupts/events are enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void I2C_OnTransmitData(void);
 
 /* END Events */
 

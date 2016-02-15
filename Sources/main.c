@@ -66,6 +66,8 @@
 #include "SlowLoop.h"
 #include "TimerIntLdd2.h"
 #include "TU3.h"
+#include "I2C.h"
+#include "IntI2cLdd1.h"
 #include "TU1.h"
 #include "UART.h"
 #include "PwmLdd2.h"
@@ -91,12 +93,22 @@ int main(void)
 {
   /* Write your local variable definition here */
 
+
   /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();
   /*** End of Processor Expert internal initialization.                    ***/
 
   /* Write your code here */
   /* For example: for(;;) { } */
+
+//  I2C_SelectSlave(0xA0);
+//  I2C_SendChar(0x00);
+//  motorControlMode_t *controlMode = &Motor1_ControlMode;
+//  I2C_RecvBlock(*controlMode, 1, 1);
+//  int32 *kp = &Motor1_Kp;
+//  I2C_RecvBlock(*kp, 4, 4);
+
+
 	LED_RED_SetVal();
     Command_Init();
     // Start calibration of the ADC.

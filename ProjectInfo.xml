@@ -68,6 +68,8 @@
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd1.c</PathName>
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd2.c</PathName>
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\FastLoop.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\I2C.c</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\IntI2cLdd1.c</PathName>
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\LED_BLUE.c</PathName>
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\LED_GREEN.c</PathName>
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\LED_RED.c</PathName>
@@ -121,8 +123,10 @@
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd1.h</PathName>
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd2.h</PathName>
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\FastLoop.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\I2C.h</PathName>
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\IO_Map.h</PathName>
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\Init_Config.h</PathName>
+      <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\IntI2cLdd1.h</PathName>
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\LED_BLUE.h</PathName>
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\LED_GREEN.h</PathName>
       <PathName>C:\Users\Robot\Documents\GitHub\motor-controller-firmware\Generated_Code\LED_RED.h</PathName>

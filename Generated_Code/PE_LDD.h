@@ -5,7 +5,7 @@
 **     Processor   : MKV10Z32VFM7
 **     Version     : Component 01.036, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2016-01-14, 16:14, # CodeGen: 64
+**     Date/Time   : 2016-02-15, 12:17, # CodeGen: 70
 **
 **     Copyright : 1997 - 2014 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -94,6 +94,8 @@
 #include "SlowLoop.h"
 #include "TimerIntLdd2.h"
 #include "TU3.h"
+#include "I2C.h"
+#include "IntI2cLdd1.h"
 
 
 /*

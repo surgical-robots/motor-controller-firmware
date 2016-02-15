@@ -302,6 +302,44 @@ void UART_OnError(void)
   /* Write your code here ... */
 }
 
+/*
+** ===================================================================
+**     Event       :  I2C_OnReceiveData (module Events)
+**
+**     Component   :  I2C [InternalI2C]
+**     Description :
+**         This event is invoked when I2C finishes the reception of the
+**         data successfully. This event is not available for the SLAVE
+**         mode and if both RecvChar and RecvBlock are disabled. This
+**         event is enabled only if interrupts/events are enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void I2C_OnReceiveData(void)
+{
+  /* Write your code here ... */
+}
+
+/*
+** ===================================================================
+**     Event       :  I2C_OnTransmitData (module Events)
+**
+**     Component   :  I2C [InternalI2C]
+**     Description :
+**         This event is invoked when I2C finishes the transmission of
+**         the data successfully. This event is not available for the
+**         SLAVE mode and if both SendChar and SendBlock are disabled.
+**         This event is enabled only if interrupts/events are enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void I2C_OnTransmitData(void)
+{
+  /* Write your code here ... */
+}
+
 /* END Events */
 
 #ifdef __cplusplus

@@ -7,7 +7,7 @@
 **     Version     : Component 01.036, Driver 01.00, CPU db: 3.50.001
 **     Datasheet   : KV10P48M75RM Rev.2, July 2013
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2016-01-14, 16:14, # CodeGen: 64
+**     Date/Time   : 2016-02-15, 12:17, # CodeGen: 70
 **     Abstract    :
 **
 **     Settings    :
@@ -105,6 +105,12 @@ void Common_Init(void)
   PORTB_PCR0 &= (uint32_t)~(uint32_t)((PORT_PCR_ISF_MASK | PORT_PCR_MUX(0x07)));
   /* PORTC_PCR1: ISF=0,MUX=0 */
   PORTC_PCR1 &= (uint32_t)~(uint32_t)((PORT_PCR_ISF_MASK | PORT_PCR_MUX(0x07)));
+  /* PORTC_PCR7: ISF=0,MUX=7 */
+  PORTC_PCR7 = (uint32_t)((PORTC_PCR7 & (uint32_t)~(uint32_t)(
+                PORT_PCR_ISF_MASK
+               )) | (uint32_t)(
+                PORT_PCR_MUX(0x07)
+               ));
   /* PORTD_PCR5: ISF=0,MUX=0 */
   PORTD_PCR5 &= (uint32_t)~(uint32_t)((PORT_PCR_ISF_MASK | PORT_PCR_MUX(0x07)));
   /* PORTE_PCR18: ISF=0,MUX=0 */
@@ -177,6 +183,8 @@ void Components_Init(void)
   /* ### TimerInt_LDD "TimerIntLdd2" component auto initialization. Auto initialization feature can be disabled by component property "Auto initialization". */
   (void)TimerIntLdd2_Init(NULL);
   /* ### TimerInt "SlowLoop" init code ... */
+  /* ### InternalI2C "I2C" init code ... */
+  I2C_Init();
 }
 #endif /* CPU_COMPONENTS_INIT */
 
