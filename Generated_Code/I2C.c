@@ -6,7 +6,7 @@
 **     Component   : InternalI2C
 **     Version     : Component 01.287, Driver 01.01, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2016-02-15, 12:17, # CodeGen: 70
+**     Date/Time   : 2016-02-16, 02:23, # CodeGen: 75
 **     Abstract    :
 **          This component encapsulates the internal I2C communication 
 **          interface. The implementation of the interface is based 
@@ -34,7 +34,7 @@
 **
 **         Initialization
 **
-**             Target slave address    : 8
+**             Target slave address    : 80
 **             Component init          : Enabled
 **             Events                  : Enabled
 **

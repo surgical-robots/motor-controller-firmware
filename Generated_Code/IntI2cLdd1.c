@@ -6,7 +6,7 @@
 **     Component   : I2C_LDD
 **     Version     : Component 01.016, Driver 01.07, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2016-02-15, 12:17, # CodeGen: 70
+**     Date/Time   : 2016-02-16, 02:23, # CodeGen: 75
 **     Abstract    :
 **          This component encapsulates the internal I2C communication
 **          interface. The implementation of the interface is based
@@ -36,7 +36,7 @@
 **            MASTER mode                                  : Enabled
 **              Initialization                             : 
 **                Address mode                             : 7-bit addressing
-**                Target slave address init                : 8
+**                Target slave address init                : 80
 **            SLAVE mode                                   : Disabled
 **            Pins                                         : 
 **              SDA pin                                    : 
@@ -325,7 +325,7 @@ LDD_TDeviceData* IntI2cLdd1_Init(LDD_TUserData *UserDataPtr)
   /* {Default RTOS Adapter} Set interrupt vector: IVT is static, ISR parameter is passed by the global variable */
   INT_I2C0__DEFAULT_RTOS_ISRPARAM = DeviceDataPrv;
   DeviceDataPrv->SerFlag = ADDR_7;     /* Reset all flags start with 7-bit address mode */
-  DeviceDataPrv->SlaveAddr = 0x10U;    /* Set variable for slave address */
+  DeviceDataPrv->SlaveAddr = 0xA0U;    /* Set variable for slave address */
   DeviceDataPrv->SendStop = LDD_I2C_SEND_STOP; /* Set variable for sending stop condition (for master mode) */
   DeviceDataPrv->InpByteMNum = 0x00U;  /* Set zero number of input bufer's content */
   DeviceDataPrv->InpLenM = 0x00U;      /* Set zero counter of data of reception */

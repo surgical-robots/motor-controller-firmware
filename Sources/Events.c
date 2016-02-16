@@ -319,6 +319,7 @@ void UART_OnError(void)
 void I2C_OnReceiveData(void)
 {
   /* Write your code here ... */
+	i2cSuccess();
 }
 
 /*
@@ -338,6 +339,7 @@ void I2C_OnReceiveData(void)
 void I2C_OnTransmitData(void)
 {
   /* Write your code here ... */
+	i2cSuccess();
 }
 
 /* END Events */

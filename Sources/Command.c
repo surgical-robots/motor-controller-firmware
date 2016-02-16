@@ -54,10 +54,6 @@ commandState_t CommandStatus = CommandStateWaiting;
 bool ResponseReadyToSend = FALSE;
 uint32 MyAddress;
 bool IsAssociated = FALSE;
-bool GetHalls = FALSE;
-bool GetPots = FALSE;
-bool GetCurrent = FALSE;
-
 
 /// Internal methods
 void _SendResponse();
@@ -580,4 +576,8 @@ bool _CheckCanSend()
 	return !ResponseReadyToSend;
 }
 
+void i2cSuccess()
+{
+	ComSuccess = TRUE;
+}
 
