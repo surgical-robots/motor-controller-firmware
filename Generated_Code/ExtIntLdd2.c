@@ -6,7 +6,7 @@
 **     Component   : ExtInt_LDD
 **     Version     : Component 02.156, Driver 01.02, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2016-01-14, 16:14, # CodeGen: 64
+**     Date/Time   : 2016-10-03, 18:07, # CodeGen: 79
 **     Abstract    :
 **         This component, "ExtInt_LDD", provide a low level API 
 **         for unified access of external interrupts handling
@@ -19,7 +19,7 @@
 **          Pin signal                                     : 
 **          Generate interrupt on                          : both edges
 **          Interrupt                                      : INT_PORTA
-**          Interrupt priority                             : medium priority
+**          Interrupt priority                             : maximal priority
 **          ISR Name                                       : Cpu_ivINT_PORTA
 **          Initialization                                 : 
 **            Enabled in init. code                        : yes
@@ -143,12 +143,8 @@ LDD_TDeviceData* ExtIntLdd2_Init(LDD_TUserData *UserDataPtr)
                 PORT_PCR_ISF_MASK |
                 PORT_PCR_IRQC(0x0B)
                ));
-  /* NVIC_IPR7: PRI_30=1 */
-  NVIC_IPR7 = (uint32_t)((NVIC_IPR7 & (uint32_t)~(uint32_t)(
-               NVIC_IP_PRI_30(0x02)
-              )) | (uint32_t)(
-               NVIC_IP_PRI_30(0x01)
-              ));
+  /* NVIC_IPR7: PRI_30=0 */
+  NVIC_IPR7 &= (uint32_t)~(uint32_t)(NVIC_IP_PRI_30(0x03));
   /* NVIC_ISER: SETENA31=0,SETENA30=1,SETENA29=0,SETENA28=0,SETENA27=0,SETENA26=0,SETENA25=0,SETENA24=0,SETENA23=0,SETENA22=0,SETENA21=0,SETENA20=0,SETENA19=0,SETENA18=0,SETENA17=0,SETENA16=0,SETENA15=0,SETENA14=0,SETENA13=0,SETENA12=0,SETENA11=0,SETENA10=0,SETENA9=0,SETENA8=0,SETENA7=0,SETENA6=0,SETENA5=0,SETENA4=0,SETENA3=0,SETENA2=0,SETENA1=0,SETENA0=0 */
   NVIC_ISER = NVIC_ISER_SETENA30_MASK;
   /* NVIC_ICER: CLRENA31=0,CLRENA30=0,CLRENA29=0,CLRENA28=0,CLRENA27=0,CLRENA26=0,CLRENA25=0,CLRENA24=0,CLRENA23=0,CLRENA22=0,CLRENA21=0,CLRENA20=0,CLRENA19=0,CLRENA18=0,CLRENA17=0,CLRENA16=0,CLRENA15=0,CLRENA14=0,CLRENA13=0,CLRENA12=0,CLRENA11=0,CLRENA10=0,CLRENA9=0,CLRENA8=0,CLRENA7=0,CLRENA6=0,CLRENA5=0,CLRENA4=0,CLRENA3=0,CLRENA2=0,CLRENA1=0,CLRENA0=0 */

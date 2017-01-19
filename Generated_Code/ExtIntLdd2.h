@@ -6,7 +6,7 @@
 **     Component   : ExtInt_LDD
 **     Version     : Component 02.156, Driver 01.02, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2016-01-14, 16:14, # CodeGen: 64
+**     Date/Time   : 2016-10-03, 18:07, # CodeGen: 79
 **     Abstract    :
 **         This component, "ExtInt_LDD", provide a low level API 
 **         for unified access of external interrupts handling
@@ -19,7 +19,7 @@
 **          Pin signal                                     : 
 **          Generate interrupt on                          : both edges
 **          Interrupt                                      : INT_PORTA
-**          Interrupt priority                             : medium priority
+**          Interrupt priority                             : maximal priority
 **          ISR Name                                       : Cpu_ivINT_PORTA
 **          Initialization                                 : 
 **            Enabled in init. code                        : yes

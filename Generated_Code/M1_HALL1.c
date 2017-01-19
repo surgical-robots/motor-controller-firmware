@@ -6,7 +6,7 @@
 **     Component   : ExtInt
 **     Version     : Component 02.105, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2016-01-14, 16:14, # CodeGen: 64
+**     Date/Time   : 2016-10-03, 18:07, # CodeGen: 79
 **     Abstract    :
 **         This component "ExtInt" implements an external 
 **         interrupt, its control methods and interrupt/event 
@@ -30,7 +30,7 @@
 **         Bit mask of the port        : 0x00080000
 **
 **         Signal edge/level           : both
-**         Priority                    : 64
+**         Priority                    : 0
 **         Pull option                 : off
 **         Initial state               : Enabled
 **

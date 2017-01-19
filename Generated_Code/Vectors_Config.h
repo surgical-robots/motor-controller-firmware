@@ -146,7 +146,7 @@ extern "C" {
 #define VECTOR_43         (tIsrFunc)&UnhandledInterrupt         /* 0x2B -    ivINT_MCG                     unused by PE */
 #define VECTOR_44         (tIsrFunc)&UnhandledInterrupt         /* 0x2C -    ivINT_LPTMR0                  unused by PE */
 #define VECTOR_45         (tIsrFunc)&UnhandledInterrupt         /* 0x2D -    ivINT_PDB0                    unused by PE */
-#define VECTOR_46         (tIsrFunc)&Cpu_ivINT_PORTA            /* 0x2E 64   ivINT_PORTA                   used by PE */
+#define VECTOR_46         (tIsrFunc)&Cpu_ivINT_PORTA            /* 0x2E 0    ivINT_PORTA                   used by PE */
 #define VECTOR_47         (tIsrFunc)&UnhandledInterrupt         /* 0x2F -    ivINT_PORTBCDE                unused by PE */
   
 #ifdef __cplusplus

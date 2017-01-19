@@ -101,7 +101,7 @@ int main(void)
 
   /* Write your code here */
   /* For example: for(;;) { } */
-//  	Motor_Init();
+  	Motor_Init();
 
 	uint16 readWriteSize;
 	int32 dummyVar = 0;
@@ -206,66 +206,72 @@ int main(void)
     M2_ANALOG_Calibrate(0);
 
   int SlowLoopCounter=0;
+  int saveLoopCounter=0;
   int setpoint = 100;
 //  TXEN_SetVal();
   while(TRUE)
   {
 	  Command_Task();
 
-	  // starting memory address
-	  i2cTxBuffer[0] = (0x00);
-	  i2cTxBuffer[1] = (0x00);
-	  // motor1 properties
-	  i2cTxBuffer[2] = (byte)Motor1_ControlMode;
-	  i2cTxBuffer[3] = (Motor1_KP & 0x000000ff);
-	  i2cTxBuffer[4] = (Motor1_KP & 0x0000ff00) >> 8;
-	  i2cTxBuffer[5] = (Motor1_KP & 0x00ff0000) >> 16;
-	  i2cTxBuffer[6] = (Motor1_KP & 0xff000000) >> 24;
-	  i2cTxBuffer[7] = (Motor1_Setpoint & 0x000000ff);
-	  i2cTxBuffer[8] = (Motor1_Setpoint & 0x0000ff00) >> 8;
-	  i2cTxBuffer[9] = (Motor1_Setpoint & 0x00ff0000) >> 16;
-	  i2cTxBuffer[10] = (Motor1_Setpoint & 0xff000000) >> 24;
-	  i2cTxBuffer[11] = (Motor1_ShaftCounter & 0x000000ff);
-	  i2cTxBuffer[12] = (Motor1_ShaftCounter & 0x0000ff00) >> 8;
-	  i2cTxBuffer[13] = (Motor1_ShaftCounter & 0x00ff0000) >> 16;
-	  i2cTxBuffer[14] = (Motor1_ShaftCounter & 0xff000000) >> 24;
-	  i2cTxBuffer[15] = (Motor1_ClicksPerRev & 0x00ff);
-	  i2cTxBuffer[16] = (Motor1_ClicksPerRev & 0xff00) >> 8;
-	  i2cTxBuffer[17] = (Motor1_SpeedMax & 0x00ff);
-	  i2cTxBuffer[18] = (Motor1_SpeedMax & 0xff00) >> 8;
-	  i2cTxBuffer[19] = (Motor1_CurrentMax & 0x00ff);
-	  i2cTxBuffer[20] = (Motor1_CurrentMax & 0xff00) >> 8;
-	  i2cTxBuffer[21] = (Motor1_PotZero & 0x00ff);
-	  i2cTxBuffer[22] = (Motor1_PotZero & 0xff00) >> 8;
-	  // motor2 properties
-	  i2cTxBuffer[23] = (byte)Motor2_ControlMode;
-	  i2cTxBuffer[24] = (Motor2_KP & 0x000000ff);
-	  i2cTxBuffer[25] = (Motor2_KP & 0x0000ff00) >> 8;
-	  i2cTxBuffer[26] = (Motor2_KP & 0x00ff0000) >> 16;
-	  i2cTxBuffer[27] = (Motor2_KP & 0xff000000) >> 24;
-	  i2cTxBuffer[28] = (Motor2_Setpoint & 0x000000ff);
-	  i2cTxBuffer[29] = (Motor2_Setpoint & 0x0000ff00) >> 8;
-	  i2cTxBuffer[30] = (Motor2_Setpoint & 0x00ff0000) >> 16;
-	  i2cTxBuffer[31] = (Motor2_Setpoint & 0xff000000) >> 24;
-	  i2cTxBuffer[32] = (Motor2_ShaftCounter & 0x000000ff);
-	  i2cTxBuffer[33] = (Motor2_ShaftCounter & 0x0000ff00) >> 8;
-	  i2cTxBuffer[34] = (Motor2_ShaftCounter & 0x00ff0000) >> 16;
-	  i2cTxBuffer[35] = (Motor2_ShaftCounter & 0xff000000) >> 24;
-	  i2cTxBuffer[36] = (Motor2_ClicksPerRev & 0x00ff);
-	  i2cTxBuffer[37] = (Motor2_ClicksPerRev & 0xff00) >> 8;
-	  i2cTxBuffer[38] = (Motor2_SpeedMax & 0x00ff);
-	  i2cTxBuffer[39] = (Motor2_SpeedMax & 0xff00) >> 8;
-	  i2cTxBuffer[40] = (Motor2_CurrentMax & 0x00ff);
-	  i2cTxBuffer[41] = (Motor2_CurrentMax & 0xff00) >> 8;
-	  i2cTxBuffer[42] = (Motor2_PotZero & 0x00ff);
-	  i2cTxBuffer[43] = (Motor2_PotZero & 0xff00) >> 8;
-	  // controller properties
-	  i2cTxBuffer[44] = (byte)GetHalls;
-	  i2cTxBuffer[45] = (byte)GetPots;
-	  i2cTxBuffer[46] = (byte)GetCurrent;
+	  saveLoopCounter++;
+	  if(saveLoopCounter > 1000)
+	  {
+		  // starting memory address
+		  i2cTxBuffer[0] = (0x00);
+		  i2cTxBuffer[1] = (0x00);
+		  // motor1 properties
+		  i2cTxBuffer[2] = (byte)Motor1_ControlMode;
+		  i2cTxBuffer[3] = (Motor1_KP & 0x000000ff);
+		  i2cTxBuffer[4] = (Motor1_KP & 0x0000ff00) >> 8;
+		  i2cTxBuffer[5] = (Motor1_KP & 0x00ff0000) >> 16;
+		  i2cTxBuffer[6] = (Motor1_KP & 0xff000000) >> 24;
+		  i2cTxBuffer[7] = (Motor1_Setpoint & 0x000000ff);
+		  i2cTxBuffer[8] = (Motor1_Setpoint & 0x0000ff00) >> 8;
+		  i2cTxBuffer[9] = (Motor1_Setpoint & 0x00ff0000) >> 16;
+		  i2cTxBuffer[10] = (Motor1_Setpoint & 0xff000000) >> 24;
+		  i2cTxBuffer[11] = (Motor1_ShaftCounter & 0x000000ff);
+		  i2cTxBuffer[12] = (Motor1_ShaftCounter & 0x0000ff00) >> 8;
+		  i2cTxBuffer[13] = (Motor1_ShaftCounter & 0x00ff0000) >> 16;
+		  i2cTxBuffer[14] = (Motor1_ShaftCounter & 0xff000000) >> 24;
+		  i2cTxBuffer[15] = (Motor1_ClicksPerRev & 0x00ff);
+		  i2cTxBuffer[16] = (Motor1_ClicksPerRev & 0xff00) >> 8;
+		  i2cTxBuffer[17] = (Motor1_SpeedMax & 0x00ff);
+		  i2cTxBuffer[18] = (Motor1_SpeedMax & 0xff00) >> 8;
+		  i2cTxBuffer[19] = (Motor1_CurrentMax & 0x00ff);
+		  i2cTxBuffer[20] = (Motor1_CurrentMax & 0xff00) >> 8;
+		  i2cTxBuffer[21] = (Motor1_PotZero & 0x00ff);
+		  i2cTxBuffer[22] = (Motor1_PotZero & 0xff00) >> 8;
+		  // motor2 properties
+		  i2cTxBuffer[23] = (byte)Motor2_ControlMode;
+		  i2cTxBuffer[24] = (Motor2_KP & 0x000000ff);
+		  i2cTxBuffer[25] = (Motor2_KP & 0x0000ff00) >> 8;
+		  i2cTxBuffer[26] = (Motor2_KP & 0x00ff0000) >> 16;
+		  i2cTxBuffer[27] = (Motor2_KP & 0xff000000) >> 24;
+		  i2cTxBuffer[28] = (Motor2_Setpoint & 0x000000ff);
+		  i2cTxBuffer[29] = (Motor2_Setpoint & 0x0000ff00) >> 8;
+		  i2cTxBuffer[30] = (Motor2_Setpoint & 0x00ff0000) >> 16;
+		  i2cTxBuffer[31] = (Motor2_Setpoint & 0xff000000) >> 24;
+		  i2cTxBuffer[32] = (Motor2_ShaftCounter & 0x000000ff);
+		  i2cTxBuffer[33] = (Motor2_ShaftCounter & 0x0000ff00) >> 8;
+		  i2cTxBuffer[34] = (Motor2_ShaftCounter & 0x00ff0000) >> 16;
+		  i2cTxBuffer[35] = (Motor2_ShaftCounter & 0xff000000) >> 24;
+		  i2cTxBuffer[36] = (Motor2_ClicksPerRev & 0x00ff);
+		  i2cTxBuffer[37] = (Motor2_ClicksPerRev & 0xff00) >> 8;
+		  i2cTxBuffer[38] = (Motor2_SpeedMax & 0x00ff);
+		  i2cTxBuffer[39] = (Motor2_SpeedMax & 0xff00) >> 8;
+		  i2cTxBuffer[40] = (Motor2_CurrentMax & 0x00ff);
+		  i2cTxBuffer[41] = (Motor2_CurrentMax & 0xff00) >> 8;
+		  i2cTxBuffer[42] = (Motor2_PotZero & 0x00ff);
+		  i2cTxBuffer[43] = (Motor2_PotZero & 0xff00) >> 8;
+		  // controller properties
+		  i2cTxBuffer[44] = (byte)GetHalls;
+		  i2cTxBuffer[45] = (byte)GetPots;
+		  i2cTxBuffer[46] = (byte)GetCurrent;
 
-	  I2C_SendBlock(&i2cTxBuffer[0], 47, &readWriteSize);
-	  ComSuccess = FALSE;
+		  I2C_SendBlock(&i2cTxBuffer[0], 47, &readWriteSize);
+		  ComSuccess = FALSE;
+		  saveLoopCounter = 0;
+	  }
 
 //	  while(readWriteSize < 40);
 
