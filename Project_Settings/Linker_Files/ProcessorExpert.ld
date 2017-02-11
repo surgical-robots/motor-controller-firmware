@@ -4,13 +4,13 @@
 /*##                                   */
 /*##     Filename  : ProcessorExpert.ld */
 /*##                                   */
-/*##     Project   : BLDC_KV10         */
+/*##     Project   : motor-controller-firmware */
 /*##                                   */
 /*##     Processor : MKV10Z32VFM7      */
 /*##                                   */
 /*##     Compiler  : GNU C Compiler    */
 /*##                                   */
-/*##     Date/Time : 2016-01-14, 16:14, # CodeGen: 64 */
+/*##     Date/Time : 2017-02-05, 17:15, # CodeGen: 0 */
 /*##                                   */
 /*##     Abstract  :                   */
 /*##                                   */

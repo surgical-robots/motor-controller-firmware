@@ -39,14 +39,14 @@ void Motor_Motor1_Tach() {
 		return;
 	if (M1_HALL1_GetVal()) {
 		if (M1_HALL2_GetVal())
-			Motor1_ShaftCounter++;
-		else
 			Motor1_ShaftCounter--;
+		else
+			Motor1_ShaftCounter++;
 	} else {
 		if (M1_HALL2_GetVal())
-			Motor1_ShaftCounter--;
-		else
 			Motor1_ShaftCounter++;
+		else
+			Motor1_ShaftCounter--;
 	}
 }
 
@@ -55,14 +55,14 @@ void Motor_Motor2_Tach() {
 		return;
 	if (M2_HALL1_GetVal()) {
 		if (M2_HALL2_GetVal())
-			Motor2_ShaftCounter++;
-		else
 			Motor2_ShaftCounter--;
+		else
+			Motor2_ShaftCounter++;
 	} else {
 		if (M2_HALL2_GetVal())
-			Motor2_ShaftCounter--;
-		else
 			Motor2_ShaftCounter++;
+		else
+			Motor2_ShaftCounter--;
 	}
 }
 
@@ -93,6 +93,9 @@ void Motor_Update() {
 				m1_dir = 0;
 				m1_output = -m1_output;
 			}
+
+//			if (m1_output < 60)
+//				m1_output = 60;
 
 			m1_lastpos = Motor1_Position;
 
@@ -149,6 +152,9 @@ void Motor_Update() {
 				m2_dir = 0;
 				m2_output = -m2_output;
 			}
+
+//			if (m2_output < 60)
+//				m2_output = 60;
 
 			m2_lastpos = Motor2_Position;
 

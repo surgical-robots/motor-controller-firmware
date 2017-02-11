@@ -80,6 +80,16 @@ bool _CheckCanSend();
 void Command_Init()
 {
 	MyAddress = SIM_UIDL ^ SIM_UIDMH ^ SIM_UIDML; // hash the Unique Identification Register values into a 32-bit address.
+	//MyAddress = 676122196;
+
+//	Motor1_ControlMode = MotorControlModeRelativeStep;
+//	Motor2_ControlMode = MotorControlModeRelativeStep;
+//	Motor1_KP = 10000;
+//	Motor2_KP = 10000;
+//	Motor1_SpeedMax = 255;
+//	Motor2_SpeedMax = 255;
+//	Motor1_CurrentMax = 5000;
+//	Motor2_CurrentMax = 5000;
 }
 
 void _IdentifyLed(uint8 val)
@@ -178,16 +188,20 @@ void _ResetCounter(byte motor, bool resetSetpoint)
 {
 	if(motor == 0)
 	{
-		Motor1_ShaftCounter = ((abs(Motor1_ClicksPerRev) * SHIFT_SIZE / 65536) * (Motor1_PotVal - Motor1_PotZero)) / SHIFT_SIZE;
+		//Motor1_ShaftCounter = ((abs(Motor1_ClicksPerRev) * SHIFT_SIZE / 65536) * (Motor1_PotVal - Motor1_PotZero)) / SHIFT_SIZE;
+		Motor1_ShaftCounter = 0;
 		if(resetSetpoint)
-			Motor1_Setpoint = Motor1_ShaftCounter;
+			Motor1_Setpoint = 0;
+			//Motor1_Setpoint = Motor1_ShaftCounter;
 	}
 
 	if(motor == 1)
 	{
-		Motor2_ShaftCounter = ((abs(Motor2_ClicksPerRev) * SHIFT_SIZE / 65536) * (Motor2_PotVal - Motor2_PotZero)) / SHIFT_SIZE;
+		//Motor2_ShaftCounter = ((abs(Motor2_ClicksPerRev) * SHIFT_SIZE / 65536) * (Motor2_PotVal - Motor2_PotZero)) / SHIFT_SIZE;
+		Motor1_ShaftCounter = 0;
 		if(resetSetpoint)
-			Motor2_Setpoint = Motor2_ShaftCounter;
+			Motor2_Setpoint = 0;
+			//Motor2_Setpoint = Motor2_ShaftCounter;
 	}
 }
 
@@ -227,13 +241,13 @@ void _MoveTo(char* buffer)
 {
 //	int32 setpoint = *((int32*)&(buffer[3]));
 	int32 setpoint = 0;
-	setpoint |= ReceiveBuffer[12] & 0xFF;
+	setpoint |= buffer[4] & 0xFF;
 	setpoint <<= 8;
-	setpoint |= ReceiveBuffer[11] & 0xFF;
+	setpoint |= buffer[3] & 0xFF;
 	setpoint <<= 8;
-	setpoint |= ReceiveBuffer[10] & 0xFF;
+	setpoint |= buffer[2] & 0xFF;
 	setpoint <<= 8;
-	setpoint |= ReceiveBuffer[9] & 0xFF;
+	setpoint |= buffer[1] & 0xFF;
 
 	switch(buffer[0])
 	{
