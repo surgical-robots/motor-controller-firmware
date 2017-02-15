@@ -6,7 +6,7 @@
 **     Component   : PWM_LDD
 **     Version     : Component 01.013, Driver 01.03, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-02-15, 00:32, # CodeGen: 14
 **     Abstract    :
 **          This component implements a pulse-width modulation generator
 **          that generates signal with variable duty and fixed cycle.
@@ -21,7 +21,7 @@
 **          Output pin signal                              : 
 **          Counter                                        : FTM0_CNT
 **          Interrupt service/event                        : Disabled
-**          Period                                         : 1 ms
+**          Period                                         : 12.5 µs
 **          Starting pulse width                           : 0 ms
 **          Initial polarity                               : high
 **          Initialization                                 : 
@@ -149,7 +149,7 @@ LDD_TDeviceData* PwmLdd1_Init(LDD_TUserData *UserDataPtr)
   DeviceDataPrv = &DeviceDataPrv__DEFAULT_RTOS_ALLOC;
   DeviceDataPrv->UserDataPtr = UserDataPtr; /* Store the RTOS device structure */
   DeviceDataPrv->EnUser = TRUE;        /* Set the flag "device enabled" */
-  DeviceDataPrv->RatioStore = 0x00U;   /* Ratio after initialization */
+  DeviceDataPrv->RatioStore = 0x01U;   /* Ratio after initialization */
   /* Registration of the device structure */
   PE_LDD_RegisterDeviceStructure(PE_LDD_COMPONENT_PwmLdd1_ID,DeviceDataPrv);
   DeviceDataPrv->LinkedDeviceDataPtr = TU1_Init((LDD_TUserData *)NULL);
@@ -265,10 +265,10 @@ LDD_TError PwmLdd1_SetDutyUS(LDD_TDeviceData *DeviceDataPtr, uint16_t Time)
 
   /* Time test - this test can be disabled by setting the "Ignore range checking"
      property to the "yes" value in the "Configuration inspector" */
-  if (Time > 0x03E8U) {                /* Is the given value out of range? */
+  if (Time > 0x0DU) {                  /* Is the given value out of range? */
     return ERR_PARAM_RANGE;            /* If yes then error */
   }
-  rtval = Time * 65.535359132348F;     /* Multiply given value and actual clock configuration coefficient */
+  rtval = Time * 5242.246194062114F;   /* Multiply given value and actual clock configuration coefficient */
   if (rtval > 0xFFFFUL) {              /* Is the result greater than 65535 ? */
     DeviceDataPrv->RatioStore = 0xFFFFU; /* If yes then use maximal possible value */
   }
@@ -309,20 +309,12 @@ LDD_TError PwmLdd1_SetDutyMS(LDD_TDeviceData *DeviceDataPtr, uint16_t Time)
   PwmLdd1_TDeviceData *DeviceDataPrv = (PwmLdd1_TDeviceData *)DeviceDataPtr;
   LDD_TimerUnit_Tfloat rtval;          /* Result of multiplication */
 
-  /* Time test - this test can be disabled by setting the "Ignore range checking"
-     property to the "yes" value in the "Configuration inspector" */
-  if (Time > 0x01U) {                  /* Is the given value out of range? */
-    return ERR_PARAM_RANGE;            /* If yes then error */
-  }
-  rtval = Time * 65535.359129723074F;  /* Multiply given value and actual clock configuration coefficient */
-  if (rtval > 0xFFFFUL) {              /* Is the result greater than 65535 ? */
-    DeviceDataPrv->RatioStore = 0xFFFFU; /* If yes then use maximal possible value */
-  }
-  else {
-    DeviceDataPrv->RatioStore = (uint16_t)rtval;
-  }
-  SetRatio(DeviceDataPtr);             /* Calculate and set up new appropriate values of the duty register */
-  return ERR_OK;                       /* OK */
+  /* Period is too little. Method 'SetDutyMS' will return only error code. */
+  (void)Time;                          /* Parameter is not used, suppress unused argument warning */
+  (void)DeviceDataPrv;                 /* Variable is not used, suppress unused argument warning */
+  rtval = 0;                           /* Suppress variable used before set warning */
+  (void)rtval;                         /* Variable is not used, suppress unused argument warning */
+  return ERR_MATH;                     /* Calculation error */
 }
 
 /*

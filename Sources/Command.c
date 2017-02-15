@@ -12,6 +12,8 @@
 #include <string.h>
 #include "Cpu.h"
 #include "UART_PDD.h"
+#include "VREF.h";
+
 /// Internal constants
 #define COMMAND_SIZE					(16)
 #define COMMAND_BUFFER_SIZE				(32)
@@ -80,16 +82,6 @@ bool _CheckCanSend();
 void Command_Init()
 {
 	MyAddress = SIM_UIDL ^ SIM_UIDMH ^ SIM_UIDML; // hash the Unique Identification Register values into a 32-bit address.
-	//MyAddress = 676122196;
-
-//	Motor1_ControlMode = MotorControlModeRelativeStep;
-//	Motor2_ControlMode = MotorControlModeRelativeStep;
-//	Motor1_KP = 10000;
-//	Motor2_KP = 10000;
-//	Motor1_SpeedMax = 255;
-//	Motor2_SpeedMax = 255;
-//	Motor1_CurrentMax = 5000;
-//	Motor2_CurrentMax = 5000;
 }
 
 void _IdentifyLed(uint8 val)
@@ -154,7 +146,7 @@ void _Configure(uint8* buffer)
 		kp <<= 8;
 		kp |= buffer[2] & 0xFF;
 		Motor1_KP = kp;
-		Motor1_SpeedMax = buffer[6];
+		Motor1_SpeedMin = buffer[6];
 		Motor1_CurrentMax = buffer[7] | (buffer[8] << 8);
 		Motor1_PotZero = buffer[9] | (buffer[10] << 8);
 		Motor1_ClicksPerRev = buffer[11] | (buffer[12] << 8);
@@ -173,7 +165,7 @@ void _Configure(uint8* buffer)
 		kp <<= 8;
 		kp |= buffer[2] & 0xFF;
 		Motor2_KP = kp;
-		Motor2_SpeedMax = buffer[6];
+		Motor2_SpeedMin = buffer[6];
 		Motor2_CurrentMax = buffer[7] | (buffer[8] << 8);
 		Motor2_PotZero = buffer[9] | (buffer[10] << 8);
 		Motor2_ClicksPerRev = buffer[11] | (buffer[12] << 8);
@@ -182,26 +174,33 @@ void _Configure(uint8* buffer)
 		GetCurrent = buffer[15];
 		break;
 	}
+//	if(Motor1_CurrentMax > Motor2_CurrentMax)
+//	{
+//		uint16 dummyVal = Motor1_CurrentMax * 4096 / 65536;
+//		VREF_SetValue(dummyVal);
+//	}
+//	else
+//	{
+//		uint16 dummyVal = Motor2_CurrentMax * 4096 / 65536;
+//		VREF_SetValue(dummyVal);
+//	}
+
 }
 
 void _ResetCounter(byte motor, bool resetSetpoint)
 {
 	if(motor == 0)
 	{
-		//Motor1_ShaftCounter = ((abs(Motor1_ClicksPerRev) * SHIFT_SIZE / 65536) * (Motor1_PotVal - Motor1_PotZero)) / SHIFT_SIZE;
 		Motor1_ShaftCounter = 0;
 		if(resetSetpoint)
 			Motor1_Setpoint = 0;
-			//Motor1_Setpoint = Motor1_ShaftCounter;
 	}
 
 	if(motor == 1)
 	{
-		//Motor2_ShaftCounter = ((abs(Motor2_ClicksPerRev) * SHIFT_SIZE / 65536) * (Motor2_PotVal - Motor2_PotZero)) / SHIFT_SIZE;
-		Motor1_ShaftCounter = 0;
+		Motor2_ShaftCounter = 0;
 		if(resetSetpoint)
 			Motor2_Setpoint = 0;
-			//Motor2_Setpoint = Motor2_ShaftCounter;
 	}
 }
 
@@ -239,7 +238,6 @@ case 1:
 
 void _MoveTo(char* buffer)
 {
-//	int32 setpoint = *((int32*)&(buffer[3]));
 	int32 setpoint = 0;
 	setpoint |= buffer[4] & 0xFF;
 	setpoint <<= 8;
@@ -270,10 +268,7 @@ void _GetStatus()
 	ResponseBuffer[2] = (MyAddress & 0x0000ff00) >> 8;
 	ResponseBuffer[3] = (MyAddress & 0x00ff0000) >> 16;
 	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
-//	*((uint32*)&(ResponseBuffer[1])) = MyAddress;
 	ResponseBuffer[5] = CommandGetStatus;
-//	ResponseBuffer[6] = Motor1_ControlMode;
-//	ResponseBuffer[7] = Motor2_ControlMode;
 	int i = 6;
 	if(GetHalls)
 	{
@@ -342,12 +337,12 @@ void _GetHallPos()
 	ResponseBuffer[3] = (MyAddress & 0x00ff0000) >> 16;
 	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
 	ResponseBuffer[5] = CommandGetHallPos;
-//	*((uint32*)&(ResponseBuffer[6])) = Motor1_ShaftCounter;
-//	*((uint32*)&(ResponseBuffer[10])) = Motor2_ShaftCounter;
+
 	ResponseBuffer[6] = (Motor1_ShaftCounter & 0x000000ff);
 	ResponseBuffer[7] = (Motor1_ShaftCounter & 0x0000ff00) >> 8;
 	ResponseBuffer[8] = (Motor1_ShaftCounter & 0x00ff0000) >> 16;
 	ResponseBuffer[9] = (Motor1_ShaftCounter & 0xff000000) >> 24;
+
 	ResponseBuffer[10] = (Motor2_ShaftCounter & 0x000000ff);
 	ResponseBuffer[11] = (Motor2_ShaftCounter & 0x0000ff00) >> 8;
 	ResponseBuffer[12] = (Motor2_ShaftCounter & 0x00ff0000) >> 16;

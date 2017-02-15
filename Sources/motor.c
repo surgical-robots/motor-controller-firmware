@@ -20,6 +20,8 @@
 #include "M2_HALL1.h"
 #include "M1_HALL2.h"
 #include "M2_HALL2.h"
+#include "M1_HALL3.h"
+#include "M2_HALL3.h"
 
 int32 maxVal = 255;
 bool m1_dir, m2_dir;
@@ -33,7 +35,7 @@ void Motor_Init() {
 	Motor2_KP = 0;
 }
 
-void Motor_Motor1_Tach() {
+void Motor_Motor1_Tach1() {
 	// We don't count clicks when we're jogging
 	if (Motor1_IsJogging)
 		return;
@@ -50,7 +52,41 @@ void Motor_Motor1_Tach() {
 	}
 }
 
-void Motor_Motor2_Tach() {
+void Motor_Motor1_Tach2() {
+	// We don't count clicks when we're jogging
+	if (Motor1_IsJogging)
+		return;
+	if (M1_HALL2_GetVal()) {
+		if (M1_HALL3_GetVal())
+			Motor1_ShaftCounter--;
+		else
+			Motor1_ShaftCounter++;
+	} else {
+		if (M1_HALL3_GetVal())
+			Motor1_ShaftCounter++;
+		else
+			Motor1_ShaftCounter--;
+	}
+}
+
+void Motor_Motor1_Tach3() {
+	// We don't count clicks when we're jogging
+	if (Motor1_IsJogging)
+		return;
+	if (M1_HALL3_GetVal()) {
+		if (M1_HALL1_GetVal())
+			Motor1_ShaftCounter--;
+		else
+			Motor1_ShaftCounter++;
+	} else {
+		if (M1_HALL1_GetVal())
+			Motor1_ShaftCounter++;
+		else
+			Motor1_ShaftCounter--;
+	}
+}
+
+void Motor_Motor2_Tach1() {
 	if (Motor2_IsJogging)
 		return;
 	if (M2_HALL1_GetVal()) {
@@ -60,6 +96,38 @@ void Motor_Motor2_Tach() {
 			Motor2_ShaftCounter++;
 	} else {
 		if (M2_HALL2_GetVal())
+			Motor2_ShaftCounter++;
+		else
+			Motor2_ShaftCounter--;
+	}
+}
+
+void Motor_Motor2_Tach2() {
+	if (Motor2_IsJogging)
+		return;
+	if (M2_HALL2_GetVal()) {
+		if (M2_HALL3_GetVal())
+			Motor2_ShaftCounter--;
+		else
+			Motor2_ShaftCounter++;
+	} else {
+		if (M2_HALL3_GetVal())
+			Motor2_ShaftCounter++;
+		else
+			Motor2_ShaftCounter--;
+	}
+}
+
+void Motor_Motor2_Tach3() {
+	if (Motor2_IsJogging)
+		return;
+	if (M2_HALL3_GetVal()) {
+		if (M2_HALL1_GetVal())
+			Motor2_ShaftCounter--;
+		else
+			Motor2_ShaftCounter++;
+	} else {
+		if (M2_HALL1_GetVal())
 			Motor2_ShaftCounter++;
 		else
 			Motor2_ShaftCounter--;
@@ -94,8 +162,7 @@ void Motor_Update() {
 				m1_output = -m1_output;
 			}
 
-//			if (m1_output < 60)
-//				m1_output = 60;
+			m1_output += Motor1_SpeedMin;
 
 			m1_lastpos = Motor1_Position;
 
@@ -105,12 +172,12 @@ void Motor_Update() {
 			{
 				Motor1_LimitedSpeed--;
 			}
-			else if((Motor1_AvgCurrent < Motor1_CurrentMax) && (Motor1_LimitedSpeed < Motor1_SpeedMax))
+			else if((Motor1_AvgCurrent < Motor1_CurrentMax) && (Motor1_LimitedSpeed < 255))
 			{
 				Motor1_LimitedSpeed++;
 			}
 
-			if(Motor1_LimitedSpeed > Motor1_SpeedMax) Motor1_LimitedSpeed = Motor1_SpeedMax;
+			if(Motor1_LimitedSpeed > 255) Motor1_LimitedSpeed = 255;
 
 			if (abs(m1_error) < 5) {
 				m1_output = 0;
@@ -153,8 +220,7 @@ void Motor_Update() {
 				m2_output = -m2_output;
 			}
 
-//			if (m2_output < 60)
-//				m2_output = 60;
+			m2_output += Motor2_SpeedMin;
 
 			m2_lastpos = Motor2_Position;
 
@@ -164,12 +230,12 @@ void Motor_Update() {
 			{
 				Motor2_LimitedSpeed--;
 			}
-			else if((Motor2_AvgCurrent < Motor2_CurrentMax) && (Motor2_LimitedSpeed < Motor2_SpeedMax))
+			else if((Motor2_AvgCurrent < Motor2_CurrentMax) && (Motor2_LimitedSpeed < 255))
 			{
 				Motor2_LimitedSpeed++;
 			}
 
-			if(Motor2_LimitedSpeed > Motor2_SpeedMax) Motor2_LimitedSpeed = Motor2_SpeedMax;
+			if(Motor2_LimitedSpeed > 255) Motor2_LimitedSpeed = 255;
 
 			if (abs(m2_error) < 5) {
 				m2_output = 0;

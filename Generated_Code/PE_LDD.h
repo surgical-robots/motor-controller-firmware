@@ -5,7 +5,7 @@
 **     Processor   : MKV10Z32VFM7
 **     Version     : Component 01.036, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-02-15, 00:56, # CodeGen: 15
 **
 **     Copyright : 1997 - 2014 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -72,16 +72,18 @@
 #include "BitIoLdd2.h"
 #include "TXEN.h"
 #include "BitIoLdd3.h"
-#include "VREF.h"
-#include "BitIoLdd4.h"
 #include "M1_HALL1.h"
 #include "ExtIntLdd1.h"
+#include "M1_HALL2.h"
+#include "ExtIntLdd6.h"
+#include "M1_HALL3.h"
+#include "ExtIntLdd5.h"
 #include "M2_HALL1.h"
 #include "ExtIntLdd2.h"
-#include "M1_HALL2.h"
-#include "BitIoLdd5.h"
 #include "M2_HALL2.h"
-#include "BitIoLdd6.h"
+#include "ExtIntLdd4.h"
+#include "M2_HALL3.h"
+#include "ExtIntLdd3.h"
 #include "LED_RED.h"
 #include "BitIoLdd7.h"
 #include "LED_GREEN.h"
@@ -96,6 +98,8 @@
 #include "TU3.h"
 #include "I2C.h"
 #include "IntI2cLdd1.h"
+#include "VREF.h"
+#include "DacLdd1.h"
 
 
 /*

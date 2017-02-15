@@ -3,17 +3,20 @@
 **     Filename    : M1_HALL2.c
 **     Project     : motor-controller-firmware
 **     Processor   : MKV10Z32VFM7
-**     Component   : BitIO
-**     Version     : Component 02.086, Driver 01.00, CPU db: 3.50.001
+**     Component   : ExtInt
+**     Version     : Component 02.105, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-02-15, 00:04, # CodeGen: 13
 **     Abstract    :
-**         This component "BitIO" implements an one-bit input/output.
-**         It uses one bit/pin of a port.
-**         Note: This component is set to work in Input direction only.
-**         Methods of this component are mostly implemented as a macros
-**         (if supported by target language and compiler).
+**         This component "ExtInt" implements an external 
+**         interrupt, its control methods and interrupt/event 
+**         handling procedure.
+**         The component uses one pin which generates interrupt on 
+**         selected edge.
 **     Settings    :
+**         Interrupt name              : INT_PORTBCDE
+**         User handling procedure     : M1_HALL2_OnInterrupt
+**
 **         Used pin                    :
 **             ----------------------------------------------------
 **                Number (on package)  |    Name
@@ -26,14 +29,14 @@
 **         Bit number (in port)        : 4
 **         Bit mask of the port        : 0x0010
 **
-**         Initial direction           : Input (direction cannot be changed)
-**         Initial output value        : 0
-**         Initial pull option         : off
+**         Signal edge/level           : both
+**         Priority                    : 0
+**         Pull option                 : off
+**         Initial state               : Enabled
+**
 **
 **         Port data register          : GPIOC_PDOR [0x400FF080]
 **         Port control register       : GPIOC_PDDR [0x400FF094]
-**
-**         Optimization for            : speed
 **     Contents    :
 **         GetVal - bool M1_HALL2_GetVal(void);
 **
@@ -72,11 +75,11 @@
 ** @file M1_HALL2.c
 ** @version 01.00
 ** @brief
-**         This component "BitIO" implements an one-bit input/output.
-**         It uses one bit/pin of a port.
-**         Note: This component is set to work in Input direction only.
-**         Methods of this component are mostly implemented as a macros
-**         (if supported by target language and compiler).
+**         This component "ExtInt" implements an external 
+**         interrupt, its control methods and interrupt/event 
+**         handling procedure.
+**         The component uses one pin which generates interrupt on 
+**         selected edge.
 */         
 /*!
 **  @addtogroup M1_HALL2_module M1_HALL2 module documentation
@@ -85,6 +88,7 @@
 
 /* MODULE M1_HALL2. */
 
+#include "Events.h"
 #include "M1_HALL2.h"
 
 #ifdef __cplusplus
@@ -93,19 +97,14 @@ extern "C" {
 
 /*
 ** ===================================================================
-**     Method      :  M1_HALL2_GetVal (component BitIO)
+**     Method      :  M1_HALL2_GetVal (component ExtInt)
 **     Description :
-**         This method returns an input value.
-**           a) direction = Input  : reads the input value from the
-**                                   pin and returns it
-**           b) direction = Output : returns the last written value
-**         Note: This component is set to work in Input direction only.
+**         Returns the actual value of the input pin of the component.
 **     Parameters  : None
 **     Returns     :
-**         ---             - Input value. Possible values:
-**                           FALSE - logical "0" (Low level)
-**                           TRUE - logical "1" (High level)
-
+**         ---             - Returned input value. Possible values:
+**                           <false> - logical "0" (Low level) <true> -
+**                           logical "1" (High level)
 ** ===================================================================
 */
 /*
@@ -113,6 +112,23 @@ bool M1_HALL2_GetVal(void)
 
 **  This method is implemented as a macro. See M1_HALL2.h file.  **
 */
+
+/*
+** ===================================================================
+**     Method      :  M1_HALL2_OnInterrupt (component ExtInt)
+**
+**     Description :
+**         This event is called when an active signal edge/level has 
+**         occurred. The event services the event of the inherited 
+**         component and eventually invokes other events.
+**         This method is internal. It is used by Processor Expert only.
+** ===================================================================
+*/
+void ExtIntLdd6_OnInterrupt(LDD_TUserData *UserDataPtr)
+{
+  (void)UserDataPtr;                   /* Parameter is not used, suppress unused argument warning */
+  M1_HALL2_OnInterrupt();              /* Invoke OnInterrupt event */
+}
 
 /* END M1_HALL2. */
 

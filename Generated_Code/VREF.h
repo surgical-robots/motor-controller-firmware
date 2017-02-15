@@ -3,42 +3,28 @@
 **     Filename    : VREF.h
 **     Project     : motor-controller-firmware
 **     Processor   : MKV10Z32VFM7
-**     Component   : BitIO
-**     Version     : Component 02.086, Driver 01.00, CPU db: 3.50.001
+**     Component   : DAC
+**     Version     : Component 01.096, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-02-15, 01:00, # CodeGen: 16
 **     Abstract    :
-**         This component "BitIO" implements an one-bit input/output.
-**         It uses one bit/pin of a port.
-**         Note: This component is set to work in Output direction only.
-**         Methods of this component are mostly implemented as a macros
-**         (if supported by target language and compiler).
+**         This component "DAC" implements an internal D/A converter
+**         of the MCU. It allows select channels of D/A converter and
+**         contains methods for converting various format of a value to
+**         supported format of the D/A converter.
+**
 **     Settings    :
-**         Used pin                    :
-**             ----------------------------------------------------
-**                Number (on package)  |    Name
-**             ----------------------------------------------------
-**                       9             |  ADC1_SE4/CMP0_IN4/CMP1_IN4/DAC0_OUT/PTE30/FTM0_CH3/FTM_CLKIN1
-**             ----------------------------------------------------
+**         D/A device                  : DAC0
+**         D/A Channels
+**           Pin name                  : ADC1_SE4/CMP0_IN4/CMP1_IN4/DAC0_OUT/PTE30/FTM0_CH3/FTM_CLKIN1
+**           Init value                : 4095
+**         D/A resolution              : 12 bits
+**         Data Mode                   : Right justified/unsigned
+**         Initialization
+**           Enable in init.           : yes
 **
-**         Port name                   : GPIOE
-**
-**         Bit number (in port)        : 30
-**         Bit mask of the port        : 0x40000000
-**
-**         Initial direction           : Output (direction cannot be changed)
-**         Initial output value        : 1
-**         Initial pull option         : off
-**
-**         Port data register          : GPIOE_PDOR [0x400FF100]
-**         Port control register       : GPIOE_PDDR [0x400FF114]
-**
-**         Optimization for            : speed
 **     Contents    :
-**         GetVal - bool VREF_GetVal(void);
-**         PutVal - void VREF_PutVal(bool Val);
-**         ClrVal - void VREF_ClrVal(void);
-**         SetVal - void VREF_SetVal(void);
+**         SetValue - byte VREF_SetValue(void* Values);
 **
 **     Copyright : 1997 - 2014 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -75,11 +61,11 @@
 ** @file VREF.h
 ** @version 01.00
 ** @brief
-**         This component "BitIO" implements an one-bit input/output.
-**         It uses one bit/pin of a port.
-**         Note: This component is set to work in Output direction only.
-**         Methods of this component are mostly implemented as a macros
-**         (if supported by target language and compiler).
+**         This component "DAC" implements an internal D/A converter
+**         of the MCU. It allows select channels of D/A converter and
+**         contains methods for converting various format of a value to
+**         supported format of the D/A converter.
+**
 */         
 /*!
 **  @addtogroup VREF_module VREF module documentation
@@ -97,72 +83,36 @@
 #include "PE_Const.h"
 #include "IO_Map.h"
 /* Include inherited beans */
-#include "BitIoLdd4.h"
-
-#include "Cpu.h"
+#include "DacLdd1.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif 
 
+#include "Cpu.h"
 
 
 
-/*
-** ===================================================================
-**     Method      :  VREF_GetVal (component BitIO)
-**     Description :
-**         This method returns an input value.
-**           a) direction = Input  : reads the input value from the
-**                                   pin and returns it
-**           b) direction = Output : returns the last written value
-**         Note: This component is set to work in Output direction only.
-**     Parameters  : None
-**     Returns     :
-**         ---             - Input value. Possible values:
-**                           FALSE - logical "0" (Low level)
-**                           TRUE - logical "1" (High level)
-
-** ===================================================================
-*/
-#define VREF_GetVal() (BitIoLdd4_GetVal(BitIoLdd4_DeviceData))
 
 /*
 ** ===================================================================
-**     Method      :  VREF_PutVal (component BitIO)
+**     Method      :  VREF_SetValue (component DAC)
 **     Description :
-**         This method writes the new output value.
+**         This method sets values of all channels.
 **     Parameters  :
-**         NAME       - DESCRIPTION
-**         Val             - Output value. Possible values:
-**                           FALSE - logical "0" (Low level)
-**                           TRUE - logical "1" (High level)
-**     Returns     : Nothing
+**         NAME            - DESCRIPTION
+**       * Values          - Pointer to array that contains the
+**                           data. Data type is byte, word or int. It
+**                           depends on supported modes, resolution, etc.
+**                           of the D/A converter. See version specific
+**                           information for the current CPU in <General
+**                           Info>.
+**     Returns     :
+**         ---             - Error code, possible codes: 
+**                           - ERR_OK - OK
 ** ===================================================================
 */
-#define VREF_PutVal(Val) (BitIoLdd4_PutVal(BitIoLdd4_DeviceData, (Val)))
-
-/*
-** ===================================================================
-**     Method      :  VREF_ClrVal (component BitIO)
-**     Description :
-**         This method clears (sets to zero) the output value.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-#define VREF_ClrVal() (BitIoLdd4_ClrVal(BitIoLdd4_DeviceData))
-
-/*
-** ===================================================================
-**     Method      :  VREF_SetVal (component BitIO)
-**     Description :
-**         This method sets (sets to one) the output value.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-#define VREF_SetVal() (BitIoLdd4_SetVal(BitIoLdd4_DeviceData))
+#define VREF_SetValue(Values) (byte)DacLdd1_SetValue(DacLdd1_DeviceData, (LDD_DAC_TData)(*(word*)(Values)))
 
 /* END VREF. */
 

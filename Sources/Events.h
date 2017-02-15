@@ -49,15 +49,19 @@
 #include "TXEN.h"
 #include "BitIoLdd3.h"
 #include "VREF.h"
-#include "BitIoLdd4.h"
+#include "DacLdd1.h"
 #include "M1_HALL1.h"
 #include "ExtIntLdd1.h"
 #include "M2_HALL1.h"
 #include "ExtIntLdd2.h"
 #include "M1_HALL2.h"
-#include "BitIoLdd5.h"
+#include "ExtIntLdd6.h"
+#include "M1_HALL3.h"
+#include "ExtIntLdd5.h"
 #include "M2_HALL2.h"
-#include "BitIoLdd6.h"
+#include "ExtIntLdd4.h"
+#include "M2_HALL3.h"
+#include "ExtIntLdd3.h"
 #include "LED_RED.h"
 #include "BitIoLdd7.h"
 #include "LED_GREEN.h"
@@ -367,6 +371,62 @@ void I2C_OnReceiveData(void);
 ** ===================================================================
 */
 void I2C_OnTransmitData(void);
+
+void M2_HALL3_OnInterrupt(void);
+/*
+** ===================================================================
+**     Event       :  M2_HALL3_OnInterrupt (module Events)
+**
+**     Component   :  M2_HALL3 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void M2_HALL2_OnInterrupt(void);
+/*
+** ===================================================================
+**     Event       :  M2_HALL2_OnInterrupt (module Events)
+**
+**     Component   :  M2_HALL2 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void M1_HALL3_OnInterrupt(void);
+/*
+** ===================================================================
+**     Event       :  M1_HALL3_OnInterrupt (module Events)
+**
+**     Component   :  M1_HALL3 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void M1_HALL2_OnInterrupt(void);
+/*
+** ===================================================================
+**     Event       :  M1_HALL2_OnInterrupt (module Events)
+**
+**     Component   :  M1_HALL2 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
 
 /* END Events */
 

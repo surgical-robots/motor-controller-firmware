@@ -58,15 +58,17 @@
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd1.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd2.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd3.c</PathName>
-      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd4.c</PathName>
-      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd5.c</PathName>
-      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd6.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd7.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd8.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd9.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\Cpu.c</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\DacLdd1.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd1.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd2.c</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd3.c</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd4.c</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd5.c</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd6.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\FastLoop.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\I2C.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\IntI2cLdd1.c</PathName>
@@ -78,11 +80,13 @@
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_EN.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_HALL1.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_HALL2.c</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_HALL3.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_ANALOG.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_DIR.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_EN.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_HALL1.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_HALL2.c</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_HALL3.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\PE_LDD.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\Pins1.c</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\PwmLdd1.c</PathName>
@@ -112,16 +116,18 @@
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd1.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd2.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd3.h</PathName>
-      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd4.h</PathName>
-      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd5.h</PathName>
-      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd6.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd7.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd8.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd9.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\CPU_Config.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\Cpu.h</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\DacLdd1.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd1.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd2.h</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd3.h</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd4.h</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd5.h</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd6.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\FastLoop.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\I2C.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\IO_Map.h</PathName>
@@ -135,11 +141,13 @@
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_EN.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_HALL1.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_HALL2.h</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M1_HALL3.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_ANALOG.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_DIR.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_EN.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_HALL1.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_HALL2.h</PathName>
+      <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\M2_HALL3.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\PE_Const.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\PE_Error.h</PathName>
       <PathName>D:\Users\Lou\Documents\GitHub\motor-controller-firmware\Generated_Code\PE_LDD.h</PathName>

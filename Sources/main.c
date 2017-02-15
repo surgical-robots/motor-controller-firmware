@@ -45,15 +45,19 @@
 #include "TXEN.h"
 #include "BitIoLdd3.h"
 #include "VREF.h"
-#include "BitIoLdd4.h"
+#include "DacLdd1.h"
 #include "M1_HALL1.h"
 #include "ExtIntLdd1.h"
 #include "M2_HALL1.h"
 #include "ExtIntLdd2.h"
 #include "M1_HALL2.h"
-#include "BitIoLdd5.h"
+#include "ExtIntLdd6.h"
+#include "M1_HALL3.h"
+#include "ExtIntLdd5.h"
 #include "M2_HALL2.h"
-#include "BitIoLdd6.h"
+#include "ExtIntLdd4.h"
+#include "M2_HALL3.h"
+#include "ExtIntLdd3.h"
 #include "LED_RED.h"
 #include "BitIoLdd7.h"
 #include "LED_GREEN.h"
@@ -155,7 +159,7 @@ int main(void)
 	dummyVar |= i2cRxBuffer[9] & 0xFF;
 	Motor1_ShaftCounter = dummyVar;
 	Motor1_ClicksPerRev = i2cRxBuffer[13] | (i2cRxBuffer[14] << 8);
-	Motor1_SpeedMax = i2cRxBuffer[15] | (i2cRxBuffer[16] << 8);
+	Motor1_SpeedMin = i2cRxBuffer[15] | (i2cRxBuffer[16] << 8);
 	Motor1_CurrentMax = i2cRxBuffer[17] | (i2cRxBuffer[18] << 8);
 	Motor1_PotZero = i2cRxBuffer[19] | (i2cRxBuffer[20] << 8);
 
@@ -189,7 +193,7 @@ int main(void)
 	dummyVar |= i2cRxBuffer[30] & 0xFF;
 	Motor2_ShaftCounter = dummyVar;
 	Motor2_ClicksPerRev = i2cRxBuffer[34] | (i2cRxBuffer[35] << 8);
-	Motor2_SpeedMax = i2cRxBuffer[36] | (i2cRxBuffer[37] << 8);
+	Motor2_SpeedMin = i2cRxBuffer[36] | (i2cRxBuffer[37] << 8);
 	Motor2_CurrentMax = i2cRxBuffer[38] | (i2cRxBuffer[39] << 8);
 	Motor2_PotZero = i2cRxBuffer[40] | (i2cRxBuffer[41] << 8);
 
@@ -197,6 +201,12 @@ int main(void)
 	GetHalls = i2cRxBuffer[42];
 	GetPots = i2cRxBuffer[43];
 	GetCurrent = i2cRxBuffer[44];
+
+	// set motor driver VREF
+//	if(Motor1_CurrentMax > Motor2_CurrentMax)
+//		VREF_SetValue(Motor1_CurrentMax);
+//	else
+//		VREF_SetValue(Motor2_CurrentMax);
 
 	LED_RED_SetVal();
     Command_Init();
@@ -235,8 +245,8 @@ int main(void)
 		  i2cTxBuffer[14] = (Motor1_ShaftCounter & 0xff000000) >> 24;
 		  i2cTxBuffer[15] = (Motor1_ClicksPerRev & 0x00ff);
 		  i2cTxBuffer[16] = (Motor1_ClicksPerRev & 0xff00) >> 8;
-		  i2cTxBuffer[17] = (Motor1_SpeedMax & 0x00ff);
-		  i2cTxBuffer[18] = (Motor1_SpeedMax & 0xff00) >> 8;
+		  i2cTxBuffer[17] = (Motor1_SpeedMin & 0x00ff);
+		  i2cTxBuffer[18] = (Motor1_SpeedMin & 0xff00) >> 8;
 		  i2cTxBuffer[19] = (Motor1_CurrentMax & 0x00ff);
 		  i2cTxBuffer[20] = (Motor1_CurrentMax & 0xff00) >> 8;
 		  i2cTxBuffer[21] = (Motor1_PotZero & 0x00ff);
@@ -257,8 +267,8 @@ int main(void)
 		  i2cTxBuffer[35] = (Motor2_ShaftCounter & 0xff000000) >> 24;
 		  i2cTxBuffer[36] = (Motor2_ClicksPerRev & 0x00ff);
 		  i2cTxBuffer[37] = (Motor2_ClicksPerRev & 0xff00) >> 8;
-		  i2cTxBuffer[38] = (Motor2_SpeedMax & 0x00ff);
-		  i2cTxBuffer[39] = (Motor2_SpeedMax & 0xff00) >> 8;
+		  i2cTxBuffer[38] = (Motor2_SpeedMin & 0x00ff);
+		  i2cTxBuffer[39] = (Motor2_SpeedMin & 0xff00) >> 8;
 		  i2cTxBuffer[40] = (Motor2_CurrentMax & 0x00ff);
 		  i2cTxBuffer[41] = (Motor2_CurrentMax & 0xff00) >> 8;
 		  i2cTxBuffer[42] = (Motor2_PotZero & 0x00ff);
