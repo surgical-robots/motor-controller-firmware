@@ -87,9 +87,9 @@ void Motor_Update() {
 				while(abs(m1_error) > increment)
 				{
 					if(m1_error > 0)
-						m1_error -= increment;
+						m1_error -= abs(Motor1_ClicksPerRev);
 					else
-						m1_error += increment;
+						m1_error += abs(Motor1_ClicksPerRev);
 				}
 			}
 
@@ -157,9 +157,9 @@ void Motor_Update() {
 				while(abs(m2_error) > increment)
 				{
 					if(m2_error > 0)
-						m2_error -= increment;
+						m2_error -= abs(Motor2_ClicksPerRev);
 					else
-						m2_error += increment;
+						m2_error += abs(Motor2_ClicksPerRev);
 				}
 			}
 
