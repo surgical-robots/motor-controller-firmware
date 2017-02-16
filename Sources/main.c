@@ -155,9 +155,11 @@ int main(void)
 	dummyVar |= i2cRxBuffer[9] & 0xFF;
 	Motor1_ShaftCounter = dummyVar;
 	Motor1_ClicksPerRev = i2cRxBuffer[13] | (i2cRxBuffer[14] << 8);
-	Motor1_SpeedMax = i2cRxBuffer[15] | (i2cRxBuffer[16] << 8);
+	Motor1_SpeedMin = i2cRxBuffer[15] | (i2cRxBuffer[16] << 8);
 	Motor1_CurrentMax = i2cRxBuffer[17] | (i2cRxBuffer[18] << 8);
 	Motor1_PotZero = i2cRxBuffer[19] | (i2cRxBuffer[20] << 8);
+	// make setpoint = current position to stop jumping on start-up
+	Motor1_Setpoint = Motor1_ShaftCounter;
 
 	// read Motor2 configuration
 	Motor2_ControlMode = i2cRxBuffer[21];
@@ -189,9 +191,11 @@ int main(void)
 	dummyVar |= i2cRxBuffer[30] & 0xFF;
 	Motor2_ShaftCounter = dummyVar;
 	Motor2_ClicksPerRev = i2cRxBuffer[34] | (i2cRxBuffer[35] << 8);
-	Motor2_SpeedMax = i2cRxBuffer[36] | (i2cRxBuffer[37] << 8);
+	Motor2_SpeedMin = i2cRxBuffer[36] | (i2cRxBuffer[37] << 8);
 	Motor2_CurrentMax = i2cRxBuffer[38] | (i2cRxBuffer[39] << 8);
 	Motor2_PotZero = i2cRxBuffer[40] | (i2cRxBuffer[41] << 8);
+	// make setpoint = current position to stop jumping on start-up
+	Motor2_Setpoint = Motor2_ShaftCounter;
 
 	// read controller configurations
 	GetHalls = i2cRxBuffer[42];
@@ -235,8 +239,8 @@ int main(void)
 		  i2cTxBuffer[14] = (Motor1_ShaftCounter & 0xff000000) >> 24;
 		  i2cTxBuffer[15] = (Motor1_ClicksPerRev & 0x00ff);
 		  i2cTxBuffer[16] = (Motor1_ClicksPerRev & 0xff00) >> 8;
-		  i2cTxBuffer[17] = (Motor1_SpeedMax & 0x00ff);
-		  i2cTxBuffer[18] = (Motor1_SpeedMax & 0xff00) >> 8;
+		  i2cTxBuffer[17] = (Motor1_SpeedMin & 0x00ff);
+		  i2cTxBuffer[18] = (Motor1_SpeedMin & 0xff00) >> 8;
 		  i2cTxBuffer[19] = (Motor1_CurrentMax & 0x00ff);
 		  i2cTxBuffer[20] = (Motor1_CurrentMax & 0xff00) >> 8;
 		  i2cTxBuffer[21] = (Motor1_PotZero & 0x00ff);
@@ -257,8 +261,8 @@ int main(void)
 		  i2cTxBuffer[35] = (Motor2_ShaftCounter & 0xff000000) >> 24;
 		  i2cTxBuffer[36] = (Motor2_ClicksPerRev & 0x00ff);
 		  i2cTxBuffer[37] = (Motor2_ClicksPerRev & 0xff00) >> 8;
-		  i2cTxBuffer[38] = (Motor2_SpeedMax & 0x00ff);
-		  i2cTxBuffer[39] = (Motor2_SpeedMax & 0xff00) >> 8;
+		  i2cTxBuffer[38] = (Motor2_SpeedMin & 0x00ff);
+		  i2cTxBuffer[39] = (Motor2_SpeedMin & 0xff00) >> 8;
 		  i2cTxBuffer[40] = (Motor2_CurrentMax & 0x00ff);
 		  i2cTxBuffer[41] = (Motor2_CurrentMax & 0xff00) >> 8;
 		  i2cTxBuffer[42] = (Motor2_PotZero & 0x00ff);

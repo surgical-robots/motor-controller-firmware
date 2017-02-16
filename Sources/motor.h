@@ -49,8 +49,8 @@ uint16 Motor2_Current;
 int32 Motor1_ShaftCounter;
 int32 Motor2_ShaftCounter;
 
-uint16 Motor1_SpeedMax;
-uint16 Motor2_SpeedMax;
+uint16 Motor1_SpeedMin;
+uint16 Motor2_SpeedMin;
 
 uint16 Motor1_CurrentMax;
 uint16 Motor2_CurrentMax;

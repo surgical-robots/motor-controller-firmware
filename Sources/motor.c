@@ -29,8 +29,8 @@ int32 m1_error, m2_error, m1_lastpos, m2_lastpos, ki, kd, m1_p, m1_i, m1_d,
 void Motor_Init() {
 	Motor1_Setpoint = 0;
 	Motor2_Setpoint = 0;
-	Motor1_KP = 0;
-	Motor2_KP = 0;
+	Motor1_KP = 1;
+	Motor2_KP = 1;
 }
 
 void Motor_Motor1_Tach() {
@@ -106,7 +106,7 @@ void Motor_Update() {
 				m1_output = -m1_output;
 			}
 
-			m1_output += Motor1_SpeedMax;
+			m1_output += Motor1_SpeedMin;
 
 			m1_lastpos = Motor1_Position;
 
@@ -176,7 +176,7 @@ void Motor_Update() {
 				m2_output = -m2_output;
 			}
 
-			m2_output += Motor2_SpeedMax;
+			m2_output += Motor2_SpeedMin;
 
 			m2_lastpos = Motor2_Position;
 
