@@ -81,6 +81,18 @@ void Motor_Update() {
 		if (Motor1_ControlMode != MotorControlModeReserved) {
 			m1_error = Motor1_Setpoint - Motor1_Position;
 
+			if(Motor1_ClicksPerRev != 0)
+			{
+				int increment = abs(Motor1_ClicksPerRev/2);
+				while(abs(m1_error) > increment)
+				{
+					if(m1_error > 0)
+						m1_error -= increment;
+					else
+						m1_error += increment;
+				}
+			}
+
 			m1_p = Motor1_KP * m1_error / SHIFT_SIZE;
 			m1_i += ki * m1_error;
 			m1_d = kd * (Motor1_Position - m1_lastpos);
@@ -94,8 +106,7 @@ void Motor_Update() {
 				m1_output = -m1_output;
 			}
 
-//			if (m1_output < 60)
-//				m1_output = 60;
+			m1_output += Motor1_SpeedMax;
 
 			m1_lastpos = Motor1_Position;
 
@@ -105,14 +116,14 @@ void Motor_Update() {
 			{
 				Motor1_LimitedSpeed--;
 			}
-			else if((Motor1_AvgCurrent < Motor1_CurrentMax) && (Motor1_LimitedSpeed < Motor1_SpeedMax))
+			else if((Motor1_AvgCurrent < Motor1_CurrentMax) && (Motor1_LimitedSpeed < 255))
 			{
 				Motor1_LimitedSpeed++;
 			}
 
-			if(Motor1_LimitedSpeed > Motor1_SpeedMax) Motor1_LimitedSpeed = Motor1_SpeedMax;
+			if(Motor1_LimitedSpeed > 255) Motor1_LimitedSpeed = 255;
 
-			if (abs(m1_error) < 5) {
+			if (abs(m1_error) < 3) {
 				m1_output = 0;
 				M1_EN_SetRatio8(0);
 			} else if (m1_output > 10) {
@@ -140,6 +151,18 @@ void Motor_Update() {
 		if (Motor2_ControlMode != MotorControlModeReserved) {
 			m2_error = Motor2_Setpoint - Motor2_Position;
 
+			if(Motor2_ClicksPerRev != 0)
+			{
+				int increment = abs(Motor2_ClicksPerRev/2);
+				while(abs(m2_error) > increment)
+				{
+					if(m2_error > 0)
+						m2_error -= increment;
+					else
+						m2_error += increment;
+				}
+			}
+
 			m2_p = Motor2_KP * m2_error / SHIFT_SIZE;
 			m2_i += ki * m2_error;
 			m2_d = kd * (Motor2_Position - m2_lastpos);
@@ -153,8 +176,7 @@ void Motor_Update() {
 				m2_output = -m2_output;
 			}
 
-//			if (m2_output < 60)
-//				m2_output = 60;
+			m2_output += Motor2_SpeedMax;
 
 			m2_lastpos = Motor2_Position;
 
@@ -164,14 +186,14 @@ void Motor_Update() {
 			{
 				Motor2_LimitedSpeed--;
 			}
-			else if((Motor2_AvgCurrent < Motor2_CurrentMax) && (Motor2_LimitedSpeed < Motor2_SpeedMax))
+			else if((Motor2_AvgCurrent < Motor2_CurrentMax) && (Motor2_LimitedSpeed < 255))
 			{
 				Motor2_LimitedSpeed++;
 			}
 
-			if(Motor2_LimitedSpeed > Motor2_SpeedMax) Motor2_LimitedSpeed = Motor2_SpeedMax;
+			if(Motor2_LimitedSpeed > 255) Motor2_LimitedSpeed = 255;
 
-			if (abs(m2_error) < 5) {
+			if (abs(m2_error) < 3) {
 				m2_output = 0;
 				M2_EN_SetRatio8(0);
 			} else if (m2_output > 10) {

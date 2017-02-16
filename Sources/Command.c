@@ -80,16 +80,6 @@ bool _CheckCanSend();
 void Command_Init()
 {
 	MyAddress = SIM_UIDL ^ SIM_UIDMH ^ SIM_UIDML; // hash the Unique Identification Register values into a 32-bit address.
-	//MyAddress = 676122196;
-
-//	Motor1_ControlMode = MotorControlModeRelativeStep;
-//	Motor2_ControlMode = MotorControlModeRelativeStep;
-//	Motor1_KP = 10000;
-//	Motor2_KP = 10000;
-//	Motor1_SpeedMax = 255;
-//	Motor2_SpeedMax = 255;
-//	Motor1_CurrentMax = 5000;
-//	Motor2_CurrentMax = 5000;
 }
 
 void _IdentifyLed(uint8 val)
