@@ -5,7 +5,7 @@
 **     Processor   : MKV10Z32VFM7
 **     Version     : Component 01.036, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-02-17, 14:02, # CodeGen: 17
 **
 **     Copyright : 1997 - 2014 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -154,10 +154,10 @@ bool PE_PeripheralUsed(uint32_t PrphBaseAddress)
   bool result = FALSE;
 
   switch (PrphBaseAddress) {
-    /* Base address allocated by peripheral(s) FTM0 */
-    case 0x40038000UL:
     /* Base address allocated by peripheral(s) UART1 */
     case 0x4006B000UL:
+    /* Base address allocated by peripheral(s) FTM0 */
+    case 0x40038000UL:
     /* Base address allocated by peripheral(s) ADC0 */
     case 0x4003B000UL:
     /* Base address allocated by peripheral(s) ADC1 */

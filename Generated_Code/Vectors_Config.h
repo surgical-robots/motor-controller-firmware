@@ -50,11 +50,11 @@
   
 #include "Cpu.h"
 #include "Pins1.h"
+#include "UART.h"
+#include "ASerialLdd1.h"
 #include "M2_EN.h"
 #include "PwmLdd1.h"
 #include "TU1.h"
-#include "UART.h"
-#include "ASerialLdd1.h"
 #include "M1_EN.h"
 #include "PwmLdd2.h"
 #include "M2_ANALOG.h"

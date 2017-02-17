@@ -7,7 +7,7 @@
 **     Version     : Component 01.036, Driver 01.00, CPU db: 3.50.001
 **     Datasheet   : KV10P48M75RM Rev.2, July 2013
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-02-17, 14:02, # CodeGen: 17
 **     Abstract    :
 **
 **     Settings    :
@@ -145,10 +145,10 @@ void Common_Init(void)
 #if CPU_COMPONENTS_INIT
 void Components_Init(void)
 {
-  /* ### PWM_LDD "PwmLdd1" component auto initialization. Auto initialization feature can be disabled by component property "Auto initialization". */
-  (void)PwmLdd1_Init(NULL);
   /* ### Asynchro serial "UART" init code ... */
   UART_Init();
+  /* ### PWM_LDD "PwmLdd1" component auto initialization. Auto initialization feature can be disabled by component property "Auto initialization". */
+  (void)PwmLdd1_Init(NULL);
   /* ### PWM_LDD "PwmLdd2" component auto initialization. Auto initialization feature can be disabled by component property "Auto initialization". */
   (void)PwmLdd2_Init(NULL);
   /* ### ADC "M2_ANALOG" init code ... */
