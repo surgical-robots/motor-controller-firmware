@@ -6,7 +6,7 @@
 **     Component   : PE_Types
 **     Version     : Driver 01.01
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-15, 00:56, # CodeGen: 15
+**     Date/Time   : 2017-02-17, 13:30, # CodeGen: 22
 **     Abstract    :
 **         PE_Types.h - contains definitions of basic types,
 **         register access macros and hardware specific macros
@@ -205,9 +205,9 @@ typedef unsigned long int       uint32;
 ** is used internally as an index to the array of LDD device structures.
 ** ===========================================================================
 */
-#define PE_LDD_COMPONENT_TU1_ID                  0x00U
-#define PE_LDD_COMPONENT_PwmLdd1_ID              0x01U
-#define PE_LDD_COMPONENT_ASerialLdd1_ID          0x02U
+#define PE_LDD_COMPONENT_ASerialLdd1_ID          0x00U
+#define PE_LDD_COMPONENT_TU1_ID                  0x01U
+#define PE_LDD_COMPONENT_PwmLdd1_ID              0x02U
 #define PE_LDD_COMPONENT_PwmLdd2_ID              0x03U
 #define PE_LDD_COMPONENT_AdcLdd1_ID              0x04U
 #define PE_LDD_COMPONENT_AdcLdd2_ID              0x05U
@@ -220,15 +220,15 @@ typedef unsigned long int       uint32;
 #define PE_LDD_COMPONENT_ExtIntLdd2_ID           0x0CU
 #define PE_LDD_COMPONENT_ExtIntLdd4_ID           0x0DU
 #define PE_LDD_COMPONENT_ExtIntLdd3_ID           0x0EU
-#define PE_LDD_COMPONENT_BitIoLdd7_ID            0x0FU
-#define PE_LDD_COMPONENT_BitIoLdd8_ID            0x10U
-#define PE_LDD_COMPONENT_BitIoLdd9_ID            0x11U
-#define PE_LDD_COMPONENT_TU2_ID                  0x12U
-#define PE_LDD_COMPONENT_TimerIntLdd1_ID         0x13U
-#define PE_LDD_COMPONENT_TU3_ID                  0x14U
-#define PE_LDD_COMPONENT_TimerIntLdd2_ID         0x15U
-#define PE_LDD_COMPONENT_IntI2cLdd1_ID           0x16U
-#define PE_LDD_COMPONENT_DacLdd1_ID              0x17U
+#define PE_LDD_COMPONENT_DacLdd1_ID              0x0FU
+#define PE_LDD_COMPONENT_BitIoLdd7_ID            0x10U
+#define PE_LDD_COMPONENT_BitIoLdd8_ID            0x11U
+#define PE_LDD_COMPONENT_BitIoLdd9_ID            0x12U
+#define PE_LDD_COMPONENT_TU2_ID                  0x13U
+#define PE_LDD_COMPONENT_TimerIntLdd1_ID         0x14U
+#define PE_LDD_COMPONENT_TU3_ID                  0x15U
+#define PE_LDD_COMPONENT_TimerIntLdd2_ID         0x16U
+#define PE_LDD_COMPONENT_IntI2cLdd1_ID           0x17U
 
 /*
 ** ===================================================================

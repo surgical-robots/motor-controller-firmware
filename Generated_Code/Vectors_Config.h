@@ -50,11 +50,11 @@
   
 #include "Cpu.h"
 #include "Pins1.h"
+#include "UART.h"
+#include "ASerialLdd1.h"
 #include "M2_EN.h"
 #include "PwmLdd1.h"
 #include "TU1.h"
-#include "UART.h"
-#include "ASerialLdd1.h"
 #include "M1_EN.h"
 #include "PwmLdd2.h"
 #include "M2_ANALOG.h"
@@ -79,6 +79,8 @@
 #include "ExtIntLdd4.h"
 #include "M2_HALL3.h"
 #include "ExtIntLdd3.h"
+#include "VREF.h"
+#include "DacLdd1.h"
 #include "LED_RED.h"
 #include "BitIoLdd7.h"
 #include "LED_GREEN.h"
@@ -93,8 +95,6 @@
 #include "TU3.h"
 #include "I2C.h"
 #include "IntI2cLdd1.h"
-#include "VREF.h"
-#include "DacLdd1.h"
 #include "Events.h"
 
 #ifdef __cplusplus

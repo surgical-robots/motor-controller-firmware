@@ -7,7 +7,7 @@
 **     Version     : Component 01.036, Driver 01.00, CPU db: 3.50.001
 **     Datasheet   : KV10P48M75RM Rev.2, July 2013
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-15, 00:56, # CodeGen: 15
+**     Date/Time   : 2017-02-17, 13:30, # CodeGen: 22
 **     Abstract    :
 **
 **     Settings    :
@@ -145,10 +145,10 @@ void Common_Init(void)
 #if CPU_COMPONENTS_INIT
 void Components_Init(void)
 {
-  /* ### PWM_LDD "PwmLdd1" component auto initialization. Auto initialization feature can be disabled by component property "Auto initialization". */
-  (void)PwmLdd1_Init(NULL);
   /* ### Asynchro serial "UART" init code ... */
   UART_Init();
+  /* ### PWM_LDD "PwmLdd1" component auto initialization. Auto initialization feature can be disabled by component property "Auto initialization". */
+  (void)PwmLdd1_Init(NULL);
   /* ### PWM_LDD "PwmLdd2" component auto initialization. Auto initialization feature can be disabled by component property "Auto initialization". */
   (void)PwmLdd2_Init(NULL);
   /* ### ADC "M2_ANALOG" init code ... */
@@ -173,6 +173,8 @@ void Components_Init(void)
   (void)ExtIntLdd4_Init(NULL);
   /* ### ExtInt_LDD "ExtIntLdd3" component auto initialization. Auto initialization feature can be disabled by component property "Auto initialization". */
   (void)ExtIntLdd3_Init(NULL);
+  /* ### DAC_LDD "DacLdd1" component auto initialization. Auto initialization feature can be disabled by component's property "Auto initialization". */
+  (void)DacLdd1_Init(NULL);
   /* ### BitIO_LDD "BitIoLdd7" component auto initialization. Auto initialization feature can be disabled by component property "Auto initialization". */
   (void)BitIoLdd7_Init(NULL);
   /* ### BitIO_LDD "BitIoLdd8" component auto initialization. Auto initialization feature can be disabled by component property "Auto initialization". */
@@ -187,8 +189,6 @@ void Components_Init(void)
   /* ### TimerInt "SlowLoop" init code ... */
   /* ### InternalI2C "I2C" init code ... */
   I2C_Init();
-  /* ### DAC_LDD "DacLdd1" component auto initialization. Auto initialization feature can be disabled by component's property "Auto initialization". */
-  (void)DacLdd1_Init(NULL);
 }
 #endif /* CPU_COMPONENTS_INIT */
 
