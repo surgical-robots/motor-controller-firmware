@@ -284,7 +284,9 @@ void _GetStatus()
 	}
 	if(GetPots)
 	{
-		*((uint16*)&(ResponseBuffer[i])) = Motor1_PotVal;
+
+
+		*((uint16*)&(ResponseBuffer[i])) = (uint16_t)Fram_getErrorCount();
 		*((uint16*)&(ResponseBuffer[i + 2])) = Motor2_PotVal;
 		i += 4;
 	}
