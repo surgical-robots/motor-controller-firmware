@@ -47,7 +47,9 @@ void Fram_write()
 
 	// write to FRAM
 	Fram_CommandComplete = FALSE;
-	I2C_SendBlock(dataToSend, sizeof(dataToSend), &dummy);
+	I2C_SendBlock(&dataToSend[0], sizeof(dataToSend), &dummy);
+
+
 
 	// switch to the other config
 	configIdx = (configIdx++ % 2);

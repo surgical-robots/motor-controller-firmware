@@ -78,33 +78,7 @@ void SlowLoop_OnInterrupt(void)
 {
 	timerFlag = 1;
 
-	Config_t* config = Fram_getCurrent();
-	EnterCritical();
-	config->motor1.ControlMode = Motor1_ControlMode;
-	config->motor2.ControlMode = Motor2_ControlMode;
 
-	config->motor1.KP = Motor1_KP;
-	config->motor2.KP = Motor2_KP;
-
-	config->motor1.Setpoint = Motor1_Setpoint;
-	config->motor2.Setpoint = Motor2_Setpoint;
-
-	config->motor1.ShaftCounter = Motor1_ShaftCounter;
-	config->motor2.ShaftCounter = Motor2_ShaftCounter;
-
-	config->motor1.ClicksPerRev = Motor1_ClicksPerRev;
-	config->motor2.ClicksPerRev = Motor2_ClicksPerRev;
-
-	config->motor1.SpeedMin = Motor1_SpeedMin;
-	config->motor2.SpeedMin = Motor2_SpeedMin;
-
-	config->motor1.CurrentMax = Motor1_CurrentMax;
-	config->motor2.CurrentMax = Motor2_CurrentMax;
-
-	config->motor1.PotZero = Motor1_PotZero;
-	config->motor2.PotZero = Motor2_PotZero;
-	ExitCritical();
-	Fram_write();
   /* Write your code here ... */
 }
 
