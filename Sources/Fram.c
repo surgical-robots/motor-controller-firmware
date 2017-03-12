@@ -16,9 +16,31 @@
 Config_t configs[2];
 int configIdx = 0;
 LDD_TDeviceData* crc;
+uint8_t dataToSend[sizeof(Config_t) + 2];
+int errorCount;
 void Fram_init()
 {
 	crc = CRC1_Init(NULL);
+	I2C_SelectSlave(80);
+	word dummy;
+	// get error count
+	uint8_t errorDater[2 + sizeof(uint32_t)];
+	errorDater[0] = 0x00;
+	errorDater[1] = ERROR_COUNT_START;
+
+	errorDater[2] = 0;
+	errorDater[3] = 0;
+	errorDater[4] = 0;
+	errorDater[5] = 0;
+
+	Fram_CommandComplete = FALSE;
+ 	I2C_SendBlock(errorDater, 2, &dummy);
+	while(!Fram_CommandComplete);
+
+	Fram_CommandComplete = FALSE;
+	while(!Fram_CommandComplete)
+		I2C_RecvBlock(&errorCount, sizeof(uint32_t), &dummy);
+
 }
 
 /** Write a config to the FRAM */
@@ -35,7 +57,7 @@ void Fram_write()
 	currentConfig->CRC = result;
 	word dummy;
 
-	uint8_t dataToSend[sizeof(Config_t) + 2];
+
 	I2C_SelectSlave(80);
 
 	// start address depends on config index
@@ -49,10 +71,8 @@ void Fram_write()
 	Fram_CommandComplete = FALSE;
 	I2C_SendBlock(&dataToSend[0], sizeof(dataToSend), &dummy);
 
-
-
 	// switch to the other config
-	configIdx = (configIdx++ % 2);
+	configIdx = ((configIdx+1) % 2);
 
 }
 
@@ -75,13 +95,11 @@ int Fram_recall()
 	word dummy;
 
 	Fram_CommandComplete = FALSE;
-//	byte err =
 	while(!Fram_CommandComplete)
 		I2C_SendBlock(dater, 2, &dummy);
 
 
 	Fram_CommandComplete = FALSE;
-//	err  = I2C_RecvBlock(config0, sizeof(Config_t), &dummy);
 	while(!Fram_CommandComplete)
 		I2C_RecvBlock(config0, sizeof(Config_t), &dummy);
 
@@ -89,7 +107,9 @@ int Fram_recall()
 	CRC1_ResetCRC(crc);
 	CRC1_GetBlockCRC(crc, config0, sizeof(Config_t) - sizeof(uint32_t), &result );
 	if(config0->CRC == (uint16_t)result)
+	{
 		return TRUE;
+	}
 	else
 	{
 		dater[0] = 0x00;
@@ -107,27 +127,20 @@ int Fram_recall()
 		CRC1_GetBlockCRC(crc, config0, sizeof(Config_t) - sizeof(uint32_t), &result );
 
 		if(config0->CRC == (uint16_t)result)
+		{
 			return TRUE;
-
+		}
 		else
 		{
 			uint8_t errorDater[2 + sizeof(uint32_t)];
 			errorDater[0] = 0x00;
 			errorDater[1] = ERROR_COUNT_START;
 
-			Fram_CommandComplete = FALSE;
-			while(!Fram_CommandComplete)
-				I2C_SendBlock(errorDater, 2, &dummy);
-
-			uint32_t errorCount = 0;
-
-			Fram_CommandComplete = FALSE;
-			while(!Fram_CommandComplete)
-				I2C_RecvBlock(&errorCount, sizeof(uint32_t), &dummy);
-
 			errorCount++;
 			memcpy(&errorDater[2], &errorCount, sizeof(uint32_t));
-			I2C_SendBlock(errorDater, sizeof(errorDater), &dummy);
+			Fram_CommandComplete = FALSE;
+			while(!Fram_CommandComplete)
+				I2C_SendBlock(errorDater, sizeof(errorDater), &dummy);
 
 			config0->motor1.ControlMode = MotorControlModeReserved;
 			config0->motor2.ControlMode = MotorControlModeReserved;
@@ -157,4 +170,9 @@ int Fram_recall()
 		}
 	}
 
+}
+
+int Fram_getErrorCount()
+{
+	return errorCount;
 }
