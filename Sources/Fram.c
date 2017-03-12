@@ -24,6 +24,9 @@ void Fram_init()
 /** Write a config to the FRAM */
 void Fram_write()
 {
+	if(!Fram_CommandComplete)
+		return;
+
 	Config_t* currentConfig = Fram_getCurrent();
 	uint32_t result;
 
@@ -43,6 +46,7 @@ void Fram_write()
 	memcpy(&dataToSend[2],currentConfig,sizeof(Config_t) );
 
 	// write to FRAM
+	Fram_CommandComplete = FALSE;
 	I2C_SendBlock(dataToSend, sizeof(dataToSend), &dummy);
 
 	// switch to the other config
@@ -67,8 +71,17 @@ int Fram_recall()
 	dater[0] = 0x00;
 	dater[1] = CONFIG1_START;
 	word dummy;
-	I2C_SendBlock(dater, 2, &dummy);
-	I2C_RecvBlock(config0, sizeof(Config_t), &dummy);
+
+	Fram_CommandComplete = FALSE;
+//	byte err =
+	while(!Fram_CommandComplete)
+		I2C_SendBlock(dater, 2, &dummy);
+
+
+	Fram_CommandComplete = FALSE;
+//	err  = I2C_RecvBlock(config0, sizeof(Config_t), &dummy);
+	while(!Fram_CommandComplete)
+		I2C_RecvBlock(config0, sizeof(Config_t), &dummy);
 
 	uint32_t result = 0;
 	CRC1_ResetCRC(crc);
@@ -79,21 +92,37 @@ int Fram_recall()
 	{
 		dater[0] = 0x00;
 		dater[1] = CONFIG2_START;
-		I2C_SendBlock(dater, 2, &dummy);
-		I2C_RecvBlock(config0, sizeof(Config_t), &dummy);
+
+		Fram_CommandComplete = FALSE;
+		while(!Fram_CommandComplete)
+			I2C_SendBlock(dater, 2, &dummy);
+
+		Fram_CommandComplete = FALSE;
+		while(!Fram_CommandComplete)
+			I2C_RecvBlock(config0, sizeof(Config_t), &dummy);
 
 		CRC1_ResetCRC(crc);
 		CRC1_GetBlockCRC(crc, config0, sizeof(Config_t) - sizeof(uint32_t), &result );
+
 		if(config0->CRC == (uint16_t)result)
 			return TRUE;
+
 		else
 		{
 			uint8_t errorDater[2 + sizeof(uint32_t)];
 			errorDater[0] = 0x00;
 			errorDater[1] = ERROR_COUNT_START;
-			I2C_SendBlock(errorDater, 2, &dummy);
+
+			Fram_CommandComplete = FALSE;
+			while(!Fram_CommandComplete)
+				I2C_SendBlock(errorDater, 2, &dummy);
+
 			uint32_t errorCount = 0;
-			I2C_RecvBlock(&errorCount, sizeof(uint32_t), &dummy);
+
+			Fram_CommandComplete = FALSE;
+			while(!Fram_CommandComplete)
+				I2C_RecvBlock(&errorCount, sizeof(uint32_t), &dummy);
+
 			errorCount++;
 			memcpy(&errorDater[2], &errorCount, sizeof(uint32_t));
 			I2C_SendBlock(errorDater, sizeof(errorDater), &dummy);

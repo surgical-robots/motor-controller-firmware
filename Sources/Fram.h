@@ -41,6 +41,6 @@ Config_t* Fram_getCurrent();
  * */
 int Fram_recall();
 
-
+bool Fram_CommandComplete;
 
 #endif /* FRAM_H_ */
