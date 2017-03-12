@@ -5,7 +5,7 @@
 **     Processor   : MKV10Z32VFM7
 **     Version     : Component 01.036, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-17, 13:30, # CodeGen: 22
+**     Date/Time   : 2017-03-11, 19:40, # CodeGen: 32
 **
 **     Copyright : 1997 - 2014 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -100,6 +100,7 @@
 #include "TU3.h"
 #include "I2C.h"
 #include "IntI2cLdd1.h"
+#include "CRC1.h"
 
 
 /*

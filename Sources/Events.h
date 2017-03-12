@@ -76,6 +76,7 @@
 #include "TU3.h"
 #include "I2C.h"
 #include "IntI2cLdd1.h"
+#include "CRC1.h"
 #include "TU1.h"
 #include "UART.h"
 #include "PwmLdd2.h"
@@ -83,6 +84,7 @@
 #include "M1_EN.h"
 #include "AdcLdd1.h"
 #include "AdcLdd2.h"
+#include "Fram.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -5,7 +5,7 @@
 **     Processor   : MKV10Z32VFM7
 **     Version     : Component 01.036, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-17, 13:30, # CodeGen: 22
+**     Date/Time   : 2017-03-11, 19:40, # CodeGen: 32
 **
 **     Copyright : 1997 - 2014 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -62,7 +62,8 @@
 ** Array of initialized device structures of LDD components.
 ** ===========================================================================
 */
-LDD_TDeviceData *PE_LDD_DeviceDataList[24] = {
+LDD_TDeviceData *PE_LDD_DeviceDataList[25] = {
+    NULL,
     NULL,
     NULL,
     NULL,
@@ -182,6 +183,8 @@ bool PE_PeripheralUsed(uint32_t PrphBaseAddress)
     case 0x4003A000UL:
     /* Base address allocated by peripheral(s) I2C0 */
     case 0x40066000UL:
+    /* Base address allocated by peripheral(s)  CRC */
+    case 0x40032000UL:
       result = TRUE;
       break;
     default:

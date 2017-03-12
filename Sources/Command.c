@@ -174,16 +174,16 @@ void _Configure(uint8* buffer)
 		GetCurrent = buffer[15];
 		break;
 	}
-//	if(Motor1_CurrentMax > Motor2_CurrentMax)
-//	{
-//		uint16 dummyVal = Motor1_CurrentMax * 4096 / 65536;
-//		VREF_SetValue(dummyVal);
-//	}
-//	else
-//	{
-//		uint16 dummyVal = Motor2_CurrentMax * 4096 / 65536;
-//		VREF_SetValue(dummyVal);
-//	}
+	if(Motor1_CurrentMax > Motor2_CurrentMax)
+	{
+		uint32_t dummyVal = Motor2_CurrentMax << 4;
+		VREF_SetValue(&dummyVal);
+	}
+	else
+	{
+		uint32_t dummyVal = Motor1_CurrentMax << 4;
+		VREF_SetValue(&dummyVal);
+	}
 
 }
 
@@ -584,9 +584,3 @@ bool _CheckCanSend()
 {
 	return !ResponseReadyToSend;
 }
-
-void i2cSuccess()
-{
-	ComSuccess = TRUE;
-}
-
