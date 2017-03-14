@@ -6,7 +6,7 @@
 **     Component   : InternalI2C
 **     Version     : Component 01.287, Driver 01.01, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-03-11, 19:47, # CodeGen: 38
 **     Abstract    :
 **          This component encapsulates the internal I2C communication 
 **          interface. The implementation of the interface is based 
@@ -30,7 +30,7 @@
 **         Protocol
 **             Mode                    : MASTER
 **             Auto stop condition     : yes
-**             SCL frequency           : 112.486 kHz
+**             SCL frequency           : 93.739 kHz
 **
 **         Initialization
 **

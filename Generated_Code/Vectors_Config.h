@@ -95,6 +95,7 @@
 #include "TU3.h"
 #include "I2C.h"
 #include "IntI2cLdd1.h"
+#include "CRC1.h"
 #include "Events.h"
 
 #ifdef __cplusplus
@@ -126,7 +127,7 @@ extern "C" {
 #define VECTOR_19         (tIsrFunc)&UnhandledInterrupt         /* 0x13 -    ivINT_DMA3                    unused by PE */
 #define VECTOR_20         (tIsrFunc)&UnhandledInterrupt         /* 0x14 -    ivINT_DMA_Error               unused by PE */
 #define VECTOR_21         (tIsrFunc)&UnhandledInterrupt         /* 0x15 -    ivINT_FTFA                    unused by PE */
-#define VECTOR_22         (tIsrFunc)&UnhandledInterrupt         /* 0x16 -    ivINT_PMC                     unused by PE */
+#define VECTOR_22         (tIsrFunc)&UnhandledInterrupt         /* 0x16 0    ivINT_PMC                     unused by PE */
 #define VECTOR_23         (tIsrFunc)&UnhandledInterrupt         /* 0x17 -    ivINT_LLWU                    unused by PE */
 #define VECTOR_24         (tIsrFunc)&IntI2cLdd1_Interrupt       /* 0x18 64   ivINT_I2C0                    used by PE */
 #define VECTOR_25         (tIsrFunc)&UnhandledInterrupt         /* 0x19 -    ivINT_Reserved25              unused by PE */

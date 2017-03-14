@@ -40,6 +40,7 @@
       <Path>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\</Path>
       <Path>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\</Path>
       <Path>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\iofiles\</Path>
+      <Path>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\peripherals\</Path>
       <Path>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Sources\</Path>
       <Path>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\</Path>
     </IncludePaths>
@@ -47,6 +48,7 @@
       <Path>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\</Path>
       <Path>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Project_Settings\Startup_Code\</Path>
       <Path>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Sources\</Path>
+      <Path>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\peripherals\</Path>
       <Path>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\</Path>
     </SourceCodePaths>
   </PATHS>
@@ -61,6 +63,7 @@
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd7.c</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd8.c</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd9.c</PathName>
+      <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\CRC1.c</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\Cpu.c</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\DacLdd1.c</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd1.c</PathName>
@@ -103,8 +106,10 @@
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Project_Settings\Startup_Code\startup.c</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Sources\Command.c</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Sources\Events.c</PathName>
+      <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Sources\Fram.c</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Sources\main.c</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Sources\motor.c</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\peripherals\PMC_Init.c</PathName>
       <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\CPU_Init.c</PathName>
       <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\Peripherals_Init.c</PathName>
       <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\Vectors.c</PathName>
@@ -120,6 +125,7 @@
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd8.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\BitIoLdd9.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\CPU_Config.h</PathName>
+      <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\CRC1.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\Cpu.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\DacLdd1.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\ExtIntLdd1.h</PathName>
@@ -152,6 +158,8 @@
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\PE_Error.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\PE_LDD.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\PE_Types.h</PathName>
+      <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\PMC.h</PathName>
+      <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\PMC_Config.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\Pins1.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\PwmLdd1.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\PwmLdd2.h</PathName>
@@ -167,6 +175,7 @@
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Generated_Code\Vectors_Config.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Sources\Command.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Sources\Events.h</PathName>
+      <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Sources\Fram.h</PathName>
       <PathName>C:\Users\lcubrich\Documents\GitHub\motor-controller-firmware\Sources\motor.h</PathName>
       <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\iofiles\MKV10Z7.h</PathName>
       <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\ADC_PDD.h</PathName>
@@ -198,6 +207,7 @@
       <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\SysTick_PDD.h</PathName>
       <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\UART_PDD.h</PathName>
       <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd\inc\WDOG_PDD.h</PathName>
+      <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\peripherals\PMC_Init.h</PathName>
       <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\CPU_Init.h</PathName>
       <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\PDD_Includes.h</PathName>
       <PathName>C:\Freescale\KDS_2.0.0\eclipse\ProcessorExpert\lib\Kinetis\pdd2\MKV10Z32FM7\system\Peripherals_Init.h</PathName>

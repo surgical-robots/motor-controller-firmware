@@ -32,10 +32,8 @@ void Command_Init();
 void Command_CharacterReceived(char c);
 void Command_Task();
 void Command_ResponseTask();
-void i2cSuccess();
 
 bool IdentificationLed;
-bool ComSuccess;
 bool GetHalls;
 bool GetPots;
 bool GetCurrent;

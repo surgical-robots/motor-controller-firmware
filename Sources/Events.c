@@ -34,6 +34,7 @@
 #include "motor.h"
 #include "Command.h"
 #include "string.h"
+#include "Fram.h"
 #ifdef __cplusplus
 extern "C" {
 #endif 
@@ -76,6 +77,8 @@ void Cpu_OnNMI(void)
 void SlowLoop_OnInterrupt(void)
 {
 	timerFlag = 1;
+
+
   /* Write your code here ... */
 }
 
@@ -302,6 +305,79 @@ void UART_OnError(void)
   /* Write your code here ... */
 }
 
+
+/*
+** ===================================================================
+**     Event       :  M2_HALL3_OnInterrupt (module Events)
+**
+**     Component   :  M2_HALL3 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void M2_HALL3_OnInterrupt(void)
+{
+  /* Write your code here ... */
+	//Motor_Motor2_Tach3();
+}
+
+/*
+** ===================================================================
+**     Event       :  M2_HALL2_OnInterrupt (module Events)
+**
+**     Component   :  M2_HALL2 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void M2_HALL2_OnInterrupt(void)
+{
+  /* Write your code here ... */
+	//Motor_Motor2_Tach2();
+}
+
+/*
+** ===================================================================
+**     Event       :  M1_HALL3_OnInterrupt (module Events)
+**
+**     Component   :  M1_HALL3 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void M1_HALL3_OnInterrupt(void)
+{
+  /* Write your code here ... */
+	//Motor_Motor1_Tach3();
+}
+
+/*
+** ===================================================================
+**     Event       :  M1_HALL2_OnInterrupt (module Events)
+**
+**     Component   :  M1_HALL2 [ExtInt]
+**     Description :
+**         This event is called when an active signal edge/level has
+**         occurred.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void M1_HALL2_OnInterrupt(void)
+{
+  /* Write your code here ... */
+	//Motor_Motor1_Tach2();
+}
+
 /*
 ** ===================================================================
 **     Event       :  I2C_OnReceiveData (module Events)
@@ -319,7 +395,7 @@ void UART_OnError(void)
 void I2C_OnReceiveData(void)
 {
   /* Write your code here ... */
-	i2cSuccess();
+	Fram_CommandComplete = TRUE;
 }
 
 /*
@@ -339,79 +415,7 @@ void I2C_OnReceiveData(void)
 void I2C_OnTransmitData(void)
 {
   /* Write your code here ... */
-	i2cSuccess();
-}
-
-/*
-** ===================================================================
-**     Event       :  M2_HALL3_OnInterrupt (module Events)
-**
-**     Component   :  M2_HALL3 [ExtInt]
-**     Description :
-**         This event is called when an active signal edge/level has
-**         occurred.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-void M2_HALL3_OnInterrupt(void)
-{
-  /* Write your code here ... */
-	Motor_Motor2_Tach3();
-}
-
-/*
-** ===================================================================
-**     Event       :  M2_HALL2_OnInterrupt (module Events)
-**
-**     Component   :  M2_HALL2 [ExtInt]
-**     Description :
-**         This event is called when an active signal edge/level has
-**         occurred.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-void M2_HALL2_OnInterrupt(void)
-{
-  /* Write your code here ... */
-	Motor_Motor2_Tach2();
-}
-
-/*
-** ===================================================================
-**     Event       :  M1_HALL3_OnInterrupt (module Events)
-**
-**     Component   :  M1_HALL3 [ExtInt]
-**     Description :
-**         This event is called when an active signal edge/level has
-**         occurred.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-void M1_HALL3_OnInterrupt(void)
-{
-  /* Write your code here ... */
-	Motor_Motor1_Tach3();
-}
-
-/*
-** ===================================================================
-**     Event       :  M1_HALL2_OnInterrupt (module Events)
-**
-**     Component   :  M1_HALL2 [ExtInt]
-**     Description :
-**         This event is called when an active signal edge/level has
-**         occurred.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-void M1_HALL2_OnInterrupt(void)
-{
-  /* Write your code here ... */
-	Motor_Motor1_Tach2();
+	Fram_CommandComplete = TRUE;
 }
 
 /* END Events */
