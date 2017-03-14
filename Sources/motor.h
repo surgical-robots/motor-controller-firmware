@@ -23,8 +23,9 @@ void Motor_Update();
 
 typedef enum {
 	MotorControlModeReserved,
-	MotorControlModePotentiometer,
-	MotorControlModeRelativeStep
+	MotorControlModeJog,
+	MotorControlModeRelativeStep,
+	MotorControlModePotentiometer
 } motorControlMode_t;
 
 uint16 deadband;
