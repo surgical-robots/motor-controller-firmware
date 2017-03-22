@@ -6,7 +6,7 @@
 **     Component   : ADC_LDD
 **     Version     : Component 01.183, Driver 01.08, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-03-21, 18:26, # CodeGen: 39
 **     Abstract    :
 **         This device "ADC_LDD" implements an A/D converter,
 **         its control methods and interrupt/event handling procedure.
@@ -14,10 +14,7 @@
 **          Component name                                 : AdcLdd1
 **          A/D converter                                  : ADC0
 **          Discontinuous mode                             : no
-**          Interrupt service/event                        : Enabled
-**            A/D interrupt                                : INT_ADC0
-**            A/D interrupt priority                       : medium priority
-**            ISR Name                                     : AdcLdd1_MeasurementCompleteInterrupt
+**          Interrupt service/event                        : Disabled
 **          DMA                                            : Disabled
 **          A/D channel list                               : 2
 **            Channel 0                                    : 
@@ -56,7 +53,7 @@
 **            Enabled in init. code                        : yes
 **            Auto initialization                          : no
 **            Event mask                                   : 
-**              OnMeasurementComplete                      : Enabled
+**              OnMeasurementComplete                      : Disabled
 **              OnError                                    : Disabled
 **          CPU clock/configuration selection              : 
 **            Clock configuration 0                        : This component enabled
@@ -156,7 +153,6 @@ extern "C" {
 #define AdcLdd1_GetCalibrationResultStatus_METHOD_ENABLED /*!< GetCalibrationResultStatus method of the component AdcLdd1 is enabled (generated) */
 
 /* Events configuration constants - generated for all enabled component's events */
-#define AdcLdd1_OnMeasurementComplete_EVENT_ENABLED /*!< OnMeasurementComplete event of the component AdcLdd1 is enabled (generated) */
 
 
 /* Component specific public constants */
@@ -434,18 +430,6 @@ LDD_TError AdcLdd1_StartCalibration(LDD_TDeviceData *DeviceDataPtr);
 */
 /* ===================================================================*/
 LDD_TError AdcLdd1_GetCalibrationResultStatus(LDD_TDeviceData *DeviceDataPtr);
-
-/*
-** ===================================================================
-**     Method      :  AdcLdd1_MeasurementCompleteInterrupt (component ADC_LDD)
-**
-**     Description :
-**         Measurement complete interrupt handler
-**         This method is internal. It is used by Processor Expert only.
-** ===================================================================
-*/
-/* {Default RTOS Adapter} ISR function prototype */
-PE_ISR(AdcLdd1_MeasurementCompleteInterrupt);
 
 /* END AdcLdd1. */
 

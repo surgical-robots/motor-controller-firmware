@@ -6,7 +6,7 @@
 **     Component   : ADC
 **     Version     : Component 01.697, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-03-21, 18:55, # CodeGen: 40
 **     Abstract    :
 **         This device "ADC" implements an A/D converter,
 **         its control methods and interrupt/event handling procedure.
@@ -15,9 +15,7 @@
 **          A/D converter                                  : ADC0
 **          Sharing                                        : Disabled
 **          ADC_LDD                                        : ADC_LDD
-**          Interrupt service/event                        : Enabled
-**            A/D interrupt                                : INT_ADC0
-**            A/D interrupt priority                       : medium priority
+**          Interrupt service/event                        : Disabled
 **          A/D channels                                   : 2
 **            Channel0                                     : 
 **              A/D channel (pin)                          : POT2
@@ -47,8 +45,8 @@
 **          Get value directly                             : yes
 **          Wait for result                                : yes
 **     Contents    :
-**         Start          - byte M2_ANALOG_Start(void);
 **         Measure        - byte M2_ANALOG_Measure(bool WaitForResult);
+**         MeasureChan    - byte M2_ANALOG_MeasureChan(bool WaitForResult, byte Channel);
 **         GetValue       - byte M2_ANALOG_GetValue(void* Values);
 **         GetChanValue   - byte M2_ANALOG_GetChanValue(byte Channel, void* Value);
 **         GetValue16     - byte M2_ANALOG_GetValue16(word *Values);
@@ -100,7 +98,6 @@
 
 /* MODULE M2_ANALOG. */
 
-#include "Events.h"
 #include "M2_ANALOG.h"
 
 #ifdef __cplusplus
@@ -114,16 +111,15 @@ extern "C" {
 
 static volatile byte SumChan;          /* Counter of measured channels */
 static volatile byte ModeFlg;          /* Current state of device */
-static volatile byte SumCnt;           /* Counter of conversions */
 LDD_TDeviceData *AdcLdd1_DeviceDataPtr; /* Device data pointer */
 /* Sample group configuration */
 static LDD_ADC_TSample SampleGroup[M2_ANALOG_SAMPLE_GROUP_SIZE];
+static const  byte Table[2] = {0x01U,0x02U};  /* Table of mask constants */
 /* Measure multiple channels flags  */
 /* Temporary buffer for converting results */
-volatile word M2_ANALOG_SumV[M2_ANALOG_SAMPLE_GROUP_SIZE]; /* Temporary sum of measured values */
 volatile word M2_ANALOG_OutV[M2_ANALOG_SAMPLE_GROUP_SIZE]; /* Sum of measured values */
 /* Calibration in progress flag */
-static volatile bool OutFlg;           /* Measurement finish flag */
+static volatile byte OutFlg;           /* Measurement finish flag */
 
 /*
 ** ===================================================================
@@ -137,10 +133,51 @@ static volatile bool OutFlg;           /* Measurement finish flag */
 */
 static void ClrSumV(void)
 {
-  M2_ANALOG_SumV[0] = 0U;              /* Set variable for storing measured values to 0 */
-  M2_ANALOG_SumV[1] = 0U;              /* Set variable for storing measured values to 0 */
+  M2_ANALOG_OutV[0] = 0U;              /* Set variable for storing measured values to 0 */
+  M2_ANALOG_OutV[1] = 0U;              /* Set variable for storing measured values to 0 */
 }
 
+/*
+** ===================================================================
+**     Method      :  MainMeasure (component ADC)
+**
+**     Description :
+**         The method performs the conversion of the input channels in 
+**         the polling mode.
+**         This method is internal. It is used by Processor Expert only.
+** ===================================================================
+*/
+static void M2_ANALOG_MainMeasure(void)
+{
+   AdcLdd1_TResultData ResultData;
+  byte SumCnt;                         /* Counter of conversions */
+
+  if (ModeFlg != SINGLE) {
+    for (SumCnt=0U; SumCnt<8U; SumCnt++) {
+      for (SumChan=0U; SumChan<2U; SumChan++) {
+        SampleGroup[0].ChannelIdx = SumChan;
+        (void)AdcLdd1_CreateSampleGroup(AdcLdd1_DeviceDataPtr, (LDD_ADC_TSample *)SampleGroup, 1U); /* Configure sample group */
+        (void)AdcLdd1_StartSingleMeasurement(AdcLdd1_DeviceDataPtr);
+        while (AdcLdd1_GetMeasurementCompleteStatus(AdcLdd1_DeviceDataPtr) == FALSE) {} /* Wait for AD conversion complete */
+        AdcLdd1_GetMeasuredValues(AdcLdd1_DeviceDataPtr, (LDD_TData *)&ResultData);
+        M2_ANALOG_OutV[SumChan] += ResultData;
+      }
+    }
+    OutFlg = 0x03U;                    /* Measured values are available */
+  }
+  else {
+    for (SumCnt=0U; SumCnt<8U; SumCnt++) {
+      SampleGroup[0].ChannelIdx = SumChan;
+      (void)AdcLdd1_CreateSampleGroup(AdcLdd1_DeviceDataPtr, (LDD_ADC_TSample *)SampleGroup, 1U); /* Configure sample group */
+      (void)AdcLdd1_StartSingleMeasurement(AdcLdd1_DeviceDataPtr);
+      while (AdcLdd1_GetMeasurementCompleteStatus(AdcLdd1_DeviceDataPtr) == FALSE) {} /* Wait for AD conversion complete */
+      AdcLdd1_GetMeasuredValues(AdcLdd1_DeviceDataPtr, (LDD_TData *)&ResultData);
+      M2_ANALOG_OutV[SumChan] += ResultData;
+    }
+    OutFlg |= Table[SumChan];          /* Value of measured channel is available */
+  }
+  ModeFlg = STOP;                      /* Set the device to the stop mode */
+}
 /*
 ** ===================================================================
 **     Method      :  M2_ANALOG_HWEnDi (component ADC)
@@ -155,48 +192,18 @@ static void ClrSumV(void)
 void M2_ANALOG_HWEnDi(void)
 {
   if (ModeFlg) {                       /* Start or stop measurement? */
-    SumCnt = 0U;                       /* Set counter of conversions to 0 */
-    OutFlg = FALSE;                    /* Output values aren't available */
-    SumChan = 0U;                      /* Set the counter of measured channels to 0 */
-    ClrSumV();                         /* Clear measured values */
-    SampleGroup[0].ChannelIdx = 0U;
-    (void)AdcLdd1_CreateSampleGroup(AdcLdd1_DeviceDataPtr, (LDD_ADC_TSample *)SampleGroup, 1U); /* Configure sample group */
-    (void)AdcLdd1_StartSingleMeasurement(AdcLdd1_DeviceDataPtr);
+    if (ModeFlg != SINGLE) {
+      OutFlg = 0U;                     /* Output values aren't available */
+      ClrSumV();                       /* Clear measured values */
+      SampleGroup[0].ChannelIdx = 0U;
+    }
+    else {
+      OutFlg &= (byte)(~(byte)Table[SumChan]); /* Output value isn't available */
+      M2_ANALOG_OutV[SumChan] = 0U;    /* Set variable for storing measured values to 0 */
+      SampleGroup[0].ChannelIdx = SumChan;
+    }
+    M2_ANALOG_MainMeasure();
   }
-}
-
-/*
-** ===================================================================
-**     Method      :  M2_ANALOG_Start (component ADC)
-*/
-/*!
-**     @brief
-**         This method starts continuous conversion on all channels
-**         that are set in the component inspector. When each
-**         measurement on all channels has finished the [OnEnd ] event
-**         may be invoked. This method is not available if the
-**         [interrupt service] is disabled and the device doesn't
-**         support the continuous mode. Note: If time of measurement is
-**         too short and the instruction clock is too slow then the
-**         conversion complete interrupt and its handler may cause a
-**         system overflow.
-**     @return
-**                         - Error code, possible codes:
-**                           ERR_OK - OK
-**                           ERR_SPEED - This device does not work in
-**                           the active speed mode
-**                           ERR_DISABLED - Device is disabled
-**                           ERR_BUSY - A conversion is already running
-*/
-/* ===================================================================*/
-byte M2_ANALOG_Start(void)
-{
-  if (ModeFlg != STOP) {               /* Is the device in running mode? */
-    return ERR_BUSY;                   /* If yes then error */
-  }
-  ModeFlg = CONTINUOUS;                /* Set state of device to the continuous mode */
-  M2_ANALOG_HWEnDi();                  /* Enable the device */
-  return ERR_OK;                       /* OK */
 }
 
 /*
@@ -232,16 +239,64 @@ byte M2_ANALOG_Start(void)
 **                           ERR_BUSY - A conversion is already running
 */
 /* ===================================================================*/
-byte M2_ANALOG_Measure(bool WaitForResult)
+byte PE_M2_ANALOG_Measure(void)
 {
   if (ModeFlg != STOP) {               /* Is the device in different mode than "stop"? */
     return ERR_BUSY;                   /* If yes then error */
   }
   ModeFlg = MEASURE;                   /* Set state of device to the measure mode */
   M2_ANALOG_HWEnDi();                  /* Enable the device */
-  if (WaitForResult) {                 /* Is WaitForResult TRUE? */
-    while (ModeFlg == MEASURE) {}      /* If yes then wait for end of measurement */
+  return ERR_OK;                       /* OK */
+}
+
+/*
+** ===================================================================
+**     Method      :  M2_ANALOG_MeasureChan (component ADC)
+*/
+/*!
+**     @brief
+**         This method performs measurement on one channel. (Note: If
+**         the [number of conversions] is more than one the conversion
+**         of the A/D channel is performed specified number of times.)
+**     @param
+**         WaitForResult   - Wait for a result of
+**                           conversion. If the [interrupt service] is
+**                           disabled and at the same time a [number of
+**                           conversions] is greater than 1, the
+**                           WaitForResult parameter is ignored and the
+**                           method waits for each result every time.
+**     @param
+**         Channel         - Channel number. If only one
+**                           channel in the component is set this
+**                           parameter is ignored, because the parameter
+**                           is set inside this method.
+**     @return
+**                         - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - This device does not work in
+**                           the active speed mode
+**                           ERR_DISABLED - Device is disabled
+**                           ERR_BUSY - A conversion is already running
+**                           ERR_RANGE - Parameter "Channel" out of range
+*/
+/* ===================================================================*/
+/*
+The definition of method:
+byte M2_ANALOG_MeasureChan(bool WaitForResult, byte Channel)
+was optimised based on the current component setting. An appropriate macro has been defined 
+in the AD1.h to maintain API compatibility.
+*/
+byte PE_M2_ANALOG_MeasureChan(byte Channel)
+{
+  if (Channel >= 2U) {                 /* Is channel number greater than or equal to 2 */
+    return ERR_RANGE;                  /* If yes then error */
   }
+  if (ModeFlg != STOP) {               /* Is the device in different mode than "stop"? */
+    return ERR_BUSY;                   /* If yes then error */
+  }
+  ModeFlg = SINGLE;                    /* Set state of device to the measure mode */
+  SumChan = Channel;                   /* Set required channel */
+  M2_ANALOG_HWEnDi();                  /* Enable the device */
   return ERR_OK;                       /* OK */
 }
 
@@ -277,7 +332,7 @@ byte M2_ANALOG_Measure(bool WaitForResult)
 /* ===================================================================*/
 byte M2_ANALOG_GetValue(void* Values)
 {
-  if (!OutFlg) {                       /* Is output flag set? */
+  if (OutFlg != 0x03U) {               /* Is output flag set? */
     return ERR_NOTAVAIL;               /* If no then error */
   }
   /* Copy measured values */
@@ -333,7 +388,7 @@ byte M2_ANALOG_GetChanValue(byte Channel, void* Value)
   if (Channel >= 2U) {                 /* Is channel number greater than or equal to 2 */
     return ERR_RANGE;                  /* If yes then error */
   }
-  if (!OutFlg) {                       /* Is output flag set? */
+  if ((OutFlg & Table[Channel]) == 0U) { /* Is output flag set? */
     return ERR_NOTAVAIL;               /* If no then error */
   }
   /* Copy value from temporary buffer */
@@ -371,7 +426,7 @@ byte M2_ANALOG_GetChanValue(byte Channel, void* Value)
 /* ===================================================================*/
 byte M2_ANALOG_GetValue16(word *Values)
 {
-  if (!OutFlg) {                       /* Is output flag set? */
+  if (OutFlg != 0x03U) {               /* Is output flag set? */
     return ERR_NOTAVAIL;               /* If no then error */
   }
   Values[0] = (word)((M2_ANALOG_OutV[0]) << 1U); /* Save measured values to the output buffer */
@@ -418,7 +473,7 @@ byte M2_ANALOG_GetChanValue16(byte Channel, word *Value)
   if (Channel >= 2U) {                 /* Is channel number greater than or equal to 2 */
     return ERR_RANGE;                  /* If yes then error */
   }
-  if (!OutFlg) {                       /* Is output flag set? */
+  if ((OutFlg & Table[Channel]) == 0U) { /* Is output flag set? */
     return ERR_NOTAVAIL;               /* If no then error */
   }
   *Value = (word)((M2_ANALOG_OutV[Channel]) << 1U); /* Save measured values to the output buffer */
@@ -450,72 +505,19 @@ byte M2_ANALOG_GetChanValue16(byte Channel, word *Value)
 **                           finished correctly
 ** ===================================================================
 */
-byte M2_ANALOG_Calibrate(bool WaitForResult)
+byte PE_M2_ANALOG_Calibrate(void)
 {
   if (ModeFlg != STOP) {               /* Is the device in different mode than "stop"? */
     return ERR_BUSY;                   /* If yes then error */
   }
-  ModeFlg = CALIBRATING;               /* Set state of device to the calibration mode */
   (void)AdcLdd1_GetMeasurementCompleteStatus(AdcLdd1_DeviceDataPtr); /* Clear measurement complete status */
   (void)AdcLdd1_StartCalibration(AdcLdd1_DeviceDataPtr); /* Start calibration */
-  if (!WaitForResult) {                /* If doesn't wait for result */
-    return ERR_OK;                     /* then return ERR_OK, but user have to check the result of calibration e.g. by GetCalibrationStatus method */
-  }
   while (!AdcLdd1_GetMeasurementCompleteStatus(AdcLdd1_DeviceDataPtr)) {}; /* Wait until calibration ends */
   if (AdcLdd1_GetCalibrationResultStatus(AdcLdd1_DeviceDataPtr) != ERR_OK) { /* If calibration failed flag is set */
     ModeFlg = STOP;                    /* Set the device to the stop mode */
     return ERR_FAILED;                 /* Return ERR_FAILED error code */
   }
   return ERR_OK;                       /* ADC device is now calibrated */
-}
-
-/*
-** ===================================================================
-**     Method      :  M2_ANALOG_OnMeasurementComplete (component ADC)
-**
-**     Description :
-**         The method services the conversion complete interrupt of the 
-**         selected peripheral(s) and eventually invokes the beans 
-**         event(s).
-**         This method is internal. It is used by Processor Expert only.
-** ===================================================================
-*/
-void AdcLdd1_OnMeasurementComplete(LDD_TUserData *UserDataPtr)
-{
-  word ResultData;                     /* Temporary result data */
-    
-  (void)UserDataPtr;                   /* Parameter is not used, suppress unused argument warning */
-  if (ModeFlg == CALIBRATING) {        /* If the driver is in CALIBRATING mode */
-    (void)AdcLdd1_GetCalibrationResultStatus(AdcLdd1_DeviceDataPtr);
-    ModeFlg = STOP;                    /* Set the device to the stop mode */
-    M2_ANALOG_OnCalibrationEnd();      /* If yes then invoke user event */
-    return;                            /* Return from interrupt */
-  }
-  AdcLdd1_GetMeasuredValues(AdcLdd1_DeviceDataPtr, (LDD_TData *)&ResultData);
-  M2_ANALOG_SumV[SumChan] += ResultData;
-  SumChan++;                           /* Increase counter of measured channels*/
-  if (SumChan == 2U) {                 /* Is number of measured channels equal to the number of channels used in the component? */
-    SumChan = 0U;                      /* If yes then set the counter of measured channels to 0 */
-    SumCnt++;                          /* Increase counter of conversions*/
-    if (SumCnt == 8U) {                /* Is number of conversions on each channel equal to the number of conversions defined in the component? */
-      OutFlg = TRUE;                   /* Measured values are available */
-      M2_ANALOG_OutV[0] = (word)M2_ANALOG_SumV[0]; /* Save measured value to the output buffer */
-      M2_ANALOG_OutV[1] = (word)M2_ANALOG_SumV[1]; /* Save measured value to the output buffer */
-      if (ModeFlg != MEASURE) {        /* Is the device in other then measure state? */
-        M2_ANALOG_SumV[0] = 0U;        /* Set mesured values to 0 */
-        M2_ANALOG_SumV[1] = 0U;        /* Set mesured values to 0 */
-        SumCnt = 0U;                   /* Set counter of conversions to 0 */
-      }
-      M2_ANALOG_OnEnd();               /* If yes then invoke user event */
-      if (ModeFlg == MEASURE) {        /* Is the device in the measure state? */
-        ModeFlg = STOP;                /* Set the device to the stop mode */
-        return;                        /* Return from interrupt */
-      }
-    }
-  }
-  SampleGroup[0].ChannelIdx = SumChan; /* Start measurement of next channel */
-  (void)AdcLdd1_CreateSampleGroup(AdcLdd1_DeviceDataPtr, (LDD_ADC_TSample *)SampleGroup, 1U); /* Configure sample group */
-  (void)AdcLdd1_StartSingleMeasurement(AdcLdd1_DeviceDataPtr);
 }
 
 /*
@@ -531,7 +533,7 @@ void AdcLdd1_OnMeasurementComplete(LDD_TUserData *UserDataPtr)
 */
 void M2_ANALOG_Init(void)
 {
-  OutFlg = FALSE;                      /* No measured value */
+  OutFlg = 0U;                         /* No measured value */
   ModeFlg = STOP;                      /* Device isn't running */
   AdcLdd1_DeviceDataPtr = AdcLdd1_Init(NULL); /* Calling init method of the inherited component */
 }

@@ -22,6 +22,8 @@
 #include "M2_HALL2.h"
 #include "M1_HALL3.h"
 #include "M2_HALL3.h"
+#include "M1_ANALOG.h"
+#include "M2_ANALOG.h"
 
 int32 maxVal = 255;
 bool m1_dir, m2_dir;
@@ -136,8 +138,10 @@ void Motor_Motor2_Tach3() {
 }
 
 void Motor_Update() {
-	oldAvgCurrent = Motor1_AvgCurrent;
-	Motor1_AvgCurrent = ((oldAvgCurrent*SAMPLE_SIZE*SHIFT_SIZE) + ((Motor1_Current * SHIFT_SIZE) - oldAvgCurrent*SHIFT_SIZE)) / SAMPLE_SIZE / SHIFT_SIZE;
+	M1_ANALOG_MeasureChan(TRUE, 1);
+	M1_ANALOG_GetChanValue16(1, &Motor1_Current);
+	//oldAvgCurrent = Motor1_AvgCurrent;
+	//Motor1_AvgCurrent = ((oldAvgCurrent*SAMPLE_SIZE*SHIFT_SIZE) + ((Motor1_Current * SHIFT_SIZE) - oldAvgCurrent*SHIFT_SIZE)) / SAMPLE_SIZE / SHIFT_SIZE;
 
 	if (!Motor1_IsJogging) {
 		if (Motor1_ControlMode == MotorControlModePotentiometer) {
@@ -148,25 +152,29 @@ void Motor_Update() {
 
 		if (Motor1_ControlMode != MotorControlModeReserved && Motor1_ControlMode != MotorControlModeJog) {
 
-			m1_error = Motor1_Setpoint - Motor1_Position;
+//			m1_error = Motor1_Setpoint - Motor1_Position;
+			m1_error = Motor1_Setpoint - Motor1_Current;
 
 			m1_p = Motor1_KP * m1_error / SHIFT_SIZE;
-			m1_i += ki * m1_error;
-			m1_d = kd * (Motor1_Position - m1_lastpos);
+//			m1_i += ki * m1_error;
+//			m1_d = kd * (Motor1_Position - m1_lastpos);
 
-			m1_output = m1_p + m1_i + m1_d;
+//			m1_output = m1_p + m1_i + m1_d;
+			m1_output += m1_p;
 
-			if (m1_error > 0) {
-				m1_dir = 1;
-			} else {
-				m1_dir = 0;
-				m1_output = -m1_output;
-			}
-
-			m1_output += Motor1_SpeedMin;
+//			if (m1_error > 0) {
+//				m1_dir = 1;
+//			} else {
+//				m1_dir = 0;
+//				m1_output = -m1_output;
+//			}
+			m1_dir = 0;
+//			m1_output += Motor1_SpeedMin;
 
 			if(m1_output > 255)
 				m1_output = 255;
+			else if(m1_output < 0)
+				m1_output = 0;
 
 			M1_DIR_PutVal(m1_dir);
 
@@ -196,8 +204,10 @@ void Motor_Update() {
 		}
 	}
 
-	oldAvgCurrent = Motor2_AvgCurrent;
-	Motor2_AvgCurrent = ((oldAvgCurrent*SAMPLE_SIZE*SHIFT_SIZE) + ((Motor2_Current * SHIFT_SIZE) - oldAvgCurrent*SHIFT_SIZE)) / SAMPLE_SIZE / SHIFT_SIZE;
+	M2_ANALOG_MeasureChan(TRUE, 1);
+	M2_ANALOG_GetChanValue16(1, &Motor2_Current);
+//	oldAvgCurrent = Motor2_AvgCurrent;
+//	Motor2_AvgCurrent = ((oldAvgCurrent*SAMPLE_SIZE*SHIFT_SIZE) + ((Motor2_Current * SHIFT_SIZE) - oldAvgCurrent*SHIFT_SIZE)) / SAMPLE_SIZE / SHIFT_SIZE;
 
 	if (!Motor2_IsJogging) {
 		if (Motor2_ControlMode == MotorControlModePotentiometer) {
@@ -207,25 +217,30 @@ void Motor_Update() {
 		}
 
 		if (Motor2_ControlMode != MotorControlModeReserved && Motor2_ControlMode != MotorControlModeJog) {
-			m2_error = Motor2_Setpoint - Motor2_Position;
+
+//			m2_error = Motor2_Setpoint - Motor2_Position;
+			m2_error = Motor2_Setpoint - Motor2_Current;
 
 			m2_p = Motor2_KP * m2_error / SHIFT_SIZE;
-			m2_i += ki * m2_error;
-			m2_d = kd * (Motor2_Position - m2_lastpos);
+//			m2_i += ki * m2_error;
+//			m2_d = kd * (Motor2_Position - m2_lastpos);
 
-			m2_output = m2_p + m2_i + m2_d;
+//			m2_output = m2_p + m2_i + m2_d;
+			m2_output += m2_p;
 
-			if (m2_error > 0) {
-				m2_dir = 1;
-			} else {
-				m2_dir = 0;
-				m2_output = -m2_output;
-			}
-
-			m2_output += Motor2_SpeedMin;
+//			if (m2_error > 0) {
+//				m2_dir = 1;
+//			} else {
+//				m2_dir = 0;
+//				m2_output = -m2_output;
+//			}
+			m2_dir = 0;
+//			m2_output += Motor2_SpeedMin;
 
 			if(m2_output > 255)
 				m2_output = 255;
+			else if(m2_output < 0)
+				m2_output = 0;
 
 			M2_DIR_PutVal(m2_dir);
 
@@ -238,7 +253,7 @@ void Motor_Update() {
 //				Motor2_LimitedSpeed++;
 //			}
 
-			if(Motor2_LimitedSpeed > 255) Motor2_LimitedSpeed = 255;
+//			if(Motor2_LimitedSpeed > 255) Motor2_LimitedSpeed = 255;
 
 			if (abs(m2_error) < deadband) {
 				m2_output = 0;
