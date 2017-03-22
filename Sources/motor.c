@@ -40,16 +40,33 @@ void Motor_Motor1_Tach1() {
 	// We don't count clicks when we're jogging
 	if (Motor1_ControlMode == MotorControlModeReserved)
 		return;
-	if (M1_HALL1_GetVal()) {
-		if (M1_HALL2_GetVal())
-			Motor1_ShaftCounter--;
-		else
-			Motor1_ShaftCounter++;
-	} else {
-		if (M1_HALL2_GetVal())
-			Motor1_ShaftCounter++;
-		else
-			Motor1_ShaftCounter--;
+	if(MAXON)
+	{
+		if (M1_HALL1_GetVal()) {
+			if (M1_HALL2_GetVal())
+				Motor1_ShaftCounter--;
+			else
+				Motor1_ShaftCounter++;
+		} else {
+			if (M1_HALL2_GetVal())
+				Motor1_ShaftCounter++;
+			else
+				Motor1_ShaftCounter--;
+		}
+	}
+	else if (FAULHABER)
+	{
+		if (M1_HALL1_GetVal()) {
+			if (M1_HALL2_GetVal())
+				Motor1_ShaftCounter++;
+			else
+				Motor1_ShaftCounter--;
+		} else {
+			if (M1_HALL2_GetVal())
+				Motor1_ShaftCounter--;
+			else
+				Motor1_ShaftCounter++;
+		}
 	}
 }
 
@@ -57,16 +74,33 @@ void Motor_Motor1_Tach2() {
 	// We don't count clicks when we're jogging
 	if (Motor1_ControlMode == MotorControlModeReserved)
 		return;
-	if (M1_HALL2_GetVal()) {
-		if (M1_HALL3_GetVal())
-			Motor1_ShaftCounter--;
-		else
-			Motor1_ShaftCounter++;
-	} else {
-		if (M1_HALL3_GetVal())
-			Motor1_ShaftCounter++;
-		else
-			Motor1_ShaftCounter--;
+	if(MAXON)
+	{
+		if (M1_HALL2_GetVal()) {
+			if (M1_HALL3_GetVal())
+				Motor1_ShaftCounter--;
+			else
+				Motor1_ShaftCounter++;
+		} else {
+			if (M1_HALL3_GetVal())
+				Motor1_ShaftCounter++;
+			else
+				Motor1_ShaftCounter--;
+		}
+	}
+	else if(FAULHABER)
+	{
+		if (M1_HALL2_GetVal()) {
+			if (M1_HALL3_GetVal())
+				Motor1_ShaftCounter++;
+			else
+				Motor1_ShaftCounter--;
+		} else {
+			if (M1_HALL3_GetVal())
+				Motor1_ShaftCounter--;
+			else
+				Motor1_ShaftCounter++;
+		}
 	}
 }
 
@@ -74,64 +108,132 @@ void Motor_Motor1_Tach3() {
 	// We don't count clicks when we're jogging
 	if (Motor1_ControlMode == MotorControlModeReserved)
 		return;
-	if (M1_HALL3_GetVal()) {
-		if (M1_HALL1_GetVal())
-			Motor1_ShaftCounter--;
-		else
-			Motor1_ShaftCounter++;
-	} else {
-		if (M1_HALL1_GetVal())
-			Motor1_ShaftCounter++;
-		else
-			Motor1_ShaftCounter--;
+	if(MAXON)
+	{
+		if (M1_HALL3_GetVal()) {
+			if (M1_HALL1_GetVal())
+				Motor1_ShaftCounter--;
+			else
+				Motor1_ShaftCounter++;
+		} else {
+			if (M1_HALL1_GetVal())
+				Motor1_ShaftCounter++;
+			else
+				Motor1_ShaftCounter--;
+		}
+	}
+	else if(FAULHABER)
+	{
+		if (M1_HALL3_GetVal()) {
+			if (M1_HALL1_GetVal())
+				Motor1_ShaftCounter++;
+			else
+				Motor1_ShaftCounter--;
+		} else {
+			if (M1_HALL1_GetVal())
+				Motor1_ShaftCounter--;
+			else
+				Motor1_ShaftCounter++;
+		}
 	}
 }
 
 void Motor_Motor2_Tach1() {
 	if (Motor2_ControlMode == MotorControlModeReserved)
 		return;
-	if (M2_HALL1_GetVal()) {
-		if (M2_HALL2_GetVal())
-			Motor2_ShaftCounter--;
-		else
-			Motor2_ShaftCounter++;
-	} else {
-		if (M2_HALL2_GetVal())
-			Motor2_ShaftCounter++;
-		else
-			Motor2_ShaftCounter--;
+	if(MAXON)
+	{
+		if (M2_HALL1_GetVal()) {
+			if (M2_HALL2_GetVal())
+				Motor2_ShaftCounter--;
+			else
+				Motor2_ShaftCounter++;
+		} else {
+			if (M2_HALL2_GetVal())
+				Motor2_ShaftCounter++;
+			else
+				Motor2_ShaftCounter--;
+		}
+	}
+	else if(FAULHABER)
+	{
+		if (M2_HALL1_GetVal()) {
+			if (M2_HALL2_GetVal())
+				Motor2_ShaftCounter++;
+			else
+				Motor2_ShaftCounter--;
+		} else {
+			if (M2_HALL2_GetVal())
+				Motor2_ShaftCounter--;
+			else
+				Motor2_ShaftCounter++;
+		}
 	}
 }
 
 void Motor_Motor2_Tach2() {
 	if (Motor2_ControlMode == MotorControlModeReserved)
 		return;
-	if (M2_HALL2_GetVal()) {
-		if (M2_HALL3_GetVal())
-			Motor2_ShaftCounter--;
-		else
-			Motor2_ShaftCounter++;
-	} else {
-		if (M2_HALL3_GetVal())
-			Motor2_ShaftCounter++;
-		else
-			Motor2_ShaftCounter--;
+	if(MAXON)
+	{
+		if (M2_HALL2_GetVal()) {
+			if (M2_HALL3_GetVal())
+				Motor2_ShaftCounter--;
+			else
+				Motor2_ShaftCounter++;
+		} else {
+			if (M2_HALL3_GetVal())
+				Motor2_ShaftCounter++;
+			else
+				Motor2_ShaftCounter--;
+		}
+	}
+	else if(FAULHABER)
+	{
+		if (M2_HALL2_GetVal()) {
+			if (M2_HALL3_GetVal())
+				Motor2_ShaftCounter++;
+			else
+				Motor2_ShaftCounter--;
+		} else {
+			if (M2_HALL3_GetVal())
+				Motor2_ShaftCounter--;
+			else
+				Motor2_ShaftCounter++;
+		}
 	}
 }
 
 void Motor_Motor2_Tach3() {
 	if (Motor2_ControlMode == MotorControlModeReserved)
 		return;
-	if (M2_HALL3_GetVal()) {
-		if (M2_HALL1_GetVal())
-			Motor2_ShaftCounter--;
-		else
-			Motor2_ShaftCounter++;
-	} else {
-		if (M2_HALL1_GetVal())
-			Motor2_ShaftCounter++;
-		else
-			Motor2_ShaftCounter--;
+	if(MAXON)
+	{
+		if (M2_HALL3_GetVal()) {
+			if (M2_HALL1_GetVal())
+				Motor2_ShaftCounter--;
+			else
+				Motor2_ShaftCounter++;
+		} else {
+			if (M2_HALL1_GetVal())
+				Motor2_ShaftCounter++;
+			else
+				Motor2_ShaftCounter--;
+		}
+	}
+	else if(FAULHABER)
+	{
+		if (M2_HALL3_GetVal()) {
+			if (M2_HALL1_GetVal())
+				Motor2_ShaftCounter++;
+			else
+				Motor2_ShaftCounter--;
+		} else {
+			if (M2_HALL1_GetVal())
+				Motor2_ShaftCounter--;
+			else
+				Motor2_ShaftCounter++;
+		}
 	}
 }
 
@@ -164,7 +266,7 @@ void Motor_Update() {
 			}
 
 			m1_output += Motor1_SpeedMin;
-
+//
 			if(m1_output > 255)
 				m1_output = 255;
 
@@ -178,7 +280,6 @@ void Motor_Update() {
 //			{
 //				Motor1_LimitedSpeed++;
 //			}
-
 //			if(Motor1_LimitedSpeed > 255) Motor1_LimitedSpeed = 255;
 
 			if (abs(m1_error) < deadband) {

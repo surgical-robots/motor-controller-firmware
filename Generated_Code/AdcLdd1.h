@@ -6,7 +6,7 @@
 **     Component   : ADC_LDD
 **     Version     : Component 01.183, Driver 01.08, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-03-22, 15:44, # CodeGen: 40
 **     Abstract    :
 **         This device "ADC_LDD" implements an A/D converter,
 **         its control methods and interrupt/event handling procedure.
@@ -19,13 +19,8 @@
 **            A/D interrupt priority                       : medium priority
 **            ISR Name                                     : AdcLdd1_MeasurementCompleteInterrupt
 **          DMA                                            : Disabled
-**          A/D channel list                               : 2
+**          A/D channel list                               : 1
 **            Channel 0                                    : 
-**              Channel mode                               : Single Ended
-**                Input                                    : 
-**                  A/D channel (pin)                      : POT2
-**                  A/D channel (pin) signal               : 
-**            Channel 1                                    : 
 **              Channel mode                               : Single Ended
 **                Input                                    : 
 **                  A/D channel (pin)                      : M2_ADC
@@ -175,7 +170,7 @@ extern "C" {
 
 /* This constant contains the number of channels in the "A/D channel list"
    group */
-#define AdcLdd1_CHANNEL_COUNT           2u
+#define AdcLdd1_CHANNEL_COUNT           1u
 
 /* This constant can be used in the sample array to create a gap in sample group.
    It is intended to disable a measurement of a sample */

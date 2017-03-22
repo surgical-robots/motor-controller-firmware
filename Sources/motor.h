@@ -9,6 +9,8 @@
 #define MOTOR_H_
 #define SHIFT_SIZE		(10000)
 #define SAMPLE_SIZE		(100)
+#define MAXON			(1)
+#define FAULHABER		(0)
 
 #include "PE_Types.h"
 

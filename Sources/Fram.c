@@ -34,8 +34,9 @@ void Fram_init()
 	errorDater[5] = 0;
 
 	Fram_CommandComplete = FALSE;
- 	I2C_SendBlock(errorDater, 2, &dummy);
-	while(!Fram_CommandComplete);
+	while(!Fram_CommandComplete)
+		I2C_SendBlock(errorDater, 2, &dummy);
+
 
 	Fram_CommandComplete = FALSE;
 	while(!Fram_CommandComplete)

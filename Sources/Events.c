@@ -184,8 +184,7 @@ void M1_ANALOG_OnEnd(void)
 	//memset(values, 0, 20);
   /* Write your code here ... */
 	//M1_ANALOG_GetValue(values);
-	M1_ANALOG_GetChanValue16(0, &Motor1_PotVal);
-	M1_ANALOG_GetChanValue16(1, &Motor1_Current);
+	M1_ANALOG_GetChanValue16(0, &Motor1_Current);
 }
 
 /*
@@ -321,7 +320,7 @@ void UART_OnError(void)
 void M2_HALL3_OnInterrupt(void)
 {
   /* Write your code here ... */
-	//Motor_Motor2_Tach3();
+	Motor_Motor2_Tach3();
 }
 
 /*
@@ -339,7 +338,7 @@ void M2_HALL3_OnInterrupt(void)
 void M2_HALL2_OnInterrupt(void)
 {
   /* Write your code here ... */
-	//Motor_Motor2_Tach2();
+	Motor_Motor2_Tach2();
 }
 
 /*
@@ -357,7 +356,7 @@ void M2_HALL2_OnInterrupt(void)
 void M1_HALL3_OnInterrupt(void)
 {
   /* Write your code here ... */
-	//Motor_Motor1_Tach3();
+	Motor_Motor1_Tach3();
 }
 
 /*
@@ -375,7 +374,7 @@ void M1_HALL3_OnInterrupt(void)
 void M1_HALL2_OnInterrupt(void)
 {
   /* Write your code here ... */
-	//Motor_Motor1_Tach2();
+	Motor_Motor1_Tach2();
 }
 
 /*

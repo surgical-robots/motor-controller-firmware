@@ -6,7 +6,7 @@
 **     Component   : ExtInt_LDD
 **     Version     : Component 02.156, Driver 01.02, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-15, 00:04, # CodeGen: 13
+**     Date/Time   : 2017-03-22, 15:44, # CodeGen: 40
 **     Abstract    :
 **         This component, "ExtInt_LDD", provide a low level API 
 **         for unified access of external interrupts handling
@@ -18,9 +18,9 @@
 **          Pin                                            : M2_HALL3
 **          Pin signal                                     : 
 **          Generate interrupt on                          : both edges
-**          Interrupt                                      : INT_PORTA
+**          Interrupt                                      : INT_PORTBCDE
 **          Interrupt priority                             : maximal priority
-**          ISR Name                                       : Cpu_ivINT_PORTA
+**          ISR Name                                       : Cpu_ivINT_PORTBCDE
 **          Initialization                                 : 
 **            Enabled in init. code                        : yes
 **            Auto initialization                          : yes
@@ -97,7 +97,7 @@ extern "C" {
 #endif 
 
 /*! Peripheral base address of a device allocated by the component. This constant can be used directly in PDD macros. */
-#define ExtIntLdd3_PRPH_BASE_ADDRESS  0x400FF000U
+#define ExtIntLdd3_PRPH_BASE_ADDRESS  0x400FF0C0U
   
 /*! Device data structure pointer used when auto initialization property is enabled. This constant can be passed as a first parameter to all component's methods. */
 #define ExtIntLdd3_DeviceData  ((LDD_TDeviceData *)PE_LDD_GetDeviceStructure(PE_LDD_COMPONENT_ExtIntLdd3_ID))
@@ -110,8 +110,8 @@ extern "C" {
 #define ExtIntLdd3_OnInterrupt_EVENT_ENABLED /*!< OnInterrupt event of the component ExtIntLdd3 is enabled (generated) */
 
 /* Definition of implementation constants */
-#define ExtIntLdd3_PIN_INDEX 0x02U     /*!< Index of the used pin from the port */
-#define ExtIntLdd3_PIN_MASK 0x04U      /*!< Mask of the used pin from the port */
+#define ExtIntLdd3_PIN_INDEX 0x05U     /*!< Index of the used pin from the port */
+#define ExtIntLdd3_PIN_MASK 0x20U      /*!< Mask of the used pin from the port */
 
 /*
 ** ===================================================================

@@ -6,7 +6,7 @@
 **     Component   : ExtInt_LDD
 **     Version     : Component 02.156, Driver 01.02, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-15, 00:04, # CodeGen: 13
+**     Date/Time   : 2017-03-22, 13:55, # CodeGen: 39
 **     Abstract    :
 **         This component, "ExtInt_LDD", provide a low level API 
 **         for unified access of external interrupts handling
@@ -97,7 +97,7 @@ extern "C" {
 #endif 
 
 /*! Peripheral base address of a device allocated by the component. This constant can be used directly in PDD macros. */
-#define ExtIntLdd5_PRPH_BASE_ADDRESS  0x400FF040U
+#define ExtIntLdd5_PRPH_BASE_ADDRESS  0x400FF100U
   
 /*! Device data structure pointer used when auto initialization property is enabled. This constant can be passed as a first parameter to all component's methods. */
 #define ExtIntLdd5_DeviceData  ((LDD_TDeviceData *)PE_LDD_GetDeviceStructure(PE_LDD_COMPONENT_ExtIntLdd5_ID))
@@ -110,8 +110,8 @@ extern "C" {
 #define ExtIntLdd5_OnInterrupt_EVENT_ENABLED /*!< OnInterrupt event of the component ExtIntLdd5 is enabled (generated) */
 
 /* Definition of implementation constants */
-#define ExtIntLdd5_PIN_INDEX 0x01U     /*!< Index of the used pin from the port */
-#define ExtIntLdd5_PIN_MASK 0x02U      /*!< Mask of the used pin from the port */
+#define ExtIntLdd5_PIN_INDEX 0x12U     /*!< Index of the used pin from the port */
+#define ExtIntLdd5_PIN_MASK 0x00040000U /*!< Mask of the used pin from the port */
 
 /*
 ** ===================================================================
