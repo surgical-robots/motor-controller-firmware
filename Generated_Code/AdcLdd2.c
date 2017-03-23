@@ -6,7 +6,7 @@
 **     Component   : ADC_LDD
 **     Version     : Component 01.183, Driver 01.08, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-03-23, 14:11, # CodeGen: 42
 **     Abstract    :
 **         This device "ADC_LDD" implements an A/D converter,
 **         its control methods and interrupt/event handling procedure.
@@ -16,16 +16,11 @@
 **          Discontinuous mode                             : no
 **          Interrupt service/event                        : Enabled
 **            A/D interrupt                                : INT_ADC1
-**            A/D interrupt priority                       : medium priority
+**            A/D interrupt priority                       : low priority
 **            ISR Name                                     : AdcLdd2_MeasurementCompleteInterrupt
 **          DMA                                            : Disabled
-**          A/D channel list                               : 2
+**          A/D channel list                               : 1
 **            Channel 0                                    : 
-**              Channel mode                               : Single Ended
-**                Input                                    : 
-**                  A/D channel (pin)                      : POT1
-**                  A/D channel (pin) signal               : 
-**            Channel 1                                    : 
 **              Channel mode                               : Single Ended
 **                Input                                    : 
 **                  A/D channel (pin)                      : M1_ADC
@@ -69,8 +64,9 @@
 **            Clock configuration 7                        : This component disabled
 **     Contents    :
 **         Init                         - LDD_TDeviceData* AdcLdd2_Init(LDD_TUserData *UserDataPtr);
+**         Enable                       - LDD_TError AdcLdd2_Enable(LDD_TDeviceData *DeviceDataPtr);
+**         Disable                      - LDD_TError AdcLdd2_Disable(LDD_TDeviceData *DeviceDataPtr);
 **         StartSingleMeasurement       - LDD_TError AdcLdd2_StartSingleMeasurement(LDD_TDeviceData *DeviceDataPtr);
-**         CancelMeasurement            - LDD_TError AdcLdd2_CancelMeasurement(LDD_TDeviceData *DeviceDataPtr);
 **         GetMeasuredValues            - LDD_TError AdcLdd2_GetMeasuredValues(LDD_TDeviceData *DeviceDataPtr,...
 **         CreateSampleGroup            - LDD_TError AdcLdd2_CreateSampleGroup(LDD_TDeviceData *DeviceDataPtr,...
 **         GetMeasurementCompleteStatus - bool AdcLdd2_GetMeasurementCompleteStatus(LDD_TDeviceData *DeviceDataPtr);
@@ -130,20 +126,19 @@
 extern "C" { 
 #endif
 
-#define AdcLdd2_AVAILABLE_CHANNEL0_31_PIN_MASK (LDD_ADC_CHANNEL_0_PIN | LDD_ADC_CHANNEL_1_PIN) /*!< Mask of all allocated channel pins from 0 to 31 */
+#define AdcLdd2_AVAILABLE_CHANNEL0_31_PIN_MASK (LDD_ADC_CHANNEL_0_PIN) /*!< Mask of all allocated channel pins from 0 to 31 */
 #define AdcLdd2_AVAILABLE_CHANNEL32_63_PIN_MASK 0x00U /*!< Mask of all allocated channel pins from 32 to 63 */
 #define AdcLdd2_AVAILABLE_TRIGGER_PIN_MASK 0x00U /*!< Mask of all allocated trigger pins */
 #define AdcLdd2_AVAILABLE_VOLT_REF_PIN_MASK (LDD_ADC_LOW_VOLT_REF_PIN | LDD_ADC_HIGH_VOLT_REF_PIN) /*!< Mask of all allocated voltage reference pins */
 
 static const uint8_t ChannelToPin[] = { /* Channel to pin conversion table */
-  /* ADC1_SC1A: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,COCO=0,AIEN=1,DIFF=0,ADCH=1 */
-  0x41U,                               /* Status and control register value */
   /* ADC1_SC1A: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,COCO=0,AIEN=1,DIFF=0,ADCH=3 */
   0x43U                                /* Status and control register value */
 };
 
 typedef struct {
   uint8_t SampleCount;                 /* Number of samples in the last selected/created sample group */
+  bool EnUser;                         /* Enable/Disable device */
   uint8_t FirstSample;                 /* First sample of group store */
   uint8_t CompleteStatus;              /* Measurement complete status flag */
   LDD_TUserData *UserData;             /* RTOS device data structure */
@@ -190,28 +185,27 @@ LDD_TDeviceData* AdcLdd2_Init(LDD_TUserData *UserDataPtr)
   /* {Default RTOS Adapter} Set interrupt vector: IVT is static, ISR parameter is passed by the global variable */
   INT_ADC1__DEFAULT_RTOS_ISRPARAM = DeviceDataPrv;
   DeviceDataPrv->SampleCount = 0U;     /* Initializing SampleCount for right access of some methods to SC1n registers before first conversion is done */
+  DeviceDataPrv->EnUser = TRUE;        /* Enable device */
   DeviceDataPrv->CompleteStatus = FALSE; /* Clear measurement complete status flag */
   /* SIM_SCGC6: ADC1=1 */
   SIM_SCGC6 |= SIM_SCGC6_ADC1_MASK;
   /* Interrupt vector(s) priority setting */
-  /* NVIC_IPR4: PRI_16=1 */
+  /* NVIC_IPR4: PRI_16=2 */
   NVIC_IPR4 = (uint32_t)((NVIC_IPR4 & (uint32_t)~(uint32_t)(
-               NVIC_IP_PRI_16(0x02)
-              )) | (uint32_t)(
                NVIC_IP_PRI_16(0x01)
+              )) | (uint32_t)(
+               NVIC_IP_PRI_16(0x02)
               ));
   /* NVIC_ISER: SETENA31=0,SETENA30=0,SETENA29=0,SETENA28=0,SETENA27=0,SETENA26=0,SETENA25=0,SETENA24=0,SETENA23=0,SETENA22=0,SETENA21=0,SETENA20=0,SETENA19=0,SETENA18=0,SETENA17=0,SETENA16=1,SETENA15=0,SETENA14=0,SETENA13=0,SETENA12=0,SETENA11=0,SETENA10=0,SETENA9=0,SETENA8=0,SETENA7=0,SETENA6=0,SETENA5=0,SETENA4=0,SETENA3=0,SETENA2=0,SETENA1=0,SETENA0=0 */
   NVIC_ISER = NVIC_ISER_SETENA16_MASK;
   /* NVIC_ICER: CLRENA31=0,CLRENA30=0,CLRENA29=0,CLRENA28=0,CLRENA27=0,CLRENA26=0,CLRENA25=0,CLRENA24=0,CLRENA23=0,CLRENA22=0,CLRENA21=0,CLRENA20=0,CLRENA19=0,CLRENA18=0,CLRENA17=0,CLRENA16=0,CLRENA15=0,CLRENA14=0,CLRENA13=0,CLRENA12=0,CLRENA11=0,CLRENA10=0,CLRENA9=0,CLRENA8=0,CLRENA7=0,CLRENA6=0,CLRENA5=0,CLRENA4=0,CLRENA3=0,CLRENA2=0,CLRENA1=0,CLRENA0=0 */
   NVIC_ICER = 0x00U;
   /* Enable device clock gate */
-  /* SIM_SCGC5: PORTE=1,PORTC=1 */
-  SIM_SCGC5 |= (SIM_SCGC5_PORTE_MASK | SIM_SCGC5_PORTC_MASK);
+  /* SIM_SCGC5: PORTC=1 */
+  SIM_SCGC5 |= SIM_SCGC5_PORTC_MASK;
   /* SIM_SCGC6: ADC1=1 */
   SIM_SCGC6 |= SIM_SCGC6_ADC1_MASK;
   /* Initialization of pin routing */
-  /* PORTE_PCR18: ISF=0,MUX=0 */
-  PORTE_PCR18 &= (uint32_t)~(uint32_t)((PORT_PCR_ISF_MASK | PORT_PCR_MUX(0x07)));
   /* PORTC_PCR1: ISF=0,MUX=0 */
   PORTC_PCR1 &= (uint32_t)~(uint32_t)((PORT_PCR_ISF_MASK | PORT_PCR_MUX(0x07)));
   /* ADC1_SC2: REFSEL=1 */
@@ -240,6 +234,68 @@ LDD_TDeviceData* AdcLdd2_Init(LDD_TUserData *UserDataPtr)
   /* Registration of the device structure */
   PE_LDD_RegisterDeviceStructure(PE_LDD_COMPONENT_AdcLdd2_ID,DeviceDataPrv);
   return ((LDD_TDeviceData *)DeviceDataPrv); /* Return pointer to the data data structure */
+}
+
+/*
+** ===================================================================
+**     Method      :  AdcLdd2_Enable (component ADC_LDD)
+*/
+/*!
+**     @brief
+**         Enables ADC device. If possible, this method switches on A/D
+**         converter device, voltage reference, etc. This method is
+**         intended to be used together with [Disable()] method to
+**         temporary switch On/Off the device after the device is
+**         initialized. This method is required if the [Enabled in init.
+**         code] property is set to "no" value.
+**     @param
+**         DeviceDataPtr   - Device data structure
+**                           pointer returned by [Init] method.
+**     @return
+**                         - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - The device doesn't work in the
+**                           active clock configuration
+*/
+/* ===================================================================*/
+LDD_TError AdcLdd2_Enable(LDD_TDeviceData *DeviceDataPtr)
+{
+  ((AdcLdd2_TDeviceDataPtr)DeviceDataPtr)->EnUser = TRUE; /* Set the flag "device enabled" */
+  return ERR_OK;                       /* If yes then set the flag "device enabled" */
+}
+
+/*
+** ===================================================================
+**     Method      :  AdcLdd2_Disable (component ADC_LDD)
+*/
+/*!
+**     @brief
+**         Disables the ADC device. If possible, this method switches
+**         off A/D converter device, voltage reference, etc. (for
+**         example to avoid power consumption and possible interference).
+**         When the device is disabled, some component methods should
+**         not be called. If so, error ERR_DISABLED is reported. This
+**         method is intended to be used together with [Enable()]
+**         method to temporary switch On/Off the device after the
+**         device is initialized. This method is not required. The
+**         [Deinit()] method can be used to switch off and uninstall
+**         the device.
+**     @param
+**         DeviceDataPtr   - Device data structure
+**                           pointer returned by [Init] method.
+**     @return
+**                         - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - The device doesn't work in the
+**                           active clock configuration
+*/
+/* ===================================================================*/
+LDD_TError AdcLdd2_Disable(LDD_TDeviceData *DeviceDataPtr)
+{
+  ((AdcLdd2_TDeviceDataPtr)DeviceDataPtr)->EnUser = FALSE; /* Set the flag "device disabled" */
+  ADC_PDD_SetConversionTriggerType(ADC1_BASE_PTR, ADC_PDD_SW_TRIGGER); /* Select SW triggering */
+  ADC_PDD_WriteStatusControl1Reg(ADC1_BASE_PTR, 0U, 0x1FU); /* Disable device */
+  return ERR_OK;                       /* If yes then set the flag "device enabled" */
 }
 
 /*
@@ -282,7 +338,11 @@ LDD_TDeviceData* AdcLdd2_Init(LDD_TUserData *UserDataPtr)
 /* ===================================================================*/
 LDD_TError AdcLdd2_StartSingleMeasurement(LDD_TDeviceData *DeviceDataPtr)
 {
-  (void)DeviceDataPtr;                 /* Parameter is not used, suppress unused argument warning */
+  /* Device state test - this test can be disabled by setting the "Ignore enable test"
+     property to the "yes" value in the "Configuration inspector" */
+  if (!((AdcLdd2_TDeviceDataPtr)DeviceDataPtr)->EnUser) { /* Is the device disabled by user? */
+    return ERR_DISABLED;               /* If yes then error */
+  }
   if (ADC_PDD_GetConversionActiveFlag(ADC1_BASE_PTR) != 0U) { /* Last measurement still pending? */
     return ERR_BUSY;                   /* Yes, return ERR_BUSY */
   }
@@ -290,36 +350,6 @@ LDD_TError AdcLdd2_StartSingleMeasurement(LDD_TDeviceData *DeviceDataPtr)
   ADC_PDD_SetConversionTriggerType(ADC1_BASE_PTR, ADC_PDD_SW_TRIGGER); /* Select SW triggering */
   ADC_PDD_WriteStatusControl1Reg(ADC1_BASE_PTR, 0U, ((AdcLdd2_TDeviceDataPtr)DeviceDataPtr)->FirstSample); /* Set sample 0 and start conversion */
   return ERR_OK;                       /* OK */
-}
-
-/*
-** ===================================================================
-**     Method      :  AdcLdd2_CancelMeasurement (component ADC_LDD)
-*/
-/*!
-**     @brief
-**         This method cancels the measurement in progress. Typically
-**         the OnMeasurementComplete() event is not invoked for
-**         cancelled measurement. If DMA mode is enabled, DMA request
-**         from ADC is disabled and DMA transfer is cancelled. 
-**     @param
-**         DeviceDataPtr   - Device data structure
-**                           pointer returned by [Init] method.
-**     @return
-**                         - Error code, possible codes:
-**                           ERR_OK - OK
-**                           ERR_SPEED - The device doesn't work in the
-**                           active clock configuration
-**                           ERR_DISABLED - Component is disabled
-*/
-/* ===================================================================*/
-LDD_TError AdcLdd2_CancelMeasurement(LDD_TDeviceData *DeviceDataPtr)
-{
-  (void)DeviceDataPtr;                 /* Parameter is not used, suppress unused argument warning */
-  ADC_PDD_SetConversionTriggerType(ADC1_BASE_PTR, ADC_PDD_SW_TRIGGER); /* Select SW triggering */
-  ADC_PDD_WriteStatusControl1Reg(ADC1_BASE_PTR, 0U, 0x1FU); /* Disable device - A */
-  
-  return ERR_OK;                       /* If yes then set the flag "device enabled" */  
 }
 
 /*
@@ -367,6 +397,11 @@ LDD_TError AdcLdd2_CreateSampleGroup(LDD_TDeviceData *DeviceDataPtr, LDD_ADC_TSa
 {
   AdcLdd2_TDeviceDataPtr DeviceDataPrv = (AdcLdd2_TDeviceDataPtr)DeviceDataPtr;
 
+  /* Device state test - this test can be disabled by setting the "Ignore enable test"
+     property to the "yes" value in the "Configuration inspector" */
+  if (!((AdcLdd2_TDeviceDataPtr)DeviceDataPtr)->EnUser) { /* Is the device disabled by user? */
+    return ERR_DISABLED;               /* If yes then error */
+  }
   /* Sample count test - this test can be disabled by setting the "Ignore range checking"
      property to the "yes" value in the "Configuration inspector" */
   if ((SampleCount > AdcLdd2_MAX_HW_SAMPLE_COUNT) || (SampleCount == 0U)) { /* Is number of sample greater then supported by the HW? */
@@ -422,6 +457,11 @@ LDD_TError AdcLdd2_GetMeasuredValues(LDD_TDeviceData *DeviceDataPtr, LDD_TData *
   uint8_t Sample;
   AdcLdd2_TResultData *pBuffer = (AdcLdd2_TResultData *)BufferPtr;
 
+  /* Device state test - this test can be disabled by setting the "Ignore enable test"
+     property to the "yes" value in the "Configuration inspector" */
+  if (!((AdcLdd2_TDeviceDataPtr)DeviceDataPtr)->EnUser) { /* Is the device disabled by user? */
+    return ERR_DISABLED;               /* If yes then error */
+  }
   /* Copy values from result registers defined in the active sample
      group to the user supplied buffer */
   for (Sample = 0U; Sample < ((AdcLdd2_TDeviceDataPtr)DeviceDataPtr)->SampleCount; Sample++) {
@@ -486,7 +526,11 @@ bool AdcLdd2_GetMeasurementCompleteStatus(LDD_TDeviceData *DeviceDataPtr)
 /* ===================================================================*/
 LDD_TError AdcLdd2_StartCalibration(LDD_TDeviceData *DeviceDataPtr)
 {
-  (void)DeviceDataPtr;                 /* Parameter is not used, suppress unused argument warning */
+  /* Device state test - this test can be disabled by setting the "Ignore enable test"
+     property to the "yes" value in the "Configuration inspector" */
+  if (!((AdcLdd2_TDeviceDataPtr)DeviceDataPtr)->EnUser) { /* Is the device disabled by user? */
+    return ERR_DISABLED;               /* If yes then error */
+  }
   if (ADC_PDD_GetConversionActiveFlag(ADC1_BASE_PTR) != 0U) { /* Last measurement still pending? */
     return ERR_BUSY;                   /* Yes, return ERR_BUSY */
   }

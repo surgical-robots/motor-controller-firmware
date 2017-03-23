@@ -3,8 +3,8 @@
   <Header>
     <Name>motor-controller-firmware</Name>
     <SavedBy>lcubrich</SavedBy>
-    <ModificationStamp>78</ModificationStamp>
-    <Date>2017-03-11</Date>
+    <ModificationStamp>82</ModificationStamp>
+    <Date>2017-03-23</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.10.1.RT6_b1444-1070</PEversion>
   </Header>
@@ -29,7 +29,7 @@
     <UseExistingModules>true</UseExistingModules>
     <RenamePeripheries>false</RenamePeripheries>
     <Autodependency>true</Autodependency>
-    <ProjectCompNumb>110</ProjectCompNumb>
+    <ProjectCompNumb>112</ProjectCompNumb>
     <DelUnusedPreviouslyGenFiles>true</DelUnusedPreviouslyGenFiles>
     <GeneratedCodeFrozen>false</GeneratedCodeFrozen>
     <AssignInitComponentNameToPrph>true</AssignInitComponentNameToPrph>
@@ -6768,7 +6768,7 @@
           </rename>
           <rename>
             <OrigName>ADC0_SE6/ADC1_SE1/ADC1_DP1/PTE18/SPI0_SOUT/UART1_CTS_b/I2C0_SDA/SPI0_SIN</OrigName>
-            <CustName>POT1</CustName>
+            <CustName>M1_HALL3</CustName>
             <CustHint>ADC0 Analog Channel 6;ADC1 Analog Channel 1;ADC1 Analog Plus Channel 1;General purpose IO, Port E, bit 18;SPI0 Serial Data Out;UART1 clear to send;I2C0 Serial Data Line;SPI0 Serial Data In</CustHint>
           </rename>
           <rename>
@@ -6795,11 +6795,6 @@
             <OrigName>PTA1/UART0_RX/FTM2_CH0/CMP0_OUT/FTM2_QD_PHA/FTM1_CH1</OrigName>
             <CustName>M2_DIAG</CustName>
             <CustHint>General purpose IO, Port A, bit 1;UART0 receive data;FTM2 channel 0;CMP0 output;FTM2 quadrature decoder phase A input;FTM1 channel 1</CustHint>
-          </rename>
-          <rename>
-            <OrigName>PTA2/UART0_TX/FTM2_CH1/CMP1_OUT/FTM2_QD_PHB/FTM1_CH0</OrigName>
-            <CustName>M2_HALL3</CustName>
-            <CustHint>General purpose IO, Port A, bit 2;UART0 transmit data;FTM2 channel 1;CMP1 output;FTM2 quadrature decoder phase B input;FTM1 channel 0</CustHint>
           </rename>
           <rename>
             <OrigName>PTA3/UART0_RTS_b/FTM0_CH0/FTM2_FLT0/EWM_OUT_b/SWD_DIO</OrigName>
@@ -6830,11 +6825,6 @@
             <OrigName>ADC0_SE8/ADC1_SE8/PTB0/LLWU_P5/I2C0_SCL/FTM1_CH0/FTM1_QD_PHA/UART0_RX</OrigName>
             <CustName>M2_ADC</CustName>
             <CustHint>ADC0 Analog Channel 8;ADC1 Analog Channel 8;General purpose IO, Port B, bit 0;Low-leakage wake-up;I2C0 Serial Clock Line;FTM1 channel 0;FTM1 quadrature decoder phase A input;UART0 receive data</CustHint>
-          </rename>
-          <rename>
-            <OrigName>ADC0_SE9/ADC1_SE9/PTB1/I2C0_SDA/FTM1_CH1/FTM0_FLT2/EWM_IN/FTM1_QD_PHB/UART0_TX</OrigName>
-            <CustName>M1_HALL3</CustName>
-            <CustHint>ADC0 Analog Channel 9;ADC1 Analog Channel 9;General purpose IO, Port B, bit 1;I2C0 Serial Data Line;FTM1 channel 1;FTM0 Fault Input 2;EWM input;FTM1 quadrature decoder phase B input;UART0 transmit data</CustHint>
           </rename>
           <rename>
             <OrigName>ADC1_SE3/PTC1/LLWU_P6/SPI0_PCS3/UART1_RTS_b/FTM0_CH0/FTM2_CH0</OrigName>
@@ -6878,7 +6868,7 @@
           </rename>
           <rename>
             <OrigName>ADC0_SE3/PTD5/SPI0_PCS2/UART0_CTS_b/FTM0_CH5/FTM2_CH1/EWM_OUT_b</OrigName>
-            <CustName>POT2</CustName>
+            <CustName>M2_HALL3</CustName>
             <CustHint>ADC0 Analog Channel 3;General purpose IO, Port D, bit 5;SPI0 Peripheral Chip Select 2;UART0 clear to send;FTM0 channel 5;FTM2 channel 1;EWM output</CustHint>
           </rename>
           <rename>
@@ -7329,7 +7319,7 @@
         <ItemSymbol>ADC0_adc_se_3</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>POT2</Value>
+        <Value>&lt;Automatic&gt;</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>
@@ -7525,7 +7515,7 @@
         <ItemSymbol>ADC1_adc_se_1</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>POT1</Value>
+        <Value>&lt;Automatic&gt;</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>
@@ -9863,7 +9853,7 @@
         <ItemSymbol>ADC0_SE6_ADC1_SE1_ADC1_DP1_PTE18_SPI0_SOUT_UART1_CTS_b_I2C0_SDA_SPI0_SIN_UserName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>POT1</Value>
+        <Value>M1_HALL3</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>ADC0_SE6_ADC1_SE1_ADC1_DP1_PTE18_SPI0_SOUT_UART1_CTS_b_I2C0_SDA_SPI0_SIN_slew_rate</ItemSymbol>
@@ -10486,7 +10476,7 @@
         <ItemSymbol>PTA2_UART0_TX_FTM2_CH1_CMP1_OUT_FTM2_QD_PHB_FTM1_CH0_UserName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>M2_HALL3</Value>
+        <Value>PTA2/UART0_TX/FTM2_CH1/CMP1_OUT/FTM2_QD_PHB/FTM1_CH0</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>PTA2_UART0_TX_FTM2_CH1_CMP1_OUT_FTM2_QD_PHB_FTM1_CH0_slew_rate</ItemSymbol>
@@ -10902,7 +10892,7 @@
         <ItemSymbol>ADC0_SE9_ADC1_SE9_PTB1_I2C0_SDA_FTM1_CH1_FTM0_FLT2_EWM_IN_FTM1_QD_PHB_UART0_TX_UserName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>M1_HALL3</Value>
+        <Value>ADC0_SE9/ADC1_SE9/PTB1/I2C0_SDA/FTM1_CH1/FTM0_FLT2/EWM_IN/FTM1_QD_PHB/UART0_TX</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>ADC0_SE9_ADC1_SE9_PTB1_I2C0_SDA_FTM1_CH1_FTM0_FLT2_EWM_IN_FTM1_QD_PHB_UART0_TX_slew_rate</ItemSymbol>
@@ -11944,7 +11934,7 @@
         <ItemSymbol>ADC0_SE3_PTD5_SPI0_PCS2_UART0_CTS_b_FTM0_CH5_FTM2_CH1_EWM_OUT_b_UserName</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>POT2</Value>
+        <Value>M2_HALL3</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>ADC0_SE3_PTD5_SPI0_PCS2_UART0_CTS_b_FTM0_CH5_FTM2_CH1_EWM_OUT_b_slew_rate</ItemSymbol>
@@ -19670,7 +19660,7 @@
             <ItemState>
               <ItemSymbol>ADchannels</ItemSymbol>
               <ReadOnly>false</ReadOnly>
-              <ListItemCount>2</ListItemCount>
+              <ListItemCount>1</ListItemCount>
               <UserReadOnly>false</UserReadOnly>
               <Expanded>true</Expanded>
               <Index>0</Index>
@@ -19697,7 +19687,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>PortAD_Ch0</ItemSymbol>
-              <Value>GPIOD</Value>
+              <Value>GPIOB</Value>
               <SharedPrphMode>false</SharedPrphMode>
             </ItemState>
             <ItemState>
@@ -19725,7 +19715,7 @@
               <ItemSymbol>InputPin_Ch0</ItemSymbol>
               <ReadOnly>false</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
-              <Value>POT2</Value>
+              <Value>M2_ADC</Value>
               <SharedPrphMode>false</SharedPrphMode>
             </ItemState>
             <ItemState>
@@ -21003,7 +20993,7 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>medium priority</Value>
+        <Value>low priority</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>DSP56xGrp</ItemSymbol>
@@ -21086,7 +21076,7 @@
       <ItemState>
         <ItemSymbol>ADchannels</ItemSymbol>
         <ReadOnly>false</ReadOnly>
-        <ListItemCount>2</ListItemCount>
+        <ListItemCount>1</ListItemCount>
         <UserReadOnly>false</UserReadOnly>
         <Expanded>true</Expanded>
       </ItemState>
@@ -21098,14 +21088,14 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>PortAD0</ItemSymbol>
-        <Value>GPIOD</Value>
+        <Value>GPIOB</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>
         <ItemSymbol>AD0</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>POT2</Value>
+        <Value>M2_ADC</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>
@@ -23318,7 +23308,7 @@
             <ItemState>
               <ItemSymbol>ADchannels</ItemSymbol>
               <ReadOnly>false</ReadOnly>
-              <ListItemCount>2</ListItemCount>
+              <ListItemCount>1</ListItemCount>
               <UserReadOnly>false</UserReadOnly>
               <Expanded>true</Expanded>
               <Index>0</Index>
@@ -23345,7 +23335,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>PortAD_Ch0</ItemSymbol>
-              <Value>GPIOE</Value>
+              <Value>GPIOC</Value>
               <SharedPrphMode>false</SharedPrphMode>
             </ItemState>
             <ItemState>
@@ -23373,7 +23363,7 @@
               <ItemSymbol>InputPin_Ch0</ItemSymbol>
               <ReadOnly>false</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
-              <Value>POT1</Value>
+              <Value>M1_ADC</Value>
               <SharedPrphMode>false</SharedPrphMode>
             </ItemState>
             <ItemState>
@@ -24192,22 +24182,22 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>Enable</ItemSymbol>
-              <ReadOnly>false</ReadOnly>
+              <ReadOnly>true</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
               <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-              <Index>1</Index>
-              <Value>false</Value>
+              <Index>0</Index>
+              <Value>true</Value>
               <LastSelection>false</LastSelection>
               <LastUserSel>no</LastUserSel>
               <UsrMethodName>Enable</UsrMethodName>
             </ItemState>
             <ItemState>
               <ItemSymbol>Disable</ItemSymbol>
-              <ReadOnly>false</ReadOnly>
+              <ReadOnly>true</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
               <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-              <Index>1</Index>
-              <Value>false</Value>
+              <Index>0</Index>
+              <Value>true</Value>
               <LastSelection>false</LastSelection>
               <LastUserSel>no</LastUserSel>
               <UsrMethodName>Disable</UsrMethodName>
@@ -24280,11 +24270,11 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>CancelMeasurement</ItemSymbol>
-              <ReadOnly>true</ReadOnly>
+              <ReadOnly>false</ReadOnly>
               <UserReadOnly>false</UserReadOnly>
               <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-              <Index>0</Index>
-              <Value>true</Value>
+              <Index>1</Index>
+              <Value>false</Value>
               <LastSelection>false</LastSelection>
               <LastUserSel>no</LastUserSel>
               <UsrMethodName>CancelMeasurement</UsrMethodName>
@@ -24651,7 +24641,7 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>medium priority</Value>
+        <Value>low priority</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>DSP56xGrp</ItemSymbol>
@@ -24738,7 +24728,7 @@
       <ItemState>
         <ItemSymbol>ADchannels</ItemSymbol>
         <ReadOnly>false</ReadOnly>
-        <ListItemCount>2</ListItemCount>
+        <ListItemCount>1</ListItemCount>
         <UserReadOnly>false</UserReadOnly>
         <Expanded>true</Expanded>
       </ItemState>
@@ -24750,14 +24740,14 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>PortAD0</ItemSymbol>
-        <Value>GPIOE</Value>
+        <Value>GPIOC</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>
         <ItemSymbol>AD0</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>POT1</Value>
+        <Value>M1_ADC</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>
@@ -25994,10 +25984,10 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Index>1</Index>
-        <Value>false</Value>
+        <Index>0</Index>
+        <Value>true</Value>
         <LastSelection>true</LastSelection>
-        <LastUserSel>no</LastUserSel>
+        <LastUserSel>yes</LastUserSel>
         <UsrMethodName>Enable</UsrMethodName>
       </ItemState>
       <ItemState>
@@ -26005,10 +25995,10 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Index>1</Index>
-        <Value>false</Value>
+        <Index>0</Index>
+        <Value>true</Value>
         <LastSelection>true</LastSelection>
-        <LastUserSel>no</LastUserSel>
+        <LastUserSel>yes</LastUserSel>
         <UsrMethodName>Disable</UsrMethodName>
       </ItemState>
       <ItemState>
@@ -26018,7 +26008,7 @@
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <Index>1</Index>
         <Value>false</Value>
-        <LastSelection>true</LastSelection>
+        <LastSelection>false</LastSelection>
         <LastUserSel>no</LastUserSel>
         <UsrMethodName>EnableEvent</UsrMethodName>
       </ItemState>
@@ -26029,7 +26019,7 @@
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <Index>1</Index>
         <Value>false</Value>
-        <LastSelection>true</LastSelection>
+        <LastSelection>false</LastSelection>
         <LastUserSel>no</LastUserSel>
         <UsrMethodName>DisableEvent</UsrMethodName>
       </ItemState>
@@ -26098,10 +26088,10 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Index>1</Index>
-        <Value>false</Value>
+        <Index>0</Index>
+        <Value>true</Value>
         <LastSelection>true</LastSelection>
-        <LastUserSel>no</LastUserSel>
+        <LastUserSel>yes</LastUserSel>
         <UsrMethodName>MeasureChan</UsrMethodName>
       </ItemState>
       <ItemState>
@@ -26571,7 +26561,7 @@
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <Value>true</Value>
         <Expanded>true</Expanded>
-        <LastSelection>false</LastSelection>
+        <LastSelection>true</LastSelection>
         <LastUserSel>yes</LastUserSel>
       </ItemState>
       <ItemState>
@@ -26593,13 +26583,13 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>OnTrgOverrun</ItemSymbol>
-        <ReadOnly>false</ReadOnly>
+        <ReadOnly>true</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>true</Value>
-        <Expanded>true</Expanded>
-        <LastSelection>false</LastSelection>
-        <LastUserSel>yes</LastUserSel>
+        <Value>false</Value>
+        <Expanded>false</Expanded>
+        <LastSelection>true</LastSelection>
+        <LastUserSel>never</LastUserSel>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnTrgOverrunName</ItemSymbol>
@@ -26620,14 +26610,14 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>OnHighLimit</ItemSymbol>
-        <ReadOnly>false</ReadOnly>
+        <ReadOnly>true</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <ItemWasNeverEnabledInChgScript>true</ItemWasNeverEnabledInChgScript>
         <Value>false</Value>
         <Expanded>false</Expanded>
         <LastSelection>false</LastSelection>
-        <LastUserSel>no</LastUserSel>
+        <LastUserSel>never</LastUserSel>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnHighLimitName</ItemSymbol>
@@ -26645,14 +26635,14 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>OnLowLimit</ItemSymbol>
-        <ReadOnly>false</ReadOnly>
+        <ReadOnly>true</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <ItemWasNeverEnabledInChgScript>true</ItemWasNeverEnabledInChgScript>
         <Value>false</Value>
         <Expanded>false</Expanded>
         <LastSelection>false</LastSelection>
-        <LastUserSel>no</LastUserSel>
+        <LastUserSel>never</LastUserSel>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnLowLimitName</ItemSymbol>
@@ -26670,14 +26660,14 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>OnZeroCrossing</ItemSymbol>
-        <ReadOnly>false</ReadOnly>
+        <ReadOnly>true</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <ItemWasNeverEnabledInChgScript>true</ItemWasNeverEnabledInChgScript>
         <Value>false</Value>
         <Expanded>false</Expanded>
         <LastSelection>false</LastSelection>
-        <LastUserSel>no</LastUserSel>
+        <LastUserSel>never</LastUserSel>
       </ItemState>
       <ItemState>
         <ItemSymbol>OnZeroCrossingName</ItemSymbol>
@@ -26705,7 +26695,7 @@
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
         <Value>true</Value>
         <Expanded>true</Expanded>
-        <LastSelection>false</LastSelection>
+        <LastSelection>true</LastSelection>
         <LastUserSel>yes</LastUserSel>
       </ItemState>
       <ItemState>
@@ -31481,7 +31471,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>Int</ItemSymbol>
-              <Value>INT_PORTA</Value>
+              <Value>INT_PORTBCDE</Value>
             </ItemState>
             <ItemState>
               <ItemSymbol>InitPriority</ItemSymbol>
@@ -31497,7 +31487,7 @@
             </ItemState>
             <ItemState>
               <ItemSymbol>IntISRHandle</ItemSymbol>
-              <Value>Cpu_ivINT_PORTA</Value>
+              <Value>Cpu_ivINT_PORTBCDE</Value>
             </ItemState>
             <ItemState>
               <ItemSymbol>DSPgrp11</ItemSymbol>
@@ -31732,7 +31722,7 @@
       </ItemState>
       <ItemState>
         <ItemSymbol>Int</ItemSymbol>
-        <Value>INT_PORTA</Value>
+        <Value>INT_PORTBCDE</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>InitPriority</ItemSymbol>

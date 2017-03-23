@@ -6,7 +6,7 @@
 **     Component   : ADC
 **     Version     : Component 01.697, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-03-23, 14:11, # CodeGen: 42
 **     Abstract    :
 **         This device "ADC" implements an A/D converter,
 **         its control methods and interrupt/event handling procedure.
@@ -17,13 +17,9 @@
 **          ADC_LDD                                        : ADC_LDD
 **          Interrupt service/event                        : Enabled
 **            A/D interrupt                                : INT_ADC0
-**            A/D interrupt priority                       : medium priority
-**          A/D channels                                   : 2
+**            A/D interrupt priority                       : low priority
+**          A/D channels                                   : 1
 **            Channel0                                     : 
-**              A/D channel (pin)                          : POT2
-**              A/D channel (pin) signal                   : 
-**              Mode select                                : Single Ended
-**            Channel1                                     : 
 **              A/D channel (pin)                          : M2_ADC
 **              A/D channel (pin) signal                   : 
 **              Mode select                                : Single Ended
@@ -123,7 +119,7 @@ extern "C" {
 
 
 
-#define M2_ANALOG_SAMPLE_GROUP_SIZE 2U
+#define M2_ANALOG_SAMPLE_GROUP_SIZE 1U
 void M2_ANALOG_HWEnDi(void);
 /*
 ** ===================================================================
@@ -230,7 +226,8 @@ byte M2_ANALOG_GetValue(void* Values);
 */
 /* ===================================================================*/
 
-byte M2_ANALOG_GetChanValue(byte Channel, void* Value);
+#define M2_ANALOG_GetChanValue(Ch,V) PE_M2_ANALOG_GetChanValue(V)
+byte PE_M2_ANALOG_GetChanValue(void* Value);
 /*
 ** ===================================================================
 **     Method      :  M2_ANALOG_GetChanValue (component ADC)
@@ -298,7 +295,8 @@ byte M2_ANALOG_GetValue16(word *Values);
 */
 /* ===================================================================*/
 
-byte M2_ANALOG_GetChanValue16(byte Channel, word *Value);
+#define M2_ANALOG_GetChanValue16(Ch,V) PE_M2_ANALOG_GetChanValue16(V)
+byte PE_M2_ANALOG_GetChanValue16(word *Value);
 /*
 ** ===================================================================
 **     Method      :  M2_ANALOG_GetChanValue16 (component ADC)

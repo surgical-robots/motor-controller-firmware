@@ -184,8 +184,7 @@ void M1_ANALOG_OnEnd(void)
 	//memset(values, 0, 20);
   /* Write your code here ... */
 	//M1_ANALOG_GetValue(values);
-	M1_ANALOG_GetChanValue16(0, &Motor1_PotVal);
-	M1_ANALOG_GetChanValue16(1, &Motor1_Current);
+	M1_ANALOG_GetChanValue16(0, &Motor1_Current);
 }
 
 /*
@@ -225,8 +224,7 @@ void M1_ANALOG_OnCalibrationEnd(void)
 void M2_ANALOG_OnEnd(void)
 {
   /* Write your code here ... */
-	M2_ANALOG_GetChanValue16(0, &Motor2_PotVal);
-	M2_ANALOG_GetChanValue16(1, &Motor2_Current);
+	M2_ANALOG_GetChanValue16(0, &Motor2_Current);
 }
 
 /*

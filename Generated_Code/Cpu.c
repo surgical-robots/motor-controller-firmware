@@ -7,7 +7,7 @@
 **     Version     : Component 01.036, Driver 01.00, CPU db: 3.50.001
 **     Datasheet   : KV10P48M75RM Rev.2, July 2013
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-03-11, 19:40, # CodeGen: 32
+**     Date/Time   : 2017-03-23, 14:11, # CodeGen: 42
 **     Abstract    :
 **
 **     Settings    :
@@ -95,11 +95,8 @@ void Common_Init(void)
      Optimizations\Utilize after reset values property or enabled processor 
      component Common settings\Utilize after reset values property) */
   /* Enable clock gate of peripherals initialized in Common_Init() */
-  /* SIM_SCGC5: PORTE=1,PORTD=1,PORTC=1,PORTB=1 */
-  SIM_SCGC5 |= SIM_SCGC5_PORTE_MASK |
-               SIM_SCGC5_PORTD_MASK |
-               SIM_SCGC5_PORTC_MASK |
-               SIM_SCGC5_PORTB_MASK;
+  /* SIM_SCGC5: PORTC=1,PORTB=1 */
+  SIM_SCGC5 |= (SIM_SCGC5_PORTC_MASK | SIM_SCGC5_PORTB_MASK);
 
   /* NVIC_ICER: CLRENA31=0,CLRENA30=0,CLRENA29=0,CLRENA28=0,CLRENA27=0,CLRENA26=0,CLRENA25=0,CLRENA24=0,CLRENA23=0,CLRENA22=0,CLRENA21=0,CLRENA20=0,CLRENA19=0,CLRENA18=0,CLRENA17=0,CLRENA16=0,CLRENA15=0,CLRENA14=0,CLRENA13=0,CLRENA12=0,CLRENA11=0,CLRENA10=0,CLRENA9=0,CLRENA8=0,CLRENA7=0,CLRENA6=1,CLRENA5=0,CLRENA4=0,CLRENA3=0,CLRENA2=0,CLRENA1=0,CLRENA0=0 */
   NVIC_ICER = NVIC_ICER_CLRENA6_MASK;
@@ -117,16 +114,10 @@ void Common_Init(void)
                )) | (uint32_t)(
                 PORT_PCR_MUX(0x07)
                ));
-  /* PORTD_PCR5: ISF=0,MUX=0 */
-  PORTD_PCR5 &= (uint32_t)~(uint32_t)((PORT_PCR_ISF_MASK | PORT_PCR_MUX(0x07)));
-  /* PORTE_PCR18: ISF=0,MUX=0 */
-  PORTE_PCR18 &= (uint32_t)~(uint32_t)((PORT_PCR_ISF_MASK | PORT_PCR_MUX(0x07)));
 
   /* Disable clock gate of peripherals initialized in Common_Init() */
-  /* SIM_SCGC5: PORTE=0,PORTD=0,PORTC=0,PORTB=0 */
+  /* SIM_SCGC5: PORTC=0,PORTB=0 */
   SIM_SCGC5 &= (uint32_t)~(uint32_t)(
-                SIM_SCGC5_PORTE_MASK |
-                SIM_SCGC5_PORTD_MASK |
                 SIM_SCGC5_PORTC_MASK |
                 SIM_SCGC5_PORTB_MASK
                );
@@ -215,7 +206,6 @@ PE_ISR(Cpu_ivINT_PORTA)
     ExtIntLdd1_Interrupt();              /* Call the service routine */
     ExtIntLdd2_Interrupt();              /* Call the service routine */
     ExtIntLdd4_Interrupt();              /* Call the service routine */
-    ExtIntLdd3_Interrupt();              /* Call the service routine */
 }
 
 /*
@@ -232,6 +222,7 @@ PE_ISR(Cpu_ivINT_PORTBCDE)
 {
     ExtIntLdd6_Interrupt();              /* Call the service routine */
     ExtIntLdd5_Interrupt();              /* Call the service routine */
+    ExtIntLdd3_Interrupt();              /* Call the service routine */
 }
 
 /*

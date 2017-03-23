@@ -6,7 +6,7 @@
 **     Component   : ADC_LDD
 **     Version     : Component 01.183, Driver 01.08, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-05, 17:15, # CodeGen: 0
+**     Date/Time   : 2017-03-23, 14:11, # CodeGen: 42
 **     Abstract    :
 **         This device "ADC_LDD" implements an A/D converter,
 **         its control methods and interrupt/event handling procedure.
@@ -16,16 +16,11 @@
 **          Discontinuous mode                             : no
 **          Interrupt service/event                        : Enabled
 **            A/D interrupt                                : INT_ADC1
-**            A/D interrupt priority                       : medium priority
+**            A/D interrupt priority                       : low priority
 **            ISR Name                                     : AdcLdd2_MeasurementCompleteInterrupt
 **          DMA                                            : Disabled
-**          A/D channel list                               : 2
+**          A/D channel list                               : 1
 **            Channel 0                                    : 
-**              Channel mode                               : Single Ended
-**                Input                                    : 
-**                  A/D channel (pin)                      : POT1
-**                  A/D channel (pin) signal               : 
-**            Channel 1                                    : 
 **              Channel mode                               : Single Ended
 **                Input                                    : 
 **                  A/D channel (pin)                      : M1_ADC
@@ -69,8 +64,9 @@
 **            Clock configuration 7                        : This component disabled
 **     Contents    :
 **         Init                         - LDD_TDeviceData* AdcLdd2_Init(LDD_TUserData *UserDataPtr);
+**         Enable                       - LDD_TError AdcLdd2_Enable(LDD_TDeviceData *DeviceDataPtr);
+**         Disable                      - LDD_TError AdcLdd2_Disable(LDD_TDeviceData *DeviceDataPtr);
 **         StartSingleMeasurement       - LDD_TError AdcLdd2_StartSingleMeasurement(LDD_TDeviceData *DeviceDataPtr);
-**         CancelMeasurement            - LDD_TError AdcLdd2_CancelMeasurement(LDD_TDeviceData *DeviceDataPtr);
 **         GetMeasuredValues            - LDD_TError AdcLdd2_GetMeasuredValues(LDD_TDeviceData *DeviceDataPtr,...
 **         CreateSampleGroup            - LDD_TError AdcLdd2_CreateSampleGroup(LDD_TDeviceData *DeviceDataPtr,...
 **         GetMeasurementCompleteStatus - bool AdcLdd2_GetMeasurementCompleteStatus(LDD_TDeviceData *DeviceDataPtr);
@@ -147,8 +143,9 @@ extern "C" {
   
 /* Methods configuration constants - generated for all enabled component's methods */
 #define AdcLdd2_Init_METHOD_ENABLED    /*!< Init method of the component AdcLdd2 is enabled (generated) */
+#define AdcLdd2_Enable_METHOD_ENABLED  /*!< Enable method of the component AdcLdd2 is enabled (generated) */
+#define AdcLdd2_Disable_METHOD_ENABLED /*!< Disable method of the component AdcLdd2 is enabled (generated) */
 #define AdcLdd2_StartSingleMeasurement_METHOD_ENABLED /*!< StartSingleMeasurement method of the component AdcLdd2 is enabled (generated) */
-#define AdcLdd2_CancelMeasurement_METHOD_ENABLED /*!< CancelMeasurement method of the component AdcLdd2 is enabled (generated) */
 #define AdcLdd2_GetMeasuredValues_METHOD_ENABLED /*!< GetMeasuredValues method of the component AdcLdd2 is enabled (generated) */
 #define AdcLdd2_CreateSampleGroup_METHOD_ENABLED /*!< CreateSampleGroup method of the component AdcLdd2 is enabled (generated) */
 #define AdcLdd2_GetMeasurementCompleteStatus_METHOD_ENABLED /*!< GetMeasurementCompleteStatus method of the component AdcLdd2 is enabled (generated) */
@@ -175,7 +172,7 @@ extern "C" {
 
 /* This constant contains the number of channels in the "A/D channel list"
    group */
-#define AdcLdd2_CHANNEL_COUNT           2u
+#define AdcLdd2_CHANNEL_COUNT           1u
 
 /* This constant can be used in the sample array to create a gap in sample group.
    It is intended to disable a measurement of a sample */
@@ -231,6 +228,58 @@ LDD_TDeviceData* AdcLdd2_Init(LDD_TUserData *UserDataPtr);
 
 /*
 ** ===================================================================
+**     Method      :  AdcLdd2_Enable (component ADC_LDD)
+*/
+/*!
+**     @brief
+**         Enables ADC device. If possible, this method switches on A/D
+**         converter device, voltage reference, etc. This method is
+**         intended to be used together with [Disable()] method to
+**         temporary switch On/Off the device after the device is
+**         initialized. This method is required if the [Enabled in init.
+**         code] property is set to "no" value.
+**     @param
+**         DeviceDataPtr   - Device data structure
+**                           pointer returned by [Init] method.
+**     @return
+**                         - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - The device doesn't work in the
+**                           active clock configuration
+*/
+/* ===================================================================*/
+LDD_TError AdcLdd2_Enable(LDD_TDeviceData *DeviceDataPtr);
+
+/*
+** ===================================================================
+**     Method      :  AdcLdd2_Disable (component ADC_LDD)
+*/
+/*!
+**     @brief
+**         Disables the ADC device. If possible, this method switches
+**         off A/D converter device, voltage reference, etc. (for
+**         example to avoid power consumption and possible interference).
+**         When the device is disabled, some component methods should
+**         not be called. If so, error ERR_DISABLED is reported. This
+**         method is intended to be used together with [Enable()]
+**         method to temporary switch On/Off the device after the
+**         device is initialized. This method is not required. The
+**         [Deinit()] method can be used to switch off and uninstall
+**         the device.
+**     @param
+**         DeviceDataPtr   - Device data structure
+**                           pointer returned by [Init] method.
+**     @return
+**                         - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - The device doesn't work in the
+**                           active clock configuration
+*/
+/* ===================================================================*/
+LDD_TError AdcLdd2_Disable(LDD_TDeviceData *DeviceDataPtr);
+
+/*
+** ===================================================================
 **     Method      :  AdcLdd2_StartSingleMeasurement (component ADC_LDD)
 */
 /*!
@@ -268,29 +317,6 @@ LDD_TDeviceData* AdcLdd2_Init(LDD_TUserData *UserDataPtr);
 */
 /* ===================================================================*/
 LDD_TError AdcLdd2_StartSingleMeasurement(LDD_TDeviceData *DeviceDataPtr);
-
-/*
-** ===================================================================
-**     Method      :  AdcLdd2_CancelMeasurement (component ADC_LDD)
-*/
-/*!
-**     @brief
-**         This method cancels the measurement in progress. Typically
-**         the OnMeasurementComplete() event is not invoked for
-**         cancelled measurement. If DMA mode is enabled, DMA request
-**         from ADC is disabled and DMA transfer is cancelled. 
-**     @param
-**         DeviceDataPtr   - Device data structure
-**                           pointer returned by [Init] method.
-**     @return
-**                         - Error code, possible codes:
-**                           ERR_OK - OK
-**                           ERR_SPEED - The device doesn't work in the
-**                           active clock configuration
-**                           ERR_DISABLED - Component is disabled
-*/
-/* ===================================================================*/
-LDD_TError AdcLdd2_CancelMeasurement(LDD_TDeviceData *DeviceDataPtr);
 
 /*
 ** ===================================================================

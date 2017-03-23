@@ -15,6 +15,9 @@
 
 #define HIGH_RES		(1)			// set to 1 to count all Hall sensor ticks, 0 to only count 1 Hall sensor
 
+#define CLAMPING_M1		(1)			// set to 1 to enable clamping on motor 1
+#define CLAMPING_M2		(0)			// set to 1 to enable clamping on motor 2
+
 #include "PE_Types.h"
 
 void Motor_Init();
