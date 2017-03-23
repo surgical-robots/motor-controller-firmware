@@ -129,8 +129,9 @@ int main(void)
 	Motor1_KP = currentConfig->motor1.KP;
 	Motor2_KP = currentConfig->motor2.KP;
 
-	Motor1_Setpoint = currentConfig->motor1.Setpoint;
-	Motor2_Setpoint = currentConfig->motor2.Setpoint;
+	// make setpoint = current position on startup
+	Motor1_Setpoint = currentConfig->motor1.ShaftCounter;
+	Motor2_Setpoint = currentConfig->motor2.ShaftCounter;
 
 	Motor1_ShaftCounter = currentConfig->motor1.ShaftCounter;
 	Motor2_ShaftCounter = currentConfig->motor2.ShaftCounter;

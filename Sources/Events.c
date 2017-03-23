@@ -321,7 +321,8 @@ void UART_OnError(void)
 void M2_HALL3_OnInterrupt(void)
 {
   /* Write your code here ... */
-	//Motor_Motor2_Tach3();
+	if(HIGH_RES)
+		Motor_Motor2_Tach3();
 }
 
 /*
@@ -339,7 +340,8 @@ void M2_HALL3_OnInterrupt(void)
 void M2_HALL2_OnInterrupt(void)
 {
   /* Write your code here ... */
-	//Motor_Motor2_Tach2();
+	if(HIGH_RES)
+		Motor_Motor2_Tach2();
 }
 
 /*
@@ -357,7 +359,8 @@ void M2_HALL2_OnInterrupt(void)
 void M1_HALL3_OnInterrupt(void)
 {
   /* Write your code here ... */
-	//Motor_Motor1_Tach3();
+	if(HIGH_RES)
+		Motor_Motor1_Tach3();
 }
 
 /*
@@ -375,7 +378,8 @@ void M1_HALL3_OnInterrupt(void)
 void M1_HALL2_OnInterrupt(void)
 {
   /* Write your code here ... */
-	//Motor_Motor1_Tach2();
+	if(HIGH_RES)
+		Motor_Motor1_Tach2();
 }
 
 /*

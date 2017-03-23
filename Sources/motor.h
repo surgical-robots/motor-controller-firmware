@@ -7,8 +7,13 @@
 
 #ifndef MOTOR_H_
 #define MOTOR_H_
-#define SHIFT_SIZE		(10000)
-#define SAMPLE_SIZE		(100)
+
+#define SHIFT_SIZE		(10000)		// shift shift to get fixed point math
+#define SAMPLE_SIZE		(100)		// sample size for motor current running average
+#define MAXON			(1)			// set to 1 if using Maxon motors, else 0
+#define FAULHABER		(0)			// set to 1 if using Faulhaber motors, else 0
+
+#define HIGH_RES		(1)			// set to 1 to count all Hall sensor ticks, 0 to only count 1 Hall sensor
 
 #include "PE_Types.h"
 
