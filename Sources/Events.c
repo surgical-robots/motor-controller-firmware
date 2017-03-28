@@ -166,6 +166,89 @@ void FastLoop_OnInterrupt(void)
 
 /*
 ** ===================================================================
+**     Event       :  M1_ANALOG_OnEnd (module Events)
+**
+**     Component   :  M1_ANALOG [ADC]
+**     Description :
+**         This event is called after the measurement (which consists
+**         of <1 or more conversions>) is/are finished.
+**         The event is available only when the <Interrupt
+**         service/event> property is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void M1_ANALOG_OnEnd(void)
+{
+	//uint16_t values[10];
+	//memset(values, 0, 20);
+  /* Write your code here ... */
+	//M1_ANALOG_GetValue(values);
+	M1_ANALOG_GetChanValue16(0, &Motor1_Current);
+}
+
+/*
+** ===================================================================
+**     Event       :  M1_ANALOG_OnCalibrationEnd (module Events)
+**
+**     Component   :  M1_ANALOG [ADC]
+**     Description :
+**         This event is called when the calibration has been finished.
+**         User should check if the calibration pass or fail by
+**         Calibration status method./nThis event is enabled only if
+**         the <Interrupt service/event> property is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void M1_ANALOG_OnCalibrationEnd(void)
+{
+  /* Write your code here ... */
+	  M1_ANALOG_Start();
+}
+
+/*
+** ===================================================================
+**     Event       :  M2_ANALOG_OnEnd (module Events)
+**
+**     Component   :  M2_ANALOG [ADC]
+**     Description :
+**         This event is called after the measurement (which consists
+**         of <1 or more conversions>) is/are finished.
+**         The event is available only when the <Interrupt
+**         service/event> property is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void M2_ANALOG_OnEnd(void)
+{
+  /* Write your code here ... */
+	M2_ANALOG_GetChanValue16(0, &Motor2_Current);
+}
+
+/*
+** ===================================================================
+**     Event       :  M2_ANALOG_OnCalibrationEnd (module Events)
+**
+**     Component   :  M2_ANALOG [ADC]
+**     Description :
+**         This event is called when the calibration has been finished.
+**         User should check if the calibration pass or fail by
+**         Calibration status method./nThis event is enabled only if
+**         the <Interrupt service/event> property is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void M2_ANALOG_OnCalibrationEnd(void)
+{
+  /* Write your code here ... */
+	  M2_ANALOG_Start();
+}
+
+/*
+** ===================================================================
 **     Event       :  M2_HALL1_OnInterrupt (module Events)
 **
 **     Component   :  M2_HALL1 [ExtInt]
@@ -236,7 +319,8 @@ void UART_OnError(void)
 void M2_HALL3_OnInterrupt(void)
 {
   /* Write your code here ... */
-	//Motor_Motor2_Tach3();
+	if(HIGH_RES)
+		Motor_Motor2_Tach3();
 }
 
 /*
@@ -254,7 +338,8 @@ void M2_HALL3_OnInterrupt(void)
 void M2_HALL2_OnInterrupt(void)
 {
   /* Write your code here ... */
-	//Motor_Motor2_Tach2();
+	if(HIGH_RES)
+		Motor_Motor2_Tach2();
 }
 
 /*
@@ -272,7 +357,8 @@ void M2_HALL2_OnInterrupt(void)
 void M1_HALL3_OnInterrupt(void)
 {
   /* Write your code here ... */
-	//Motor_Motor1_Tach3();
+	if(HIGH_RES)
+		Motor_Motor1_Tach3();
 }
 
 /*
@@ -290,7 +376,8 @@ void M1_HALL3_OnInterrupt(void)
 void M1_HALL2_OnInterrupt(void)
 {
   /* Write your code here ... */
-	//Motor_Motor1_Tach2();
+	if(HIGH_RES)
+		Motor_Motor1_Tach2();
 }
 
 /*

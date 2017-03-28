@@ -6,7 +6,7 @@
 **     Component   : ADC
 **     Version     : Component 01.697, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-03-21, 18:55, # CodeGen: 40
+**     Date/Time   : 2017-03-27, 23:00, # CodeGen: 42
 **     Abstract    :
 **         This device "ADC" implements an A/D converter,
 **         its control methods and interrupt/event handling procedure.
@@ -15,13 +15,11 @@
 **          A/D converter                                  : ADC0
 **          Sharing                                        : Disabled
 **          ADC_LDD                                        : ADC_LDD
-**          Interrupt service/event                        : Disabled
-**          A/D channels                                   : 2
+**          Interrupt service/event                        : Enabled
+**            A/D interrupt                                : INT_ADC0
+**            A/D interrupt priority                       : medium priority
+**          A/D channels                                   : 1
 **            Channel0                                     : 
-**              A/D channel (pin)                          : POT2
-**              A/D channel (pin) signal                   : 
-**              Mode select                                : Single Ended
-**            Channel1                                     : 
 **              A/D channel (pin)                          : M2_ADC
 **              A/D channel (pin) signal                   : 
 **              Mode select                                : Single Ended
@@ -45,6 +43,7 @@
 **          Get value directly                             : yes
 **          Wait for result                                : yes
 **     Contents    :
+**         Start          - byte M2_ANALOG_Start(void);
 **         Measure        - byte M2_ANALOG_Measure(bool WaitForResult);
 **         MeasureChan    - byte M2_ANALOG_MeasureChan(bool WaitForResult, byte Channel);
 **         GetValue       - byte M2_ANALOG_GetValue(void* Values);
@@ -121,18 +120,7 @@ extern "C" {
 
 
 
-#define M2_ANALOG_SAMPLE_GROUP_SIZE 2U
-static void M2_ANALOG_MainMeasure(void);
-/*
-** ===================================================================
-**     Method      :  MainMeasure (component ADC)
-**
-**     Description :
-**         The method performs the conversion of the input channels in 
-**         the polling mode.
-**         This method is internal. It is used by Processor Expert only.
-** ===================================================================
-*/
+#define M2_ANALOG_SAMPLE_GROUP_SIZE 1U
 void M2_ANALOG_HWEnDi(void);
 /*
 ** ===================================================================
@@ -146,8 +134,33 @@ void M2_ANALOG_HWEnDi(void);
 ** ===================================================================
 */
 
-#define M2_ANALOG_Measure(W) PE_M2_ANALOG_Measure()
-byte PE_M2_ANALOG_Measure(void);
+byte M2_ANALOG_Start(void);
+/*
+** ===================================================================
+**     Method      :  M2_ANALOG_Start (component ADC)
+*/
+/*!
+**     @brief
+**         This method starts continuous conversion on all channels
+**         that are set in the component inspector. When each
+**         measurement on all channels has finished the [OnEnd ] event
+**         may be invoked. This method is not available if the
+**         [interrupt service] is disabled and the device doesn't
+**         support the continuous mode. Note: If time of measurement is
+**         too short and the instruction clock is too slow then the
+**         conversion complete interrupt and its handler may cause a
+**         system overflow.
+**     @return
+**                         - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - This device does not work in
+**                           the active speed mode
+**                           ERR_DISABLED - Device is disabled
+**                           ERR_BUSY - A conversion is already running
+*/
+/* ===================================================================*/
+
+byte M2_ANALOG_Measure(bool WaitForResult);
 /*
 ** ===================================================================
 **     Method      :  M2_ANALOG_Measure (component ADC)
@@ -182,8 +195,8 @@ byte PE_M2_ANALOG_Measure(void);
 */
 /* ===================================================================*/
 
-#define M2_ANALOG_MeasureChan(W,Ch) PE_M2_ANALOG_MeasureChan(Ch)
-byte PE_M2_ANALOG_MeasureChan(byte Channel);
+#define M2_ANALOG_MeasureChan(W,Ch) PE_M2_ANALOG_MeasureChan(W)
+byte PE_M2_ANALOG_MeasureChan(bool WaitForResult);
 /*
 ** ===================================================================
 **     Method      :  M2_ANALOG_MeasureChan (component ADC)
@@ -248,7 +261,8 @@ byte M2_ANALOG_GetValue(void* Values);
 */
 /* ===================================================================*/
 
-byte M2_ANALOG_GetChanValue(byte Channel, void* Value);
+#define M2_ANALOG_GetChanValue(Ch,V) PE_M2_ANALOG_GetChanValue(V)
+byte PE_M2_ANALOG_GetChanValue(void* Value);
 /*
 ** ===================================================================
 **     Method      :  M2_ANALOG_GetChanValue (component ADC)
@@ -316,7 +330,8 @@ byte M2_ANALOG_GetValue16(word *Values);
 */
 /* ===================================================================*/
 
-byte M2_ANALOG_GetChanValue16(byte Channel, word *Value);
+#define M2_ANALOG_GetChanValue16(Ch,V) PE_M2_ANALOG_GetChanValue16(V)
+byte PE_M2_ANALOG_GetChanValue16(word *Value);
 /*
 ** ===================================================================
 **     Method      :  M2_ANALOG_GetChanValue16 (component ADC)
@@ -352,8 +367,7 @@ byte M2_ANALOG_GetChanValue16(byte Channel, word *Value);
 */
 /* ===================================================================*/
 
-#define M2_ANALOG_Calibrate(W) PE_M2_ANALOG_Calibrate()
-byte PE_M2_ANALOG_Calibrate(void);
+byte M2_ANALOG_Calibrate(bool WaitForResult);
 /*
 ** ===================================================================
 **     Method      :  M2_ANALOG_Calibrate (component ADC)
@@ -379,6 +393,8 @@ byte PE_M2_ANALOG_Calibrate(void);
 **                           finished correctly
 ** ===================================================================
 */
+
+void AdcLdd1_OnMeasurementComplete(LDD_TUserData *UserDataPtr);
 
 void M2_ANALOG_Init(void);
 /*
