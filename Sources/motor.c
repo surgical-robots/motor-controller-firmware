@@ -26,12 +26,15 @@
 int32 maxVal = 255;
 int i = 0;
 int j = 0;
+int controlLoopCount = 0;
 bool m1_dir, m2_dir;
 int32 m1_error, m2_error, m1_lastpos, m2_lastpos, ki, kd, m1_p, m1_i, m1_d,
-		m2_p, m2_i, m2_d, m1_output, m2_output;
+		m2_p, m2_i, m2_d, m1_output, m2_output, m1_desiredCurrent, m2_desiredCurrent;
 
-uint16 m1_deadband = 0;
-uint16 m2_deadband = 30;
+int currentKP = 500;
+
+uint16 m1_deadband = 1;
+uint16 m2_deadband = 1;
 
 int32 Motor1_Velocity, Motor2_Velocity, Motor1_AvgVelocity, Motor2_AvgVelocity, oldAvgVelocity;
 bool moving;
@@ -266,32 +269,44 @@ void Motor_Update() {
 
 		if (Motor1_ControlMode != MotorControlModeReserved && Motor1_ControlMode != MotorControlModeJog) {
 
-//			m1_error = Motor1_Setpoint - Motor1_Position;
-			m1_error = Motor1_Setpoint - Motor1_Current;
+			if(controlLoopCount++ >= 10)
+			{
+				m1_error = Motor1_Setpoint - Motor1_Position;
 
-			m1_p = Motor1_KP * m1_error / SHIFT_SIZE;
-//			m1_i += ki * m1_error;
-//			m1_d = kd * (Motor1_Position - m1_lastpos);
+				m1_p = Motor1_KP * m1_error / SHIFT_SIZE;
+				m1_i += ki * m1_error;
+				m1_d = kd * (Motor1_Position - m1_lastpos);
 
-//			m1_output = m1_p + m1_i + m1_d;
+				m1_desiredCurrent = m1_p + m1_i + m1_d;
+
+				if (m1_error > 0) {
+					m1_dir = 1;
+				} else {
+					m1_dir = 0;
+					m1_desiredCurrent = -m1_desiredCurrent;
+				}
+				M1_DIR_PutVal(m1_dir);
+
+				m1_desiredCurrent += Motor1_SpeedMin;
+
+				if (abs(m1_error) < m1_deadband)
+					m1_desiredCurrent = 0;
+				else if(m1_desiredCurrent > Motor1_CurrentMax)
+					m1_desiredCurrent = Motor1_CurrentMax;
+
+				controlLoopCount = 0;
+			}
+
+			m1_error = m1_desiredCurrent - Motor1_Current;
+
+			m1_p = currentKP * m1_error / SHIFT_SIZE;
+
 			m1_output += m1_p;
-
-//			if (m1_error > 0) {
-//				m1_dir = 1;
-//			} else {
-//				m1_dir = 0;
-//				m1_output = -m1_output;
-//			}
-			m1_dir = 0;
-
-//			m1_output += Motor1_SpeedMin;
 
 			if(m1_output > 255)
 				m1_output = 255;
 			else if(m1_output < 0)
 				m1_output = 0;
-
-			M1_DIR_PutVal(m1_dir);
 
 			if(CLAMPING_M1 && !moving)
 			{
@@ -312,7 +327,7 @@ void Motor_Update() {
 				else
 					M1_EN_SetRatio8(Motor1_LimitedSpeed);
 			}
-			else if (abs(m1_error) < m1_deadband)
+			else if (m1_desiredCurrent == 0)
 			{
 				m1_clamp = FALSE;
 				m1_output = 0;
