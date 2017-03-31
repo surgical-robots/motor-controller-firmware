@@ -30,7 +30,7 @@ bool m1_dir, m2_dir;
 int32 m1_error, m2_error, m1_lastpos, m2_lastpos, ki, kd, m1_p, m1_i, m1_d,
 		m2_p, m2_i, m2_d, m1_output, m2_output;
 
-uint16 m1_deadband = 30;
+uint16 m1_deadband = 0;
 uint16 m2_deadband = 30;
 
 int32 Motor1_Velocity, Motor2_Velocity, Motor1_AvgVelocity, Motor2_AvgVelocity, oldAvgVelocity;

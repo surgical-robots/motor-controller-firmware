@@ -166,9 +166,9 @@ void FastLoop_OnInterrupt(void)
 
 /*
 ** ===================================================================
-**     Event       :  M1_ANALOG_OnEnd (module Events)
+**     Event       :  ADC1_OnEnd (module Events)
 **
-**     Component   :  M1_ANALOG [ADC]
+**     Component   :  ADC1 [ADC]
 **     Description :
 **         This event is called after the measurement (which consists
 **         of <1 or more conversions>) is/are finished.
@@ -178,20 +178,20 @@ void FastLoop_OnInterrupt(void)
 **     Returns     : Nothing
 ** ===================================================================
 */
-void M1_ANALOG_OnEnd(void)
+void ADC1_OnEnd(void)
 {
 	//uint16_t values[10];
 	//memset(values, 0, 20);
   /* Write your code here ... */
-	//M1_ANALOG_GetValue(values);
-	M1_ANALOG_GetChanValue16(0, &Motor1_Current);
+	//ADC1_GetValue(values);
+	//ADC1_GetChanValue16(0, &Motor1_Current);
 }
 
 /*
 ** ===================================================================
-**     Event       :  M1_ANALOG_OnCalibrationEnd (module Events)
+**     Event       :  ADC1_OnCalibrationEnd (module Events)
 **
-**     Component   :  M1_ANALOG [ADC]
+**     Component   :  ADC1 [ADC]
 **     Description :
 **         This event is called when the calibration has been finished.
 **         User should check if the calibration pass or fail by
@@ -201,17 +201,17 @@ void M1_ANALOG_OnEnd(void)
 **     Returns     : Nothing
 ** ===================================================================
 */
-void M1_ANALOG_OnCalibrationEnd(void)
+void ADC1_OnCalibrationEnd(void)
 {
   /* Write your code here ... */
-	  M1_ANALOG_Start();
+	  ADC1_Start();
 }
 
 /*
 ** ===================================================================
-**     Event       :  M2_ANALOG_OnEnd (module Events)
+**     Event       :  ADC0_OnEnd (module Events)
 **
-**     Component   :  M2_ANALOG [ADC]
+**     Component   :  ADC0 [ADC]
 **     Description :
 **         This event is called after the measurement (which consists
 **         of <1 or more conversions>) is/are finished.
@@ -221,17 +221,17 @@ void M1_ANALOG_OnCalibrationEnd(void)
 **     Returns     : Nothing
 ** ===================================================================
 */
-void M2_ANALOG_OnEnd(void)
+void ADC0_OnEnd(void)
 {
   /* Write your code here ... */
-	M2_ANALOG_GetChanValue16(0, &Motor2_Current);
+	ADC0_GetChanValue16(1, &Motor1_Current);
 }
 
 /*
 ** ===================================================================
-**     Event       :  M2_ANALOG_OnCalibrationEnd (module Events)
+**     Event       :  ADC0_OnCalibrationEnd (module Events)
 **
-**     Component   :  M2_ANALOG [ADC]
+**     Component   :  ADC0 [ADC]
 **     Description :
 **         This event is called when the calibration has been finished.
 **         User should check if the calibration pass or fail by
@@ -241,10 +241,10 @@ void M2_ANALOG_OnEnd(void)
 **     Returns     : Nothing
 ** ===================================================================
 */
-void M2_ANALOG_OnCalibrationEnd(void)
+void ADC0_OnCalibrationEnd(void)
 {
   /* Write your code here ... */
-	  M2_ANALOG_Start();
+	  ADC0_Start();
 }
 
 /*

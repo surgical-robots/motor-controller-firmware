@@ -38,9 +38,9 @@
 #include "M2_EN.h"
 #include "PwmLdd1.h"
 #include "Cpu.h"
-#include "M2_ANALOG.h"
+#include "ADC0.h"
 #include "AdcLdd1.h"
-#include "M1_ANALOG.h"
+#include "ADC1.h"
 #include "AdcLdd2.h"
 #include "M1_DIR.h"
 #include "BitIoLdd1.h"
@@ -171,12 +171,12 @@ void M2_TACHO_OnInterrupt(void);
 ** ===================================================================
 */
 
-void M1_ANALOG_TACHO_OnInterrupt(void);
+void ADC1_TACHO_OnInterrupt(void);
 /*
 ** ===================================================================
-**     Event       :  M1_ANALOG_TACHO_OnInterrupt (module Events)
+**     Event       :  ADC1_TACHO_OnInterrupt (module Events)
 **
-**     Component   :  M1_ANALOG_TACHO [ExtInt]
+**     Component   :  ADC1_TACHO [ExtInt]
 **     Description :
 **         This event is called when an active signal edge/level has
 **         occurred.
@@ -233,12 +233,12 @@ void POT2_OnEnd(void);
 ** ===================================================================
 */
 
-void M1_ANALOG_OnEnd(void);
+void ADC1_OnEnd(void);
 /*
 ** ===================================================================
-**     Event       :  M1_ANALOG_OnEnd (module Events)
+**     Event       :  ADC1_OnEnd (module Events)
 **
-**     Component   :  M1_ANALOG [ADC]
+**     Component   :  ADC1 [ADC]
 **     Description :
 **         This event is called after the measurement (which consists
 **         of <1 or more conversions>) is/are finished.
@@ -249,12 +249,12 @@ void M1_ANALOG_OnEnd(void);
 ** ===================================================================
 */
 
-void M1_ANALOG_OnCalibrationEnd(void);
+void ADC1_OnCalibrationEnd(void);
 /*
 ** ===================================================================
-**     Event       :  M1_ANALOG_OnCalibrationEnd (module Events)
+**     Event       :  ADC1_OnCalibrationEnd (module Events)
 **
-**     Component   :  M1_ANALOG [ADC]
+**     Component   :  ADC1 [ADC]
 **     Description :
 **         This event is called when the calibration has been finished.
 **         User should check if the calibration pass or fail by
@@ -265,12 +265,12 @@ void M1_ANALOG_OnCalibrationEnd(void);
 ** ===================================================================
 */
 
-void M2_ANALOG_OnEnd(void);
+void ADC0_OnEnd(void);
 /*
 ** ===================================================================
-**     Event       :  M2_ANALOG_OnEnd (module Events)
+**     Event       :  ADC0_OnEnd (module Events)
 **
-**     Component   :  M2_ANALOG [ADC]
+**     Component   :  ADC0 [ADC]
 **     Description :
 **         This event is called after the measurement (which consists
 **         of <1 or more conversions>) is/are finished.
@@ -281,12 +281,12 @@ void M2_ANALOG_OnEnd(void);
 ** ===================================================================
 */
 
-void M2_ANALOG_OnCalibrationEnd(void);
+void ADC0_OnCalibrationEnd(void);
 /*
 ** ===================================================================
-**     Event       :  M2_ANALOG_OnCalibrationEnd (module Events)
+**     Event       :  ADC0_OnCalibrationEnd (module Events)
 **
-**     Component   :  M2_ANALOG [ADC]
+**     Component   :  ADC0 [ADC]
 **     Description :
 **         This event is called when the calibration has been finished.
 **         User should check if the calibration pass or fail by

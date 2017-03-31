@@ -34,9 +34,9 @@
 #include "M2_EN.h"
 #include "PwmLdd1.h"
 #include "Cpu.h"
-#include "M2_ANALOG.h"
+#include "ADC0.h"
 #include "AdcLdd1.h"
-#include "M1_ANALOG.h"
+#include "ADC1.h"
 #include "AdcLdd2.h"
 #include "M1_DIR.h"
 #include "BitIoLdd1.h"
@@ -117,9 +117,9 @@ int main(void)
 	GetCurrent = TRUE;
 
 	// Initialize the FRAM
-	Fram_init();
-
-	Fram_recall();
+//	Fram_init();
+//
+//	Fram_recall();
 
 	Config_t* currentConfig = Fram_getCurrent();
 
@@ -164,8 +164,8 @@ int main(void)
     Command_Init();
     // Start calibration of the ADC.
     // Once calibration is finished, CalibrationEnd will start continuous conversion.
-    M1_ANALOG_Calibrate(0);
-    M2_ANALOG_Calibrate(0);
+    ADC1_Calibrate(0);
+    ADC0_Calibrate(0);
 
   int SlowLoopCounter=0;
 
