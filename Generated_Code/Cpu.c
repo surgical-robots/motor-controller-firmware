@@ -7,7 +7,7 @@
 **     Version     : Component 01.036, Driver 01.00, CPU db: 3.50.001
 **     Datasheet   : KV10P48M75RM Rev.2, July 2013
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-03-23, 14:11, # CodeGen: 42
+**     Date/Time   : 2017-04-03, 22:15, # CodeGen: 49
 **     Abstract    :
 **
 **     Settings    :
@@ -206,6 +206,7 @@ PE_ISR(Cpu_ivINT_PORTA)
     ExtIntLdd1_Interrupt();              /* Call the service routine */
     ExtIntLdd2_Interrupt();              /* Call the service routine */
     ExtIntLdd4_Interrupt();              /* Call the service routine */
+    ExtIntLdd3_Interrupt();              /* Call the service routine */
 }
 
 /*
@@ -222,7 +223,6 @@ PE_ISR(Cpu_ivINT_PORTBCDE)
 {
     ExtIntLdd6_Interrupt();              /* Call the service routine */
     ExtIntLdd5_Interrupt();              /* Call the service routine */
-    ExtIntLdd3_Interrupt();              /* Call the service routine */
 }
 
 /*

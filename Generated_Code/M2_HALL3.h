@@ -6,7 +6,7 @@
 **     Component   : ExtInt
 **     Version     : Component 02.105, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-03-23, 14:11, # CodeGen: 42
+**     Date/Time   : 2017-04-03, 22:15, # CodeGen: 49
 **     Abstract    :
 **         This component "ExtInt" implements an external 
 **         interrupt, its control methods and interrupt/event 
@@ -14,20 +14,20 @@
 **         The component uses one pin which generates interrupt on 
 **         selected edge.
 **     Settings    :
-**         Interrupt name              : INT_PORTBCDE
+**         Interrupt name              : INT_PORTA
 **         User handling procedure     : M2_HALL3_OnInterrupt
 **
 **         Used pin                    :
 **             ----------------------------------------------------
 **                Number (on package)  |    Name
 **             ----------------------------------------------------
-**                       30            |  ADC0_SE3/PTD5/SPI0_PCS2/UART0_CTS_b/FTM0_CH5/FTM2_CH1/EWM_OUT_b
+**                       14            |  PTA2/UART0_TX/FTM2_CH1/CMP1_OUT/FTM2_QD_PHB/FTM1_CH0
 **             ----------------------------------------------------
 **
-**         Port name                   : GPIOD
+**         Port name                   : GPIOA
 **
-**         Bit number (in port)        : 5
-**         Bit mask of the port        : 0x0020
+**         Bit number (in port)        : 2
+**         Bit mask of the port        : 0x0004
 **
 **         Signal edge/level           : both
 **         Priority                    : 0
@@ -35,8 +35,8 @@
 **         Initial state               : Enabled
 **
 **
-**         Port data register          : GPIOD_PDOR [0x400FF0C0]
-**         Port control register       : GPIOD_PDDR [0x400FF0D4]
+**         Port data register          : GPIOA_PDOR [0x400FF000]
+**         Port control register       : GPIOA_PDDR [0x400FF014]
 **     Contents    :
 **         GetVal - bool M2_HALL3_GetVal(void);
 **

@@ -6,7 +6,7 @@
 **     Component   : ExtInt_LDD
 **     Version     : Component 02.156, Driver 01.02, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-03-23, 14:11, # CodeGen: 42
+**     Date/Time   : 2017-04-03, 22:15, # CodeGen: 49
 **     Abstract    :
 **         This component, "ExtInt_LDD", provide a low level API 
 **         for unified access of external interrupts handling
@@ -18,9 +18,9 @@
 **          Pin                                            : M2_HALL3
 **          Pin signal                                     : 
 **          Generate interrupt on                          : both edges
-**          Interrupt                                      : INT_PORTBCDE
+**          Interrupt                                      : INT_PORTA
 **          Interrupt priority                             : maximal priority
-**          ISR Name                                       : Cpu_ivINT_PORTBCDE
+**          ISR Name                                       : Cpu_ivINT_PORTA
 **          Initialization                                 : 
 **            Enabled in init. code                        : yes
 **            Auto initialization                          : yes
@@ -92,7 +92,7 @@ typedef struct {
 /* {Default RTOS Adapter} Static object used for simulation of dynamic driver memory allocation */
 static ExtIntLdd3_TDeviceData DeviceDataPrv__DEFAULT_RTOS_ALLOC;
 /* {Default RTOS Adapter} Global variable used for passing a parameter into ISR */
-static ExtIntLdd3_TDeviceData * INT_PORTBCDE__DEFAULT_RTOS_ISRPARAM;
+static ExtIntLdd3_TDeviceData * INT_PORTA__DEFAULT_RTOS_ISRPARAM;
 
 /*
 ** ===================================================================
@@ -124,29 +124,29 @@ LDD_TDeviceData* ExtIntLdd3_Init(LDD_TUserData *UserDataPtr)
   DeviceDataPrv->UserData = UserDataPtr;
   /* Interrupt vector(s) allocation */
   /* {Default RTOS Adapter} Set interrupt vector: IVT is static, ISR parameter is passed by the global variable */
-  INT_PORTBCDE__DEFAULT_RTOS_ISRPARAM = DeviceDataPrv;
+  INT_PORTA__DEFAULT_RTOS_ISRPARAM = DeviceDataPrv;
   /* Enable device clock gate */
-  /* SIM_SCGC5: PORTD=1 */
-  SIM_SCGC5 |= SIM_SCGC5_PORTD_MASK;
+  /* SIM_SCGC5: PORTA=1 */
+  SIM_SCGC5 |= SIM_SCGC5_PORTA_MASK;
   /* Initialization of pin routing */
-  /* PORTD_PCR5: ISF=0,MUX=1 */
-  PORTD_PCR5 = (uint32_t)((PORTD_PCR5 & (uint32_t)~(uint32_t)(
+  /* PORTA_PCR2: ISF=0,MUX=1 */
+  PORTA_PCR2 = (uint32_t)((PORTA_PCR2 & (uint32_t)~(uint32_t)(
                 PORT_PCR_ISF_MASK |
                 PORT_PCR_MUX(0x06)
                )) | (uint32_t)(
                 PORT_PCR_MUX(0x01)
                ));
-  /* PORTD_PCR5: ISF=1,IRQC=0x0B */
-  PORTD_PCR5 = (uint32_t)((PORTD_PCR5 & (uint32_t)~(uint32_t)(
+  /* PORTA_PCR2: ISF=1,IRQC=0x0B */
+  PORTA_PCR2 = (uint32_t)((PORTA_PCR2 & (uint32_t)~(uint32_t)(
                 PORT_PCR_IRQC(0x04)
                )) | (uint32_t)(
                 PORT_PCR_ISF_MASK |
                 PORT_PCR_IRQC(0x0B)
                ));
-  /* NVIC_IPR7: PRI_31=0 */
-  NVIC_IPR7 &= (uint32_t)~(uint32_t)(NVIC_IP_PRI_31(0x03));
-  /* NVIC_ISER: SETENA31=1,SETENA30=0,SETENA29=0,SETENA28=0,SETENA27=0,SETENA26=0,SETENA25=0,SETENA24=0,SETENA23=0,SETENA22=0,SETENA21=0,SETENA20=0,SETENA19=0,SETENA18=0,SETENA17=0,SETENA16=0,SETENA15=0,SETENA14=0,SETENA13=0,SETENA12=0,SETENA11=0,SETENA10=0,SETENA9=0,SETENA8=0,SETENA7=0,SETENA6=0,SETENA5=0,SETENA4=0,SETENA3=0,SETENA2=0,SETENA1=0,SETENA0=0 */
-  NVIC_ISER = NVIC_ISER_SETENA31_MASK;
+  /* NVIC_IPR7: PRI_30=0 */
+  NVIC_IPR7 &= (uint32_t)~(uint32_t)(NVIC_IP_PRI_30(0x03));
+  /* NVIC_ISER: SETENA31=0,SETENA30=1,SETENA29=0,SETENA28=0,SETENA27=0,SETENA26=0,SETENA25=0,SETENA24=0,SETENA23=0,SETENA22=0,SETENA21=0,SETENA20=0,SETENA19=0,SETENA18=0,SETENA17=0,SETENA16=0,SETENA15=0,SETENA14=0,SETENA13=0,SETENA12=0,SETENA11=0,SETENA10=0,SETENA9=0,SETENA8=0,SETENA7=0,SETENA6=0,SETENA5=0,SETENA4=0,SETENA3=0,SETENA2=0,SETENA1=0,SETENA0=0 */
+  NVIC_ISER = NVIC_ISER_SETENA30_MASK;
   /* NVIC_ICER: CLRENA31=0,CLRENA30=0,CLRENA29=0,CLRENA28=0,CLRENA27=0,CLRENA26=0,CLRENA25=0,CLRENA24=0,CLRENA23=0,CLRENA22=0,CLRENA21=0,CLRENA20=0,CLRENA19=0,CLRENA18=0,CLRENA17=0,CLRENA16=0,CLRENA15=0,CLRENA14=0,CLRENA13=0,CLRENA12=0,CLRENA11=0,CLRENA10=0,CLRENA9=0,CLRENA8=0,CLRENA7=0,CLRENA6=0,CLRENA5=0,CLRENA4=0,CLRENA3=0,CLRENA2=0,CLRENA1=0,CLRENA0=0 */
   NVIC_ICER = 0x00U;
   /* Registration of the device structure */
@@ -167,12 +167,12 @@ LDD_TDeviceData* ExtIntLdd3_Init(LDD_TUserData *UserDataPtr)
 void ExtIntLdd3_Interrupt(void)
 {
   /* {Default RTOS Adapter} ISR parameter is passed through the global variable */
-  ExtIntLdd3_TDeviceDataPtr DeviceDataPrv = INT_PORTBCDE__DEFAULT_RTOS_ISRPARAM;
+  ExtIntLdd3_TDeviceDataPtr DeviceDataPrv = INT_PORTA__DEFAULT_RTOS_ISRPARAM;
 
   /* Check the pin interrupt flag of the shared interrupt */
-  if (PORT_PDD_GetPinInterruptFlag(PORTD_BASE_PTR, ExtIntLdd3_PIN_INDEX)) {
+  if (PORT_PDD_GetPinInterruptFlag(PORTA_BASE_PTR, ExtIntLdd3_PIN_INDEX)) {
     /* Clear the interrupt flag */
-    PORT_PDD_ClearPinInterruptFlag(PORTD_BASE_PTR, ExtIntLdd3_PIN_INDEX);
+    PORT_PDD_ClearPinInterruptFlag(PORTA_BASE_PTR, ExtIntLdd3_PIN_INDEX);
     /* Call OnInterrupt event */
     ExtIntLdd3_OnInterrupt(DeviceDataPrv->UserData);
   }
@@ -197,7 +197,7 @@ void ExtIntLdd3_Interrupt(void)
 bool ExtIntLdd3_GetVal(LDD_TDeviceData *DeviceDataPtr)
 {
   (void)DeviceDataPtr;                 /* Parameter is not used, suppress unused argument warning */
-  if ((GPIO_PDD_GetPortDataInput(GPIOD_BASE_PTR) & ExtIntLdd3_PIN_MASK) != 0U) {
+  if ((GPIO_PDD_GetPortDataInput(GPIOA_BASE_PTR) & ExtIntLdd3_PIN_MASK) != 0U) {
     return TRUE;
   } else {
     return FALSE;

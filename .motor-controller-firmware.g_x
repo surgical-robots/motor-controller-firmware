@@ -18,7 +18,7 @@
       <File Name="Documentation/doxygen/BitIoLdd7_component.txt" FileDate="2017-03-23, 14:12:02" FileAge="1490296322376" FileType="45637" CompNumb="45" />
       <File Name="Documentation/doxygen/ExtIntLdd2_component.txt" FileDate="2017-03-23, 14:12:02" FileAge="1490296322328" FileType="45637" CompNumb="39" />
       <File Name="Generated_Code/BitIoLdd2.h" FileDate="2017-02-16, 16:09:25" FileAge="1487282965122" FileType="45637" CompNumb="28" />
-      <File Name="Documentation/doxygen/ExtIntLdd5_component.txt" FileDate="2017-03-23, 14:12:02" FileAge="1490296322303" FileType="45637" CompNumb="91" />
+      <File Name="Documentation/doxygen/ExtIntLdd5_component.txt" FileDate="2017-04-03, 22:15:43" FileAge="1491275743418" FileType="45637" CompNumb="91" />
       <File Name="Generated_Code/BitIoLdd2.c" FileDate="2017-02-16, 16:09:25" FileAge="1487282965071" FileType="45637" CompNumb="28" />
       <File Name="Generated_Code/DacLdd1.h" FileDate="2017-02-18, 12:24:33" FileAge="1487442273828" FileType="45637" CompNumb="99" />
       <File Name="Documentation/doxygen/IntI2cLdd1_component.txt" FileDate="2017-03-23, 14:12:02" FileAge="1490296322439" FileType="45637" CompNumb="75" />
@@ -52,7 +52,7 @@
       <File Name="Generated_Code/TU2.c" FileDate="2017-02-16, 16:09:28" FileAge="1487282968822" FileType="45637" CompNumb="52" />
       <File Name="Sources/Events.h" FileDate="2017-03-13, 20:49:01" FileAge="1489456141627" FileType="131328" />
       <File Name="Documentation/doxygen/AdcLdd1_component.txt" FileDate="2017-03-23, 14:12:02" FileAge="1490296322136" FileType="45637" CompNumb="20" />
-      <File Name="Sources/Events.c" FileDate="2017-03-23, 13:58:51" FileAge="1490295531515" FileType="131328" />
+      <File Name="Sources/Events.c" FileDate="2017-03-23, 15:55:03" FileAge="1490302503666" FileType="131328" />
       <File Name="Generated_Code/Vectors_Config.h" FileDate="2017-03-23, 14:12:02" FileAge="1490296322497" FileType="45637" CompNumb="8" />
       <File Name="Static_Code/PDD/MCG_PDD.h" FileDate="2013-12-12, 14:59:44" FileAge="1386881984000" FileType="262144" />
       <File Name="Sources/main.c" FileDate="2017-03-23, 14:09:46" FileAge="1490296186359" FileType="128" />
@@ -61,7 +61,7 @@
       <File Name="Static_Code/PDD/PDD_Types.h" FileDate="2013-09-23, 14:52:22" FileAge="1379965942000" FileType="262144" />
       <File Name="Generated_Code/LED_GREEN.c" FileDate="2017-02-16, 16:09:26" FileAge="1487282966526" FileType="45637" CompNumb="46" />
       <File Name="Documentation/doxygen/pex.doxyfile" FileDate="2017-02-05, 17:15:19" FileAge="1486336519919" FileType="45637" CompNumb="8" />
-      <File Name="Documentation/doxygen/BitIoLdd8_component.txt" FileDate="2017-03-23, 14:12:02" FileAge="1490296322383" FileType="45637" CompNumb="47" />
+      <File Name="Documentation/doxygen/BitIoLdd8_component.txt" FileDate="2017-04-03, 22:15:43" FileAge="1491275743444" FileType="45637" CompNumb="47" />
       <File Name="Generated_Code/M2_HALL2.h" FileDate="2017-02-18, 12:24:34" FileAge="1487442274165" FileType="45637" CompNumb="88" />
       <File Name="Generated_Code/PwmLdd1.h" FileDate="2017-02-18, 12:24:34" FileAge="1487442274239" FileType="45637" CompNumb="12" />
       <File Name="Generated_Code/M2_HALL2.c" FileDate="2017-02-18, 12:24:34" FileAge="1487442274145" FileType="45637" CompNumb="88" />
@@ -70,7 +70,7 @@
       <File Name="Documentation/doxygen/ExtIntLdd6_component.txt" FileDate="2017-03-23, 14:12:02" FileAge="1490296322250" FileType="45637" CompNumb="93" />
       <File Name="Static_Code/PDD/LLWU_PDD.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
       <File Name="Generated_Code/PMC_Config.h" FileDate="2017-03-13, 20:49:01" FileAge="1489456141604" FileType="45637" CompNumb="104" />
-      <File Name="Documentation/doxygen/ASerialLdd1_component.txt" FileDate="2017-02-17, 13:31:11" FileAge="1487359871480" FileType="45637" CompNumb="16" />
+      <File Name="Documentation/doxygen/ASerialLdd1_component.txt" FileDate="2017-04-03, 21:52:30" FileAge="1491274350990" FileType="45637" CompNumb="16" />
       <File Name="Generated_Code/PE_Const.h" FileDate="2017-02-16, 16:09:27" FileAge="1487282967775" FileType="45637" />
       <File Name="Static_Code/PDD/I2C_PDD.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
       <File Name="Static_Code/System/PDD_Includes.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
@@ -78,25 +78,25 @@
       <File Name="Static_Code/PDD/SCB_PDD.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
       <File Name="Generated_Code/PE_Types.h" FileDate="2017-03-13, 20:49:01" FileAge="1489456141602" FileType="45637" />
       <File Name="Static_Code/PDD/PMC_PDD.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
-      <File Name="Documentation/doxygen/ExtIntLdd3_component.txt" FileDate="2017-03-23, 14:12:02" FileAge="1490296322355" FileType="45637" CompNumb="87" />
-      <File Name="Generated_Code/ASerialLdd1.h" FileDate="2017-02-16, 16:09:24" FileAge="1487282964903" FileType="45637" CompNumb="16" />
+      <File Name="Documentation/doxygen/ExtIntLdd3_component.txt" FileDate="2017-04-03, 22:15:43" FileAge="1491275743438" FileType="45637" CompNumb="87" />
+      <File Name="Generated_Code/ASerialLdd1.h" FileDate="2017-04-03, 21:52:30" FileAge="1491274350834" FileType="45637" CompNumb="16" />
       <File Name="Documentation/doxygen/PwmLdd2_component.txt" FileDate="2017-02-17, 13:29:58" FileAge="1487359798397" FileType="45637" CompNumb="18" />
       <File Name="Generated_Code/VREF.h" FileDate="2017-02-18, 12:24:34" FileAge="1487442274346" FileType="45637" CompNumb="98" />
       <File Name="Static_Code/System/Peripherals_Init.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
-      <File Name="Generated_Code/ASerialLdd1.c" FileDate="2017-02-16, 16:09:24" FileAge="1487282964852" FileType="45637" CompNumb="16" />
+      <File Name="Generated_Code/ASerialLdd1.c" FileDate="2017-04-03, 21:52:30" FileAge="1491274350858" FileType="45637" CompNumb="16" />
       <File Name="Generated_Code/VREF.c" FileDate="2017-02-18, 12:24:34" FileAge="1487442274310" FileType="45637" CompNumb="98" />
-      <File Name="Generated_Code/ExtIntLdd5.h" FileDate="2017-03-23, 14:12:02" FileAge="1490296322269" FileType="45637" CompNumb="91" />
+      <File Name="Generated_Code/ExtIntLdd5.h" FileDate="2017-04-03, 22:15:43" FileAge="1491275743384" FileType="45637" CompNumb="91" />
       <File Name="Static_Code/System/Peripherals_Init.c" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
       <File Name="Generated_Code/M1_EN.h" FileDate="2017-02-18, 12:24:34" FileAge="1487442274018" FileType="45637" CompNumb="17" />
       <File Name="Generated_Code/SlowLoop.h" FileDate="2017-02-16, 16:09:28" FileAge="1487282968421" FileType="45637" CompNumb="53" />
-      <File Name="Generated_Code/ExtIntLdd5.c" FileDate="2017-03-23, 14:12:02" FileAge="1490296322294" FileType="45637" CompNumb="91" />
-      <File Name="Generated_Code/ExtIntLdd3.h" FileDate="2017-03-23, 14:12:02" FileAge="1490296322342" FileType="45637" CompNumb="87" />
+      <File Name="Generated_Code/ExtIntLdd5.c" FileDate="2017-04-03, 22:15:43" FileAge="1491275743403" FileType="45637" CompNumb="91" />
+      <File Name="Generated_Code/ExtIntLdd3.h" FileDate="2017-04-03, 22:15:43" FileAge="1491275743426" FileType="45637" CompNumb="87" />
       <File Name="Generated_Code/M1_EN.c" FileDate="2017-02-18, 12:24:34" FileAge="1487442274013" FileType="45637" CompNumb="17" />
       <File Name="Generated_Code/M1_ANALOG.h" FileDate="2017-03-23, 14:12:02" FileAge="1490296322197" FileType="45637" CompNumb="21" />
       <File Name="Generated_Code/AdcLdd2.h" FileDate="2017-03-23, 14:12:02" FileAge="1490296322156" FileType="45637" CompNumb="22" />
       <File Name="Generated_Code/SlowLoop.c" FileDate="2017-02-16, 16:09:28" FileAge="1487282968368" FileType="45637" CompNumb="53" />
       <File Name="Documentation/doxygen/DacLdd1_component.txt" FileDate="2017-02-16, 16:10:54" FileAge="1487283054177" FileType="45637" CompNumb="99" />
-      <File Name="Generated_Code/ExtIntLdd3.c" FileDate="2017-03-23, 14:12:02" FileAge="1490296322348" FileType="45637" CompNumb="87" />
+      <File Name="Generated_Code/ExtIntLdd3.c" FileDate="2017-04-03, 22:15:43" FileAge="1491275743432" FileType="45637" CompNumb="87" />
       <File Name="Generated_Code/BitIoLdd9.h" FileDate="2017-02-16, 16:09:25" FileAge="1487282965583" FileType="45637" CompNumb="49" />
       <File Name="Generated_Code/M1_ANALOG.c" FileDate="2017-03-23, 14:12:02" FileAge="1490296322219" FileType="45637" CompNumb="21" />
       <File Name="Generated_Code/ExtIntLdd1.h" FileDate="2017-02-16, 16:09:25" FileAge="1487282965842" FileType="45637" CompNumb="37" />
@@ -109,7 +109,7 @@
       <File Name="Static_Code/PDD/DMA_PDD.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
       <File Name="Generated_Code/PE_LDD.h" FileDate="2017-03-13, 20:49:01" FileAge="1489456141600" FileType="45637" CompNumb="8" />
       <File Name="Generated_Code/BitIoLdd7.c" FileDate="2017-02-16, 16:09:25" FileAge="1487282965274" FileType="45637" CompNumb="45" />
-      <File Name="Generated_Code/PE_LDD.c" FileDate="2017-03-23, 14:12:02" FileAge="1490296322480" FileType="45637" CompNumb="8" />
+      <File Name="Generated_Code/PE_LDD.c" FileDate="2017-04-03, 22:15:43" FileAge="1491275743457" FileType="45637" CompNumb="8" />
       <File Name="Static_Code/System/Vectors.c" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
       <File Name="Generated_Code/BitIoLdd3.h" FileDate="2017-02-16, 16:09:25" FileAge="1487282965223" FileType="45637" CompNumb="30" />
       <File Name="Generated_Code/BitIoLdd3.c" FileDate="2017-02-16, 16:09:25" FileAge="1487282965170" FileType="45637" CompNumb="30" />
@@ -121,10 +121,10 @@
       <File Name="Static_Code/PDD/SysTick_PDD.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
       <File Name="Documentation/doxygen/AdcLdd2_component.txt" FileDate="2017-03-23, 14:12:02" FileAge="1490296322189" FileType="45637" CompNumb="22" />
       <File Name="Generated_Code/M2_ANALOG.c" FileDate="2017-03-23, 14:12:02" FileAge="1490296322150" FileType="45637" CompNumb="19" />
-      <File Name="Generated_Code/M1_HALL3.h" FileDate="2017-03-23, 14:12:02" FileAge="1490296322048" FileType="45637" CompNumb="90" />
+      <File Name="Generated_Code/M1_HALL3.h" FileDate="2017-04-03, 22:15:43" FileAge="1491275743327" FileType="45637" CompNumb="90" />
       <File Name="Generated_Code/TimerIntLdd2.c" FileDate="2017-02-16, 16:09:28" FileAge="1487282968580" FileType="45637" CompNumb="54" />
       <File Name="Static_Code/PDD/EWM_PDD.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
-      <File Name="Generated_Code/M1_HALL3.c" FileDate="2017-03-23, 14:12:02" FileAge="1490296322028" FileType="45637" CompNumb="90" />
+      <File Name="Generated_Code/M1_HALL3.c" FileDate="2017-04-03, 22:15:43" FileAge="1491275743321" FileType="45637" CompNumb="90" />
       <File Name="Generated_Code/M1_HALL1.h" FileDate="2017-02-16, 16:09:27" FileAge="1487282967112" FileType="45637" CompNumb="36" />
       <File Name="Generated_Code/M1_HALL1.c" FileDate="2017-02-16, 16:09:27" FileAge="1487282967063" FileType="45637" CompNumb="36" />
       <File Name="Generated_Code/IntI2cLdd1.h" FileDate="2017-03-13, 20:49:01" FileAge="1489456141597" FileType="45637" CompNumb="75" />
@@ -159,12 +159,12 @@
       <File Name="Static_Code/Peripherals/PMC_Init.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
       <File Name="Generated_Code/FastLoop.c" FileDate="2017-02-16, 16:09:26" FileAge="1487282966001" FileType="45637" CompNumb="50" />
       <File Name="Static_Code/Peripherals/PMC_Init.c" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
-      <File Name="Generated_Code/M2_HALL3.h" FileDate="2017-03-23, 14:12:02" FileAge="1490296322002" FileType="45637" CompNumb="86" />
+      <File Name="Generated_Code/M2_HALL3.h" FileDate="2017-04-03, 22:15:43" FileAge="1491275743299" FileType="45637" CompNumb="86" />
       <File Name="Generated_Code/Cpu.h" FileDate="2017-02-18, 12:24:33" FileAge="1487442273804" FileType="45637" CompNumb="8" />
       <File Name="Generated_Code/PwmLdd2.h" FileDate="2017-02-18, 12:24:34" FileAge="1487442274272" FileType="45637" CompNumb="18" />
       <File Name="Static_Code/PDD/CMP_PDD.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
-      <File Name="Generated_Code/M2_HALL3.c" FileDate="2017-03-23, 14:12:01" FileAge="1490296321985" FileType="45637" CompNumb="86" />
-      <File Name="Generated_Code/Cpu.c" FileDate="2017-03-23, 14:12:02" FileAge="1490296322446" FileType="45637" CompNumb="8" />
+      <File Name="Generated_Code/M2_HALL3.c" FileDate="2017-04-03, 22:15:43" FileAge="1491275743276" FileType="45637" CompNumb="86" />
+      <File Name="Generated_Code/Cpu.c" FileDate="2017-04-03, 22:15:43" FileAge="1491275743451" FileType="45637" CompNumb="8" />
       <File Name="Generated_Code/LED_BLUE.h" FileDate="2017-02-16, 16:09:26" FileAge="1487282966476" FileType="45637" CompNumb="48" />
       <File Name="Generated_Code/M2_HALL1.h" FileDate="2017-02-16, 16:09:27" FileAge="1487282967619" FileType="45637" CompNumb="38" />
       <File Name="Static_Code/PDD/DAC_PDD.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
@@ -180,12 +180,12 @@
       <File Name="Generated_Code/M2_DIR.h" FileDate="2017-02-16, 16:09:27" FileAge="1487282967416" FileType="45637" CompNumb="27" />
       <File Name="Static_Code/PDD/SIM_PDD.h" FileDate="2014-05-14, 11:09:28" FileAge="1400083768000" FileType="262144" />
       <File Name="Generated_Code/M2_DIR.c" FileDate="2017-02-16, 16:09:27" FileAge="1487282967363" FileType="45637" CompNumb="27" />
-      <File Name="Documentation/motor-controller-firmware_Settings.xml" FileDate="2017-03-23, 14:12:03" FileAge="1490296323015" FileType="3072" />
+      <File Name="Documentation/motor-controller-firmware_Settings.xml" FileDate="2017-04-03, 22:15:43" FileAge="1491275743911" FileType="3072" />
       <File Name="Generated_Code/ExtIntLdd6.h" FileDate="2017-02-18, 12:24:34" FileAge="1487442274007" FileType="45637" CompNumb="93" />
       <File Name="Generated_Code/ExtIntLdd6.c" FileDate="2017-02-18, 12:24:33" FileAge="1487442273975" FileType="45637" CompNumb="93" />
       <File Name="Generated_Code/ExtIntLdd4.h" FileDate="2017-02-18, 12:24:33" FileAge="1487442273865" FileType="45637" CompNumb="89" />
       <File Name="Generated_Code/ExtIntLdd4.c" FileDate="2017-02-18, 12:24:33" FileAge="1487442273861" FileType="45637" CompNumb="89" />
-      <File Name="Documentation/doxygen/RoutingReport_component.txt" FileDate="2017-03-22, 15:45:16" FileAge="1490215516882" FileType="45637" CompNumb="8" />
+      <File Name="Documentation/doxygen/RoutingReport_component.txt" FileDate="2017-04-03, 22:15:43" FileAge="1491275743464" FileType="45637" CompNumb="8" />
       <File Name="Generated_Code/ExtIntLdd2.h" FileDate="2017-02-16, 16:09:25" FileAge="1487282965948" FileType="45637" CompNumb="39" />
       <File Name="Generated_Code/AdcLdd1.h" FileDate="2017-03-23, 14:12:02" FileAge="1490296322108" FileType="45637" CompNumb="20" />
       <File Name="Static_Code/PDD/FTM_PDD.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
@@ -200,5 +200,5 @@
       <File Name="Static_Code/IO_Map/MKV10Z7.h" FileDate="2014-02-28, 12:07:24" FileAge="1393610844000" FileType="262144" />
     </GeneratedByPE>
   </GeneratedFilesList>
-  <CodeGenReference>43</CodeGenReference>
+  <CodeGenReference>50</CodeGenReference>
 </CodeGenerationInfo>

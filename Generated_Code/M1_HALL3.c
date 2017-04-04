@@ -6,7 +6,7 @@
 **     Component   : ExtInt
 **     Version     : Component 02.105, Driver 01.00, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-03-23, 14:11, # CodeGen: 42
+**     Date/Time   : 2017-04-03, 22:15, # CodeGen: 49
 **     Abstract    :
 **         This component "ExtInt" implements an external 
 **         interrupt, its control methods and interrupt/event 
@@ -21,13 +21,13 @@
 **             ----------------------------------------------------
 **                Number (on package)  |    Name
 **             ----------------------------------------------------
-**                       5             |  ADC0_SE6/ADC1_SE1/ADC1_DP1/PTE18/SPI0_SOUT/UART1_CTS_b/I2C0_SDA/SPI0_SIN
+**                       21            |  ADC0_SE9/ADC1_SE9/PTB1/I2C0_SDA/FTM1_CH1/FTM0_FLT2/EWM_IN/FTM1_QD_PHB/UART0_TX
 **             ----------------------------------------------------
 **
-**         Port name                   : GPIOE
+**         Port name                   : GPIOB
 **
-**         Bit number (in port)        : 18
-**         Bit mask of the port        : 0x00040000
+**         Bit number (in port)        : 1
+**         Bit mask of the port        : 0x0002
 **
 **         Signal edge/level           : both
 **         Priority                    : 0
@@ -35,8 +35,8 @@
 **         Initial state               : Enabled
 **
 **
-**         Port data register          : GPIOE_PDOR [0x400FF100]
-**         Port control register       : GPIOE_PDDR [0x400FF114]
+**         Port data register          : GPIOB_PDOR [0x400FF040]
+**         Port control register       : GPIOB_PDDR [0x400FF054]
 **     Contents    :
 **         GetVal - bool M1_HALL3_GetVal(void);
 **

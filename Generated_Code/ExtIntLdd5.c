@@ -6,7 +6,7 @@
 **     Component   : ExtInt_LDD
 **     Version     : Component 02.156, Driver 01.02, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-03-23, 14:11, # CodeGen: 42
+**     Date/Time   : 2017-04-03, 22:15, # CodeGen: 49
 **     Abstract    :
 **         This component, "ExtInt_LDD", provide a low level API 
 **         for unified access of external interrupts handling
@@ -126,23 +126,23 @@ LDD_TDeviceData* ExtIntLdd5_Init(LDD_TUserData *UserDataPtr)
   /* {Default RTOS Adapter} Set interrupt vector: IVT is static, ISR parameter is passed by the global variable */
   INT_PORTBCDE__DEFAULT_RTOS_ISRPARAM = DeviceDataPrv;
   /* Enable device clock gate */
-  /* SIM_SCGC5: PORTE=1 */
-  SIM_SCGC5 |= SIM_SCGC5_PORTE_MASK;
+  /* SIM_SCGC5: PORTB=1 */
+  SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK;
   /* Initialization of pin routing */
-  /* PORTE_PCR18: ISF=0,MUX=1 */
-  PORTE_PCR18 = (uint32_t)((PORTE_PCR18 & (uint32_t)~(uint32_t)(
-                 PORT_PCR_ISF_MASK |
-                 PORT_PCR_MUX(0x06)
-                )) | (uint32_t)(
-                 PORT_PCR_MUX(0x01)
-                ));
-  /* PORTE_PCR18: ISF=1,IRQC=0x0B */
-  PORTE_PCR18 = (uint32_t)((PORTE_PCR18 & (uint32_t)~(uint32_t)(
-                 PORT_PCR_IRQC(0x04)
-                )) | (uint32_t)(
-                 PORT_PCR_ISF_MASK |
-                 PORT_PCR_IRQC(0x0B)
-                ));
+  /* PORTB_PCR1: ISF=0,MUX=1 */
+  PORTB_PCR1 = (uint32_t)((PORTB_PCR1 & (uint32_t)~(uint32_t)(
+                PORT_PCR_ISF_MASK |
+                PORT_PCR_MUX(0x06)
+               )) | (uint32_t)(
+                PORT_PCR_MUX(0x01)
+               ));
+  /* PORTB_PCR1: ISF=1,IRQC=0x0B */
+  PORTB_PCR1 = (uint32_t)((PORTB_PCR1 & (uint32_t)~(uint32_t)(
+                PORT_PCR_IRQC(0x04)
+               )) | (uint32_t)(
+                PORT_PCR_ISF_MASK |
+                PORT_PCR_IRQC(0x0B)
+               ));
   /* NVIC_IPR7: PRI_31=0 */
   NVIC_IPR7 &= (uint32_t)~(uint32_t)(NVIC_IP_PRI_31(0x03));
   /* NVIC_ISER: SETENA31=1,SETENA30=0,SETENA29=0,SETENA28=0,SETENA27=0,SETENA26=0,SETENA25=0,SETENA24=0,SETENA23=0,SETENA22=0,SETENA21=0,SETENA20=0,SETENA19=0,SETENA18=0,SETENA17=0,SETENA16=0,SETENA15=0,SETENA14=0,SETENA13=0,SETENA12=0,SETENA11=0,SETENA10=0,SETENA9=0,SETENA8=0,SETENA7=0,SETENA6=0,SETENA5=0,SETENA4=0,SETENA3=0,SETENA2=0,SETENA1=0,SETENA0=0 */
@@ -170,9 +170,9 @@ void ExtIntLdd5_Interrupt(void)
   ExtIntLdd5_TDeviceDataPtr DeviceDataPrv = INT_PORTBCDE__DEFAULT_RTOS_ISRPARAM;
 
   /* Check the pin interrupt flag of the shared interrupt */
-  if (PORT_PDD_GetPinInterruptFlag(PORTE_BASE_PTR, ExtIntLdd5_PIN_INDEX)) {
+  if (PORT_PDD_GetPinInterruptFlag(PORTB_BASE_PTR, ExtIntLdd5_PIN_INDEX)) {
     /* Clear the interrupt flag */
-    PORT_PDD_ClearPinInterruptFlag(PORTE_BASE_PTR, ExtIntLdd5_PIN_INDEX);
+    PORT_PDD_ClearPinInterruptFlag(PORTB_BASE_PTR, ExtIntLdd5_PIN_INDEX);
     /* Call OnInterrupt event */
     ExtIntLdd5_OnInterrupt(DeviceDataPrv->UserData);
   }
@@ -197,7 +197,7 @@ void ExtIntLdd5_Interrupt(void)
 bool ExtIntLdd5_GetVal(LDD_TDeviceData *DeviceDataPtr)
 {
   (void)DeviceDataPtr;                 /* Parameter is not used, suppress unused argument warning */
-  if ((GPIO_PDD_GetPortDataInput(GPIOE_BASE_PTR) & ExtIntLdd5_PIN_MASK) != 0U) {
+  if ((GPIO_PDD_GetPortDataInput(GPIOB_BASE_PTR) & ExtIntLdd5_PIN_MASK) != 0U) {
     return TRUE;
   } else {
     return FALSE;
