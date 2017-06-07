@@ -6,7 +6,7 @@
 **     Component   : Serial_LDD
 **     Version     : Component 01.188, Driver 01.12, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-06, 21:39, # CodeGen: 10
+**     Date/Time   : 2017-06-07, 16:10, # CodeGen: 42
 **     Abstract    :
 **         This component "Serial_LDD" implements an asynchronous serial
 **         communication. The component supports different settings of
@@ -19,20 +19,20 @@
 **          Device                                         : UART1
 **          Interrupt service/event                        : Enabled
 **            Interrupt RxD                                : INT_UART1
-**            Interrupt RxD priority                       : medium priority
+**            Interrupt RxD priority                       : maximal priority
 **            Interrupt RxD ISR name                       : ASerialLdd1_Interrupt
 **            Interrupt TxD                                : INT_UART1
-**            Interrupt TxD priority                       : medium priority
+**            Interrupt TxD priority                       : maximal priority
 **            Interrupt TxD ISR name                       : ASerialLdd1_Interrupt
 **            Interrupt Error                              : INT_UART1
-**            Interrupt Error priority                     : medium priority
+**            Interrupt Error priority                     : maximal priority
 **            Interrupt Error ISR name                     : ASerialLdd1_Interrupt
 **          Settings                                       : 
 **            Data width                                   : 8 bits
 **            Parity                                       : None
 **            Stop bits                                    : 1
 **            Loop mode                                    : Normal
-**            Baud rate                                    : 115200 baud
+**            Baud rate                                    : 460800 baud
 **            Wakeup condition                             : Idle line wakeup
 **            Stop in wait mode                            : no
 **            Idle line mode                               : Starts after start bit

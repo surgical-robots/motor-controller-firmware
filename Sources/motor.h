@@ -9,6 +9,10 @@
 #define MOTOR_H_
 #define SHIFT_SIZE		(10000)
 #define SAMPLE_SIZE		(100)
+#define MAXON			(0)
+#define FAULHABER		(1)
+#define CLAMPING_M1		(0)
+#define CLAMPING_M2		(0)
 
 #include "PE_Types.h"
 
@@ -28,45 +32,36 @@ typedef enum {
 	MotorControlModePotentiometer
 } motorControlMode_t;
 
-uint16 deadband;
+typedef struct MotorConfig {
+	uint32_t KP;
+	uint32_t KI;
+	uint32_t KD;
+	int32_t Setpoint;
+	int32_t ShaftCounter;
+	uint16_t ClicksPerRev;
+	uint16_t SpeedMin;
+	uint16_t CurrentMax;
+	uint16_t PotZero;
+	motorControlMode_t ControlMode;
+	uint16_t Deadband;
+} MotorConfig_t;
 
-motorControlMode_t Motor1_ControlMode;
-motorControlMode_t Motor2_ControlMode;
+MotorConfig_t Motor1;
+MotorConfig_t Motor2;
+
+int32_t Motor1_Position;
+int32_t Motor2_Position;
+
+int32_t Motor1_PotVal;
+int32_t Motor2_PotVal;
+
+uint16_t Motor1_Current;
+uint16_t Motor2_Current;
 
 bool Motor1_IsJogging;
 bool Motor2_IsJogging;
 
-int32 Motor1_KP;
-int32 Motor2_KP;
-
-int32 Motor1_Setpoint;
-int32 Motor2_Setpoint;
-
-int32 Motor1_Position;
-int32 Motor2_Position;
-
 bool Motor_IsMoving;
-
-uint16 Motor1_PotVal;
-uint16 Motor2_PotVal;
-
-uint16 Motor1_Current;
-uint16 Motor2_Current;
-
-int32 Motor1_ShaftCounter;
-int32 Motor2_ShaftCounter;
-
-uint16 Motor1_SpeedMin;
-uint16 Motor2_SpeedMin;
-
-uint16 Motor1_CurrentMax;
-uint16 Motor2_CurrentMax;
-
-uint16 Motor1_PotZero;
-uint16 Motor2_PotZero;
-
-int16 Motor1_ClicksPerRev;
-int16 Motor2_ClicksPerRev;
 
 uint32 Motor1_AvgCurrent;
 uint32 Motor2_AvgCurrent;

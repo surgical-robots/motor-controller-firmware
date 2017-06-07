@@ -6,7 +6,7 @@
 **     Component   : Serial_LDD
 **     Version     : Component 01.188, Driver 01.12, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-02-06, 21:39, # CodeGen: 10
+**     Date/Time   : 2017-06-07, 16:10, # CodeGen: 42
 **     Abstract    :
 **         This component "Serial_LDD" implements an asynchronous serial
 **         communication. The component supports different settings of
@@ -19,20 +19,20 @@
 **          Device                                         : UART1
 **          Interrupt service/event                        : Enabled
 **            Interrupt RxD                                : INT_UART1
-**            Interrupt RxD priority                       : medium priority
+**            Interrupt RxD priority                       : maximal priority
 **            Interrupt RxD ISR name                       : ASerialLdd1_Interrupt
 **            Interrupt TxD                                : INT_UART1
-**            Interrupt TxD priority                       : medium priority
+**            Interrupt TxD priority                       : maximal priority
 **            Interrupt TxD ISR name                       : ASerialLdd1_Interrupt
 **            Interrupt Error                              : INT_UART1
-**            Interrupt Error priority                     : medium priority
+**            Interrupt Error priority                     : maximal priority
 **            Interrupt Error ISR name                     : ASerialLdd1_Interrupt
 **          Settings                                       : 
 **            Data width                                   : 8 bits
 **            Parity                                       : None
 **            Stop bits                                    : 1
 **            Loop mode                                    : Normal
-**            Baud rate                                    : 115200 baud
+**            Baud rate                                    : 460800 baud
 **            Wakeup condition                             : Idle line wakeup
 **            Stop in wait mode                            : no
 **            Idle line mode                               : Starts after start bit
@@ -201,12 +201,8 @@ LDD_TDeviceData* ASerialLdd1_Init(LDD_TUserData *UserDataPtr)
                 )) | (uint32_t)(
                  PORT_PCR_MUX(0x03)
                 ));
-  /* NVIC_IPR3: PRI_13=1 */
-  NVIC_IPR3 = (uint32_t)((NVIC_IPR3 & (uint32_t)~(uint32_t)(
-               NVIC_IP_PRI_13(0x02)
-              )) | (uint32_t)(
-               NVIC_IP_PRI_13(0x01)
-              ));
+  /* NVIC_IPR3: PRI_13=0 */
+  NVIC_IPR3 &= (uint32_t)~(uint32_t)(NVIC_IP_PRI_13(0x03));
   /* NVIC_ISER: SETENA31=0,SETENA30=0,SETENA29=0,SETENA28=0,SETENA27=0,SETENA26=0,SETENA25=0,SETENA24=0,SETENA23=0,SETENA22=0,SETENA21=0,SETENA20=0,SETENA19=0,SETENA18=0,SETENA17=0,SETENA16=0,SETENA15=0,SETENA14=0,SETENA13=1,SETENA12=0,SETENA11=0,SETENA10=0,SETENA9=0,SETENA8=0,SETENA7=0,SETENA6=0,SETENA5=0,SETENA4=0,SETENA3=0,SETENA2=0,SETENA1=0,SETENA0=0 */
   NVIC_ISER = NVIC_ISER_SETENA13_MASK;
   /* NVIC_ICER: CLRENA31=0,CLRENA30=0,CLRENA29=0,CLRENA28=0,CLRENA27=0,CLRENA26=0,CLRENA25=0,CLRENA24=0,CLRENA23=0,CLRENA22=0,CLRENA21=0,CLRENA20=0,CLRENA19=0,CLRENA18=0,CLRENA17=0,CLRENA16=0,CLRENA15=0,CLRENA14=0,CLRENA13=0,CLRENA12=0,CLRENA11=0,CLRENA10=0,CLRENA9=0,CLRENA8=0,CLRENA7=0,CLRENA6=0,CLRENA5=0,CLRENA4=0,CLRENA3=0,CLRENA2=0,CLRENA1=0,CLRENA0=0 */
@@ -225,8 +221,8 @@ LDD_TDeviceData* ASerialLdd1_Init(LDD_TUserData *UserDataPtr)
   UART1_S2 = 0x00U;                    /*  Set the S2 register */
   /* UART1_MODEM: ??=0,??=0,??=0,??=0,RXRTSE=0,TXRTSPOL=0,TXRTSE=0,TXCTSE=0 */
   UART1_MODEM = 0x00U;                 /*  Set the MODEM register */
-  UART_PDD_SetBaudRateFineAdjust(UART1_BASE_PTR, 1u); /* Set baud rate fine adjust */
-  UART_PDD_SetBaudRate(UART1_BASE_PTR, 13U); /* Set the baud rate register. */
+  UART_PDD_SetBaudRateFineAdjust(UART1_BASE_PTR, 8u); /* Set baud rate fine adjust */
+  UART_PDD_SetBaudRate(UART1_BASE_PTR, 3U); /* Set the baud rate register. */
   UART_PDD_EnableFifo(UART1_BASE_PTR, (UART_PDD_TX_FIFO_ENABLE | UART_PDD_RX_FIFO_ENABLE)); /* Enable RX and TX FIFO */
   UART_PDD_FlushFifo(UART1_BASE_PTR, (UART_PDD_TX_FIFO_FLUSH | UART_PDD_RX_FIFO_FLUSH)); /* Flush RX and TX FIFO */
   UART_PDD_EnableTransmitter(UART1_BASE_PTR, PDD_ENABLE); /* Enable transmitter */

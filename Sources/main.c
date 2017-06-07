@@ -107,9 +107,6 @@ int main(void)
   /*** End of Processor Expert internal initialization.                    ***/
 
   /* Write your code here */
-  /* For example: for(;;) { } */
-
-
   	Motor_Init();
   	// initialize buffers and variables
 	GetHalls = TRUE;
@@ -123,39 +120,18 @@ int main(void)
 
 	Config_t* currentConfig = Fram_getCurrent();
 
-	Motor1_ControlMode = currentConfig->motor1.ControlMode;
-	Motor2_ControlMode = currentConfig->motor2.ControlMode;
-
-	Motor1_KP = currentConfig->motor1.KP;
-	Motor2_KP = currentConfig->motor2.KP;
-
-	Motor1_Setpoint = currentConfig->motor1.Setpoint;
-	Motor2_Setpoint = currentConfig->motor2.Setpoint;
-
-	Motor1_ShaftCounter = currentConfig->motor1.ShaftCounter;
-	Motor2_ShaftCounter = currentConfig->motor2.ShaftCounter;
-
-	Motor1_ClicksPerRev = currentConfig->motor1.ClicksPerRev;
-	Motor2_ClicksPerRev = currentConfig->motor2.ClicksPerRev;
-
-	Motor1_SpeedMin = currentConfig->motor1.SpeedMin;
-	Motor2_SpeedMin = currentConfig->motor2.SpeedMin;
-
-	Motor1_CurrentMax = currentConfig->motor1.CurrentMax;
-	Motor2_CurrentMax = currentConfig->motor2.CurrentMax;
-
-	Motor1_PotZero = currentConfig->motor1.PotZero;
-	Motor2_PotZero = currentConfig->motor2.PotZero;
+	Motor1 = currentConfig->motor1;
+	Motor2 = currentConfig->motor2;
 
 	// set motor driver VREF
-	if(Motor1_CurrentMax > Motor2_CurrentMax)
+	if(Motor1.CurrentMax > Motor2.CurrentMax)
 	{
-		uint32_t dummyVal = Motor2_CurrentMax << 4;
+		uint32_t dummyVal = Motor2.CurrentMax << 4;
 		VREF_SetValue(&dummyVal);
 	}
 	else
 	{
-		uint32_t dummyVal = Motor1_CurrentMax << 4;
+		uint32_t dummyVal = Motor1.CurrentMax << 4;
 		VREF_SetValue(&dummyVal);
 	}
 
@@ -178,29 +154,10 @@ int main(void)
 		  // Begin write parameters to FRAM
 			Config_t* config = Fram_getCurrent();
 			EnterCritical();
-			config->motor1.ControlMode = Motor1_ControlMode;
-			config->motor2.ControlMode = Motor2_ControlMode;
 
-			config->motor1.KP = Motor1_KP;
-			config->motor2.KP = Motor2_KP;
+			config->motor1 = Motor1;
+			config->motor2 = Motor2;
 
-			config->motor1.Setpoint = Motor1_Setpoint;
-			config->motor2.Setpoint = Motor2_Setpoint;
-
-			config->motor1.ShaftCounter = Motor1_ShaftCounter;
-			config->motor2.ShaftCounter = Motor2_ShaftCounter;
-
-			config->motor1.ClicksPerRev = Motor1_ClicksPerRev;
-			config->motor2.ClicksPerRev = Motor2_ClicksPerRev;
-
-			config->motor1.SpeedMin = Motor1_SpeedMin;
-			config->motor2.SpeedMin = Motor2_SpeedMin;
-
-			config->motor1.CurrentMax = Motor1_CurrentMax;
-			config->motor2.CurrentMax = Motor2_CurrentMax;
-
-			config->motor1.PotZero = Motor1_PotZero;
-			config->motor2.PotZero = Motor2_PotZero;
 			ExitCritical();
 			Fram_write();
 			// End write parameters to FRAM

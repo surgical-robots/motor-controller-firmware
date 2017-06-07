@@ -134,7 +134,7 @@ extern "C" {
 #define VECTOR_26         (tIsrFunc)&UnhandledInterrupt         /* 0x1A -    ivINT_SPI0                    unused by PE */
 #define VECTOR_27         (tIsrFunc)&UnhandledInterrupt         /* 0x1B -    ivINT_Reserved27              unused by PE */
 #define VECTOR_28         (tIsrFunc)&UnhandledInterrupt         /* 0x1C -    ivINT_UART0                   unused by PE */
-#define VECTOR_29         (tIsrFunc)&ASerialLdd1_Interrupt      /* 0x1D 64   ivINT_UART1                   used by PE */
+#define VECTOR_29         (tIsrFunc)&ASerialLdd1_Interrupt      /* 0x1D 0    ivINT_UART1                   used by PE */
 #define VECTOR_30         (tIsrFunc)&UnhandledInterrupt         /* 0x1E -    ivINT_Reserved30              unused by PE */
 #define VECTOR_31         (tIsrFunc)&AdcLdd1_MeasurementCompleteInterrupt /* 0x1F 64 ivINT_ADC0            used by PE */
 #define VECTOR_32         (tIsrFunc)&AdcLdd2_MeasurementCompleteInterrupt /* 0x20 64 ivINT_ADC1            used by PE */

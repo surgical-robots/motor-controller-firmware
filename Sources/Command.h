@@ -9,6 +9,10 @@
 #define COMMAND_H_
 #include <PE_Types.h>
 
+#define VERSION "V1.1"
+
+#define NACK_MASK  0x80
+
 typedef enum {
 	CommandReserved,
 	CommandPing,
@@ -25,7 +29,10 @@ typedef enum {
 	CommandSetPosGetData,
 	CommandGetHallPos,
 	CommandGetPots,
-	CommandGetCurremt
+	CommandGetCurrent,
+	CommandGetConfiguration,    //16 x10
+	CommandGetVersion,          //   x11
+	CommandInvalidCommand       //   x12
 } command_t;
 
 void Command_Init();

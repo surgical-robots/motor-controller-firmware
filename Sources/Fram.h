@@ -9,17 +9,7 @@
 #define FRAM_H_
 
 #include "PE_Types.h"
-
-typedef struct MotorConfig {
-	uint32_t KP;
-	int32_t Setpoint;
-	int32_t ShaftCounter;
-	uint16_t ClicksPerRev;
-	uint16_t SpeedMin;
-	uint16_t CurrentMax;
-	uint16_t PotZero;
-	uint8_t ControlMode;
-} MotorConfig_t;
+#include "motor.h"
 
 typedef struct Config {
 	MotorConfig_t motor1;

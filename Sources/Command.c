@@ -12,7 +12,7 @@
 #include <string.h>
 #include "Cpu.h"
 #include "UART_PDD.h"
-#include "VREF.h";
+#include "VREF.h"
 
 /// Internal constants
 #define COMMAND_SIZE					(16)
@@ -49,6 +49,7 @@ char ReceiveBuffer[COMMAND_BUFFER_SIZE];
 int ReceiveIndex = 0;
 UART_TComData ResponseBuffer[COMMAND_RESPONSE_BUFFER_SIZE];
 int ResponseIndex = 0;
+int ResponseFillIndex = 0;
 int SyncWordIndex = 0;
 const char SyncWord[] = {'\xDA', '\xBA', '\xD0', '\x00' };
 syncState_t SyncStatus = SyncWaiting;
@@ -56,6 +57,8 @@ commandState_t CommandStatus = CommandStateWaiting;
 bool ResponseReadyToSend = FALSE;
 uint32 MyAddress;
 bool IsAssociated = FALSE;
+uint32_t badCommandsRecieved = 0;
+extern LDD_TDeviceData* crc;
 
 /// Internal methods
 void _SendResponse();
@@ -75,6 +78,11 @@ void _GetHallPos();
 void _GetPots();
 void _GetCurrent();
 bool _CheckCanSend();
+void _AddResponseChecksum();
+void _GetVersionString();
+
+void _SendResponseMessage(byte commandType, bool bGoodMessage);
+void _FillResponseHeader(byte command);
 
 /**
  * Initialize the Command processor.
@@ -108,7 +116,6 @@ void _Ping()
 	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
 //	*((uint32*)&(ResponseBuffer[1])) = MyAddress;
 	ResponseBuffer[5] = CommandPing;
-	_SendResponse();
 }
 
 void _Associate()
@@ -121,14 +128,6 @@ void _Associate()
 	{
 		for(uint32 j = 0; j<delay; j++);
 	}
-	*((uint32*)ResponseBuffer) = 200;
-	ResponseBuffer[1] = (MyAddress & 0x000000ff);
-	ResponseBuffer[2] = (MyAddress & 0x0000ff00) >> 8;
-	ResponseBuffer[3] = (MyAddress & 0x00ff0000) >> 16;
-	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
-//	*((uint32*)&(ResponseBuffer[1])) = (uint32)MyAddress;
-	ResponseBuffer[5] = CommandAssociate;
-	_SendResponse();
 }
 void _Configure(uint8* buffer)
 {
@@ -136,7 +135,7 @@ void _Configure(uint8* buffer)
 	switch(buffer[0])
 	{
 	case 0:
-		Motor1_ControlMode = buffer[1];
+		Motor1.ControlMode = buffer[1];
 //		Motor1_KP = buffer[2];
 		kp |= buffer[5] & 0xFF;
 		kp <<= 8;
@@ -145,17 +144,17 @@ void _Configure(uint8* buffer)
 		kp |= buffer[3] & 0xFF;
 		kp <<= 8;
 		kp |= buffer[2] & 0xFF;
-		Motor1_KP = kp;
-		Motor1_SpeedMin = buffer[6];
-		Motor1_CurrentMax = buffer[7] | (buffer[8] << 8);
-		Motor1_PotZero = buffer[9] | (buffer[10] << 8);
-		Motor1_ClicksPerRev = buffer[11] | (buffer[12] << 8);
+		Motor1.KP = kp;
+		Motor1.SpeedMin = buffer[6];
+		Motor1.CurrentMax = buffer[7] | (buffer[8] << 8);
+		Motor1.PotZero = buffer[9] | (buffer[10] << 8);
+		Motor1.ClicksPerRev = buffer[11] | (buffer[12] << 8);
 		GetHalls = buffer[13];
 		GetPots = buffer [14];
 		GetCurrent = buffer[15];
 		break;
 	case 1:
-		Motor2_ControlMode = buffer[1];
+		Motor2.ControlMode = buffer[1];
 //		Motor2_KP = buffer[2];
 		kp |= buffer[5] & 0xFF;
 		kp <<= 8;
@@ -164,24 +163,24 @@ void _Configure(uint8* buffer)
 		kp |= buffer[3] & 0xFF;
 		kp <<= 8;
 		kp |= buffer[2] & 0xFF;
-		Motor2_KP = kp;
-		Motor2_SpeedMin = buffer[6];
-		Motor2_CurrentMax = buffer[7] | (buffer[8] << 8);
-		Motor2_PotZero = buffer[9] | (buffer[10] << 8);
-		Motor2_ClicksPerRev = buffer[11] | (buffer[12] << 8);
+		Motor2.KP = kp;
+		Motor2.SpeedMin = buffer[6];
+		Motor2.CurrentMax = buffer[7] | (buffer[8] << 8);
+		Motor2.PotZero = buffer[9] | (buffer[10] << 8);
+		Motor2.ClicksPerRev = buffer[11] | (buffer[12] << 8);
 		GetHalls = buffer[13];
 		GetPots = buffer [14];
 		GetCurrent = buffer[15];
 		break;
 	}
-	if(Motor1_CurrentMax > Motor2_CurrentMax)
+	if(Motor1.CurrentMax > Motor2.CurrentMax)
 	{
-		uint32_t dummyVal = Motor2_CurrentMax << 4;
+		uint32_t dummyVal = Motor2.CurrentMax << 4;
 		VREF_SetValue(&dummyVal);
 	}
 	else
 	{
-		uint32_t dummyVal = Motor1_CurrentMax << 4;
+		uint32_t dummyVal = Motor1.CurrentMax << 4;
 		VREF_SetValue(&dummyVal);
 	}
 
@@ -191,16 +190,16 @@ void _ResetCounter(byte motor, bool resetSetpoint)
 {
 	if(motor == 0)
 	{
-		Motor1_ShaftCounter = 0;
+		Motor1.ShaftCounter = 0;
 		if(resetSetpoint)
-			Motor1_Setpoint = 0;
+			Motor1.Setpoint = 0;
 	}
 
 	if(motor == 1)
 	{
-		Motor2_ShaftCounter = 0;
+		Motor2.ShaftCounter = 0;
 		if(resetSetpoint)
-			Motor2_Setpoint = 0;
+			Motor2.Setpoint = 0;
 	}
 }
 
@@ -250,52 +249,116 @@ void _MoveTo(char* buffer)
 	switch(buffer[0])
 	{
 	case 0:
-		Motor1_Setpoint = setpoint;
+		Motor1.Setpoint = setpoint;
 		break;
 	case 1:
-		Motor2_Setpoint = setpoint;
+		Motor2.Setpoint = setpoint;
 		break;
 	}
 }
 
-
-void _GetStatus()
+void _GetVersionString()
 {
-	if(ResponseReadyToSend == TRUE) // We're still sending our last response, so exit immediately
-		return;
+	//response buffer size - header size;
+	int sz = snprintf(&ResponseBuffer[ResponseFillIndex],
+			COMMAND_RESPONSE_BUFFER_SIZE-ResponseFillIndex-2,
+			"%s %s %s",
+			VERSION, __DATE__,__TIME__);
+	ResponseFillIndex+=(sz+1); //size plus null
+}
+
+void _FillResponseHeader(byte command)
+{
+	memset(ResponseBuffer,0,COMMAND_RESPONSE_BUFFER_SIZE);
 	*((uint32*)ResponseBuffer) = 200;
 	ResponseBuffer[1] = (MyAddress & 0x000000ff);
 	ResponseBuffer[2] = (MyAddress & 0x0000ff00) >> 8;
 	ResponseBuffer[3] = (MyAddress & 0x00ff0000) >> 16;
 	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
-	ResponseBuffer[5] = CommandGetStatus;
-	int i = 6;
+	ResponseBuffer[5] = command;
+	ResponseFillIndex = 6;
+}
+
+void _AddResponseChecksum()
+{
+	//add a crc
+	uint32_t result;
+	CRC1_ResetCRC(crc);
+	CRC1_GetBlockCRC(crc, ResponseBuffer, ResponseFillIndex, &result );
+	memcpy(&ResponseBuffer[ResponseFillIndex],&result,sizeof(result));
+	ResponseFillIndex+=2;
+}
+
+void _SendResponseMessage(byte commandType, bool bGoodMessage)
+{
+	if(ResponseReadyToSend == TRUE) // We're still sending our last response, so exit immediately
+	{
+		return;
+	}
+
+
+	if(bGoodMessage == TRUE)
+	{
+		_FillResponseHeader(commandType);
+	}
+	else
+	{
+		//let the sender know the sent message was bad
+		_FillResponseHeader(commandType | NACK_MASK);
+	}
+
+	switch(commandType)
+	{
+	case CommandAssociate:
+		_Associate();
+	case CommandSetPosGetData:
+		_GetStatus();
+		break;
+	case CommandGetStatus:
+		_GetStatus();
+		break;
+	case CommandGetVersion:
+		_GetVersionString();
+		break;
+	case CommandInvalidCommand: //invalid commands should send a response back to the sender
+		break;
+	default:
+		return;
+	}
+
+	_AddResponseChecksum();
+	_SendResponse();
+}
+
+void _GetStatus()
+{
+	if(ResponseReadyToSend == TRUE) // We're still sending our last response, so exit immediately
+		return;
+
 	if(GetHalls)
 	{
-		ResponseBuffer[6] = (Motor1_ShaftCounter & 0x000000ff);
-		ResponseBuffer[7] = (Motor1_ShaftCounter & 0x0000ff00) >> 8;
-		ResponseBuffer[8] = (Motor1_ShaftCounter & 0x00ff0000) >> 16;
-		ResponseBuffer[9] = (Motor1_ShaftCounter & 0xff000000) >> 24;
-		ResponseBuffer[10] = (Motor2_ShaftCounter & 0x000000ff);
-		ResponseBuffer[11] = (Motor2_ShaftCounter & 0x0000ff00) >> 8;
-		ResponseBuffer[12] = (Motor2_ShaftCounter & 0x00ff0000) >> 16;
-		ResponseBuffer[13] = (Motor2_ShaftCounter & 0xff000000) >> 24;
-		i += 8;
+		ResponseBuffer[6] = (Motor1.ShaftCounter & 0x000000ff);
+		ResponseBuffer[7] = (Motor1.ShaftCounter & 0x0000ff00) >> 8;
+		ResponseBuffer[8] = (Motor1.ShaftCounter & 0x00ff0000) >> 16;
+		ResponseBuffer[9] = (Motor1.ShaftCounter & 0xff000000) >> 24;
+		ResponseBuffer[10] = (Motor2.ShaftCounter & 0x000000ff);
+		ResponseBuffer[11] = (Motor2.ShaftCounter & 0x0000ff00) >> 8;
+		ResponseBuffer[12] = (Motor2.ShaftCounter & 0x00ff0000) >> 16;
+		ResponseBuffer[13] = (Motor2.ShaftCounter & 0xff000000) >> 24;
+		ResponseFillIndex += 8;
 	}
 	if(GetPots)
 	{
-
-
-		*((uint16*)&(ResponseBuffer[i])) = (uint16_t)Fram_getErrorCount();
-		*((uint16*)&(ResponseBuffer[i + 2])) = Motor2_PotVal;
-		i += 4;
+		*((uint16*)&(ResponseBuffer[ResponseFillIndex])) = (uint16_t)badCommandsRecieved;
+		*((uint16*)&(ResponseBuffer[ResponseFillIndex + 2])) = Motor2_PotVal;
+		ResponseFillIndex += 4;
 	}
 	if(GetCurrent)
 	{
-		*((uint16*)&(ResponseBuffer[i])) = Motor1_AvgCurrent;
-		*((uint16*)&(ResponseBuffer[i + 2])) = Motor2_AvgCurrent;
+		*((uint16*)&(ResponseBuffer[ResponseFillIndex])) = Motor1_AvgCurrent;
+		*((uint16*)&(ResponseBuffer[ResponseFillIndex + 2])) = Motor2_AvgCurrent;
+		ResponseFillIndex += 4;
 	}
-	_SendResponse();
 }
 
 void _DoubleMoveTo(char* buffer)
@@ -319,8 +382,8 @@ void _DoubleMoveTo(char* buffer)
 	setpointTwo <<= 8;
 	setpointTwo |= ReceiveBuffer[10] & 0xFF;
 
-	Motor1_Setpoint = setpointOne;
-	Motor2_Setpoint = setpointTwo;
+	Motor1.Setpoint = setpointOne;
+	Motor2.Setpoint = setpointTwo;
 }
 
 void _SetPosGetData(char* buffer)
@@ -340,15 +403,15 @@ void _GetHallPos()
 	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
 	ResponseBuffer[5] = CommandGetHallPos;
 
-	ResponseBuffer[6] = (Motor1_ShaftCounter & 0x000000ff);
-	ResponseBuffer[7] = (Motor1_ShaftCounter & 0x0000ff00) >> 8;
-	ResponseBuffer[8] = (Motor1_ShaftCounter & 0x00ff0000) >> 16;
-	ResponseBuffer[9] = (Motor1_ShaftCounter & 0xff000000) >> 24;
+	ResponseBuffer[6] = (Motor1.ShaftCounter & 0x000000ff);
+	ResponseBuffer[7] = (Motor1.ShaftCounter & 0x0000ff00) >> 8;
+	ResponseBuffer[8] = (Motor1.ShaftCounter & 0x00ff0000) >> 16;
+	ResponseBuffer[9] = (Motor1.ShaftCounter & 0xff000000) >> 24;
 
-	ResponseBuffer[10] = (Motor2_ShaftCounter & 0x000000ff);
-	ResponseBuffer[11] = (Motor2_ShaftCounter & 0x0000ff00) >> 8;
-	ResponseBuffer[12] = (Motor2_ShaftCounter & 0x00ff0000) >> 16;
-	ResponseBuffer[13] = (Motor2_ShaftCounter & 0xff000000) >> 24;
+	ResponseBuffer[10] = (Motor2.ShaftCounter & 0x000000ff);
+	ResponseBuffer[11] = (Motor2.ShaftCounter & 0x0000ff00) >> 8;
+	ResponseBuffer[12] = (Motor2.ShaftCounter & 0x00ff0000) >> 16;
+	ResponseBuffer[13] = (Motor2.ShaftCounter & 0xff000000) >> 24;
 	_SendResponse();
 }
 
@@ -376,11 +439,35 @@ void _GetCurrent()
 	ResponseBuffer[2] = (MyAddress & 0x0000ff00) >> 8;
 	ResponseBuffer[3] = (MyAddress & 0x00ff0000) >> 16;
 	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
-	ResponseBuffer[5] = CommandGetCurremt;
+	ResponseBuffer[5] = CommandGetCurrent;
 	*((uint16*)&(ResponseBuffer[6])) = (uint16)Motor1_AvgCurrent;
 	*((uint16*)&(ResponseBuffer[8])) = (uint16)Motor2_AvgCurrent;
 	_SendResponse();
 }
+
+/**
+ * Validate the CRC-16 of an incoming packet, stored in ReceiveBuffer
+ */
+bool _CheckIncomingPacketCRC()
+{
+	//get packet length
+	uint8_t length = ReceiveBuffer[0];
+
+	//start CRC on header DABAD000
+	uint32_t header = 0x00D0BADA;
+
+	//add a crc
+	uint32_t result=0;
+	CRC1_ResetCRC(crc);
+	CRC1_GetBlockCRC(crc, &header, 4, &result );
+
+	CRC1_GetBlockCRC(crc, ReceiveBuffer, length, &result);
+
+	bool ret = (result==0) ? TRUE : FALSE;
+
+	return ret;
+}
+
 /**
  * Call this function periodically outside the interrupt context to process commands
  */
@@ -394,11 +481,6 @@ void Command_Task()
 	CommandStatus = CommandStateExecuting;
 
 	uint32 intendedAddress = 0; // this is the address the packet is intended for
-//	uint32 intendedAddress = ( (uint32)ReceiveBuffer[1] << 24 ) | ( (uint32)ReceiveBuffer[2] << 16 ) | ( (uint32)ReceiveBuffer[3] << 8 ) | (uint32)ReceiveBuffer[4];
-//	intendedAddress = (intendedAddress << 8) + ReceiveBuffer[4];
-//	intendedAddress = (intendedAddress << 8) + ReceiveBuffer[3];
-//	intendedAddress = (intendedAddress << 8) + ReceiveBuffer[2];
-//	intendedAddress = (intendedAddress << 8) + ReceiveBuffer[1];
 	intendedAddress |= ReceiveBuffer[4] & 0xFF;
 	intendedAddress <<= 8;
 	intendedAddress |= ReceiveBuffer[3] & 0xFF;
@@ -409,10 +491,17 @@ void Command_Task()
 
 	if(intendedAddress == MyAddress || intendedAddress == 0) // 0 = broadcast
 	{
+		bool crcOK = _CheckIncomingPacketCRC();
+		if(crcOK == FALSE) //NACK message
+		{
+			badCommandsRecieved++;
+			return;
+		}
+
 		switch(ReceiveBuffer[5])
 		{
 		case CommandPing:
-			_Ping();
+			_SendResponseMessage(CommandPing, crcOK);
 			break;
 		case CommandConfigure:
 			_Configure(&ReceiveBuffer[6]);
@@ -427,10 +516,10 @@ void Command_Task()
 			_MoveTo(&ReceiveBuffer[6]);
 			break;
 		case CommandGetStatus:
-			_GetStatus();
+			_SendResponseMessage(CommandGetStatus, crcOK);
 			break;
 		case CommandAssociate:
-			_Associate();
+			_SendResponseMessage(CommandAssociate, crcOK);
 			break;
 		case CommandIdentifyLed:
 			_IdentifyLed(ReceiveBuffer[6]);
@@ -445,7 +534,9 @@ void Command_Task()
 			_DoubleMoveTo(&ReceiveBuffer[6]);
 			break;
 		case CommandSetPosGetData:
-			_SetPosGetData(&ReceiveBuffer[6]);
+			if(crcOK == TRUE)
+				_DoubleMoveTo(&ReceiveBuffer[6]);
+			_SendResponseMessage(CommandSetPosGetData, crcOK);
 			break;
 		case CommandGetHallPos:
 			_GetHallPos();
@@ -453,7 +544,7 @@ void Command_Task()
 		case CommandGetPots:
 			_GetPots();
 			break;
-		case CommandGetCurremt:
+		case CommandGetCurrent:
 			_GetCurrent();
 			break;
 		}
@@ -571,10 +662,7 @@ void Command_ResponseTask()
 	UART_SendChar(ResponseBuffer[ResponseIndex++]);
 	if(ResponseIndex == COMMAND_RESPONSE_BUFFER_SIZE) // we've sent everything
 	{
-//		while(!(UART_PDD_ReadStatus1Flags(UART1_BASE_PTR) && UART_S1_TC_MASK) )
 		while(UART_PDD_GetTxCompleteStatus(UART1_BASE_PTR) == 0U)
-//		while(UART_GetCharsInTxBuf() > 0 );
-//		for(int i=0;i<10000;i++);
 		ResponseIndex = 0;
 		ResponseReadyToSend = FALSE;
 		TXEN_ClrVal();
