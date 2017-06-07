@@ -13,15 +13,22 @@
 #include "PE_Types.h"
 
 void Motor_Init();
-void Motor_Motor1_Tach();
-void Motor_Motor2_Tach();
+void Motor_Motor1_Tach1();
+void Motor_Motor1_Tach2();
+void Motor_Motor1_Tach3();
+void Motor_Motor2_Tach1();
+void Motor_Motor2_Tach2();
+void Motor_Motor2_Tach3();
 void Motor_Update();
 
 typedef enum {
 	MotorControlModeReserved,
-	MotorControlModePotentiometer,
-	MotorControlModeRelativeStep
+	MotorControlModeJog,
+	MotorControlModeRelativeStep,
+	MotorControlModePotentiometer
 } motorControlMode_t;
+
+uint16 deadband;
 
 motorControlMode_t Motor1_ControlMode;
 motorControlMode_t Motor2_ControlMode;
@@ -49,8 +56,8 @@ uint16 Motor2_Current;
 int32 Motor1_ShaftCounter;
 int32 Motor2_ShaftCounter;
 
-uint16 Motor1_SpeedMax;
-uint16 Motor2_SpeedMax;
+uint16 Motor1_SpeedMin;
+uint16 Motor2_SpeedMin;
 
 uint16 Motor1_CurrentMax;
 uint16 Motor2_CurrentMax;
