@@ -77,6 +77,7 @@ void _SetPosGetData(char* buffer);
 void _GetHallPos();
 void _GetPots();
 void _GetCurrent();
+void _GetConfiguration();
 bool _CheckCanSend();
 void _AddResponseChecksum();
 void _GetVersionString();
@@ -110,11 +111,7 @@ void _Ping()
 	if(ResponseReadyToSend == TRUE) // We're still sending our last response, so exit immediately
 		return;
 	*((uint32*)ResponseBuffer) = 200;
-	ResponseBuffer[1] = (MyAddress & 0x000000ff);
-	ResponseBuffer[2] = (MyAddress & 0x0000ff00) >> 8;
-	ResponseBuffer[3] = (MyAddress & 0x00ff0000) >> 16;
-	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
-//	*((uint32*)&(ResponseBuffer[1])) = MyAddress;
+	memcpy(&ResponseBuffer[1], &MyAddress, sizeof(MyAddress));
 	ResponseBuffer[5] = CommandPing;
 }
 
@@ -136,41 +133,30 @@ void _Configure(uint8* buffer)
 	{
 	case 0:
 		Motor1.ControlMode = buffer[1];
-//		Motor1_KP = buffer[2];
-		kp |= buffer[5] & 0xFF;
-		kp <<= 8;
-		kp |= buffer[4] & 0xFF;
-		kp <<= 8;
-		kp |= buffer[3] & 0xFF;
-		kp <<= 8;
-		kp |= buffer[2] & 0xFF;
-		Motor1.KP = kp;
+		memcpy(&Motor1.KP, &buffer[2], sizeof(Motor1.KP));
 		Motor1.SpeedMin = buffer[6];
 		Motor1.CurrentMax = buffer[7] | (buffer[8] << 8);
 		Motor1.PotZero = buffer[9] | (buffer[10] << 8);
 		Motor1.ClicksPerRev = buffer[11] | (buffer[12] << 8);
-		GetHalls = buffer[13];
-		GetPots = buffer [14];
-		GetCurrent = buffer[15];
+		Motor1.Deadband = buffer[13] | (buffer[14] << 8);
 		break;
 	case 1:
 		Motor2.ControlMode = buffer[1];
 //		Motor2_KP = buffer[2];
-		kp |= buffer[5] & 0xFF;
-		kp <<= 8;
-		kp |= buffer[4] & 0xFF;
-		kp <<= 8;
-		kp |= buffer[3] & 0xFF;
-		kp <<= 8;
-		kp |= buffer[2] & 0xFF;
-		Motor2.KP = kp;
+//		kp |= buffer[5] & 0xFF;
+//		kp <<= 8;
+//		kp |= buffer[4] & 0xFF;
+//		kp <<= 8;
+//		kp |= buffer[3] & 0xFF;
+//		kp <<= 8;
+//		kp |= buffer[2] & 0xFF;
+//		Motor2.KP = kp;
+		memcpy(&Motor2.KP, &buffer[2], sizeof(Motor2.KP));
 		Motor2.SpeedMin = buffer[6];
 		Motor2.CurrentMax = buffer[7] | (buffer[8] << 8);
 		Motor2.PotZero = buffer[9] | (buffer[10] << 8);
 		Motor2.ClicksPerRev = buffer[11] | (buffer[12] << 8);
-		GetHalls = buffer[13];
-		GetPots = buffer [14];
-		GetCurrent = buffer[15];
+		Motor2.Deadband = buffer[13] | (buffer[14] << 8);
 		break;
 	}
 	if(Motor1.CurrentMax > Motor2.CurrentMax)
@@ -271,10 +257,11 @@ void _FillResponseHeader(byte command)
 {
 	memset(ResponseBuffer,0,COMMAND_RESPONSE_BUFFER_SIZE);
 	*((uint32*)ResponseBuffer) = 200;
-	ResponseBuffer[1] = (MyAddress & 0x000000ff);
-	ResponseBuffer[2] = (MyAddress & 0x0000ff00) >> 8;
-	ResponseBuffer[3] = (MyAddress & 0x00ff0000) >> 16;
-	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
+	memcpy(&ResponseBuffer[1], &MyAddress, sizeof(MyAddress));
+//	ResponseBuffer[1] = (MyAddress & 0x000000ff);
+//	ResponseBuffer[2] = (MyAddress & 0x0000ff00) >> 8;
+//	ResponseBuffer[3] = (MyAddress & 0x00ff0000) >> 16;
+//	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
 	ResponseBuffer[5] = command;
 	ResponseFillIndex = 6;
 }
@@ -317,6 +304,9 @@ void _SendResponseMessage(byte commandType, bool bGoodMessage)
 	case CommandGetStatus:
 		_GetStatus();
 		break;
+	case CommandGetConfiguration:
+		_GetConfiguration();
+		break;
 	case CommandGetVersion:
 		_GetVersionString();
 		break;
@@ -337,14 +327,16 @@ void _GetStatus()
 
 	if(GetHalls)
 	{
-		ResponseBuffer[6] = (Motor1.ShaftCounter & 0x000000ff);
-		ResponseBuffer[7] = (Motor1.ShaftCounter & 0x0000ff00) >> 8;
-		ResponseBuffer[8] = (Motor1.ShaftCounter & 0x00ff0000) >> 16;
-		ResponseBuffer[9] = (Motor1.ShaftCounter & 0xff000000) >> 24;
-		ResponseBuffer[10] = (Motor2.ShaftCounter & 0x000000ff);
-		ResponseBuffer[11] = (Motor2.ShaftCounter & 0x0000ff00) >> 8;
-		ResponseBuffer[12] = (Motor2.ShaftCounter & 0x00ff0000) >> 16;
-		ResponseBuffer[13] = (Motor2.ShaftCounter & 0xff000000) >> 24;
+		memcpy(&ResponseBuffer[6], &Motor1.ShaftCounter, sizeof(Motor1.ShaftCounter));
+		memcpy(&ResponseBuffer[10], &Motor2.ShaftCounter, sizeof(Motor2.ShaftCounter));
+//		ResponseBuffer[6] = (Motor1.ShaftCounter & 0x000000ff);
+//		ResponseBuffer[7] = (Motor1.ShaftCounter & 0x0000ff00) >> 8;
+//		ResponseBuffer[8] = (Motor1.ShaftCounter & 0x00ff0000) >> 16;
+//		ResponseBuffer[9] = (Motor1.ShaftCounter & 0xff000000) >> 24;
+//		ResponseBuffer[10] = (Motor2.ShaftCounter & 0x000000ff);
+//		ResponseBuffer[11] = (Motor2.ShaftCounter & 0x0000ff00) >> 8;
+//		ResponseBuffer[12] = (Motor2.ShaftCounter & 0x00ff0000) >> 16;
+//		ResponseBuffer[13] = (Motor2.ShaftCounter & 0xff000000) >> 24;
 		ResponseFillIndex += 8;
 	}
 	if(GetPots)
@@ -443,6 +435,36 @@ void _GetCurrent()
 	*((uint16*)&(ResponseBuffer[6])) = (uint16)Motor1_AvgCurrent;
 	*((uint16*)&(ResponseBuffer[8])) = (uint16)Motor2_AvgCurrent;
 	_SendResponse();
+}
+
+void _GetConfiguration()
+{
+	if(ResponseReadyToSend == TRUE) // We're still sending our last response, so exit immediately
+			return;
+	switch(ReceiveBuffer[6])
+	{
+	case 0:
+		ResponseBuffer[6] = 0;
+		memcpy(&ResponseBuffer[7], &Motor1.KP, sizeof(Motor1.KP));
+		memcpy(&ResponseBuffer[11], &Motor1.ClicksPerRev, sizeof(Motor1.ClicksPerRev));
+		memcpy(&ResponseBuffer[13], &Motor1.SpeedMin, sizeof(Motor1.SpeedMin));
+		memcpy(&ResponseBuffer[15], &Motor1.CurrentMax, sizeof(Motor1.CurrentMax));
+		memcpy(&ResponseBuffer[17], &Motor1.PotZero, sizeof(Motor1.PotZero));
+		ResponseBuffer[19] = (uint8)Motor1.ControlMode;
+		memcpy(&ResponseBuffer[20], &Motor1.Deadband, sizeof(Motor1.Deadband));
+		break;
+	case 1:
+		ResponseBuffer[6] = 1;
+		memcpy(&ResponseBuffer[7], &Motor2.KP, sizeof(Motor2.KP));
+		memcpy(&ResponseBuffer[11], &Motor2.ClicksPerRev, sizeof(Motor2.ClicksPerRev));
+		memcpy(&ResponseBuffer[13], &Motor2.SpeedMin, sizeof(Motor2.SpeedMin));
+		memcpy(&ResponseBuffer[15], &Motor2.CurrentMax, sizeof(Motor2.CurrentMax));
+		memcpy(&ResponseBuffer[17], &Motor2.PotZero, sizeof(Motor2.PotZero));
+		ResponseBuffer[19] = (uint8)Motor2.ControlMode;
+		memcpy(&ResponseBuffer[20], &Motor2.Deadband, sizeof(Motor2.Deadband));
+		break;
+	}
+	ResponseFillIndex += 16;
 }
 
 /**
@@ -546,6 +568,9 @@ void Command_Task()
 			break;
 		case CommandGetCurrent:
 			_GetCurrent();
+			break;
+		case CommandGetConfiguration:
+			_SendResponseMessage(CommandGetConfiguration, crcOK);
 			break;
 		}
 	}

@@ -34,16 +34,16 @@ typedef enum {
 
 typedef struct MotorConfig {
 	uint32_t KP;
-	uint32_t KI;
-	uint32_t KD;
+	int32_t KI;
+	int32_t KD;
 	int32_t Setpoint;
 	int32_t ShaftCounter;
-	uint16_t ClicksPerRev;
+	int16_t ClicksPerRev;
 	uint16_t SpeedMin;
 	uint16_t CurrentMax;
 	uint16_t PotZero;
-	motorControlMode_t ControlMode;
 	uint16_t Deadband;
+	motorControlMode_t ControlMode;
 } MotorConfig_t;
 
 MotorConfig_t Motor1;
