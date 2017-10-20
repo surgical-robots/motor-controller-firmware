@@ -78,6 +78,7 @@ void _GetHallPos();
 void _GetPots();
 void _GetCurrent();
 void _GetConfiguration();
+void _SetBaudRate(uint8* buffer);
 bool _CheckCanSend();
 void _AddResponseChecksum();
 void _GetVersionString();
@@ -135,28 +136,19 @@ void _Configure(uint8* buffer)
 		Motor1.ControlMode = buffer[1];
 		memcpy(&Motor1.KP, &buffer[2], sizeof(Motor1.KP));
 		Motor1.SpeedMin = buffer[6];
-		Motor1.CurrentMax = buffer[7] | (buffer[8] << 8);
-		Motor1.PotZero = buffer[9] | (buffer[10] << 8);
-		Motor1.ClicksPerRev = buffer[11] | (buffer[12] << 8);
-		Motor1.Deadband = buffer[13] | (buffer[14] << 8);
+		memcpy(&Motor1.CurrentMax, &buffer[7], sizeof(Motor1.CurrentMax));
+		memcpy(&Motor1.PotZero, &buffer[9], sizeof(Motor1.PotZero));
+		memcpy(&Motor1.ClicksPerRev, &buffer[11], sizeof(Motor1.ClicksPerRev));
+		memcpy(&Motor1.Deadband, &buffer[13], sizeof(Motor1.Deadband));
 		break;
 	case 1:
 		Motor2.ControlMode = buffer[1];
-//		Motor2_KP = buffer[2];
-//		kp |= buffer[5] & 0xFF;
-//		kp <<= 8;
-//		kp |= buffer[4] & 0xFF;
-//		kp <<= 8;
-//		kp |= buffer[3] & 0xFF;
-//		kp <<= 8;
-//		kp |= buffer[2] & 0xFF;
-//		Motor2.KP = kp;
 		memcpy(&Motor2.KP, &buffer[2], sizeof(Motor2.KP));
 		Motor2.SpeedMin = buffer[6];
-		Motor2.CurrentMax = buffer[7] | (buffer[8] << 8);
-		Motor2.PotZero = buffer[9] | (buffer[10] << 8);
-		Motor2.ClicksPerRev = buffer[11] | (buffer[12] << 8);
-		Motor2.Deadband = buffer[13] | (buffer[14] << 8);
+		memcpy(&Motor2.CurrentMax, &buffer[7], sizeof(Motor2.CurrentMax));
+		memcpy(&Motor2.PotZero, &buffer[9], sizeof(Motor2.PotZero));
+		memcpy(&Motor2.ClicksPerRev, &buffer[11], sizeof(Motor2.ClicksPerRev));
+		memcpy(&Motor2.Deadband, &buffer[13], sizeof(Motor2.Deadband));
 		break;
 	}
 	if(Motor1.CurrentMax > Motor2.CurrentMax)
@@ -223,14 +215,8 @@ case 1:
 
 void _MoveTo(char* buffer)
 {
-	int32 setpoint = 0;
-	setpoint |= buffer[4] & 0xFF;
-	setpoint <<= 8;
-	setpoint |= buffer[3] & 0xFF;
-	setpoint <<= 8;
-	setpoint |= buffer[2] & 0xFF;
-	setpoint <<= 8;
-	setpoint |= buffer[1] & 0xFF;
+	int32 setpoint;
+	memcpy(&setpoint, &buffer[1], 4);
 
 	switch(buffer[0])
 	{
@@ -258,10 +244,6 @@ void _FillResponseHeader(byte command)
 	memset(ResponseBuffer,0,COMMAND_RESPONSE_BUFFER_SIZE);
 	*((uint32*)ResponseBuffer) = 200;
 	memcpy(&ResponseBuffer[1], &MyAddress, sizeof(MyAddress));
-//	ResponseBuffer[1] = (MyAddress & 0x000000ff);
-//	ResponseBuffer[2] = (MyAddress & 0x0000ff00) >> 8;
-//	ResponseBuffer[3] = (MyAddress & 0x00ff0000) >> 16;
-//	ResponseBuffer[4] = (MyAddress & 0xff000000) >> 24;
 	ResponseBuffer[5] = command;
 	ResponseFillIndex = 6;
 }
@@ -329,14 +311,6 @@ void _GetStatus()
 	{
 		memcpy(&ResponseBuffer[6], &Motor1.ShaftCounter, sizeof(Motor1.ShaftCounter));
 		memcpy(&ResponseBuffer[10], &Motor2.ShaftCounter, sizeof(Motor2.ShaftCounter));
-//		ResponseBuffer[6] = (Motor1.ShaftCounter & 0x000000ff);
-//		ResponseBuffer[7] = (Motor1.ShaftCounter & 0x0000ff00) >> 8;
-//		ResponseBuffer[8] = (Motor1.ShaftCounter & 0x00ff0000) >> 16;
-//		ResponseBuffer[9] = (Motor1.ShaftCounter & 0xff000000) >> 24;
-//		ResponseBuffer[10] = (Motor2.ShaftCounter & 0x000000ff);
-//		ResponseBuffer[11] = (Motor2.ShaftCounter & 0x0000ff00) >> 8;
-//		ResponseBuffer[12] = (Motor2.ShaftCounter & 0x00ff0000) >> 16;
-//		ResponseBuffer[13] = (Motor2.ShaftCounter & 0xff000000) >> 24;
 		ResponseFillIndex += 8;
 	}
 	if(GetPots)
@@ -355,27 +329,8 @@ void _GetStatus()
 
 void _DoubleMoveTo(char* buffer)
 {
-	int32 setpointOne = 0;
-	int32 setpointTwo = 0;
-
-	setpointOne |= ReceiveBuffer[9] & 0xFF;
-	setpointOne <<= 8;
-	setpointOne |= ReceiveBuffer[8] & 0xFF;
-	setpointOne <<= 8;
-	setpointOne |= ReceiveBuffer[7] & 0xFF;
-	setpointOne <<= 8;
-	setpointOne |= ReceiveBuffer[6] & 0xFF;
-
-	setpointTwo |= ReceiveBuffer[13] & 0xFF;
-	setpointTwo <<= 8;
-	setpointTwo |= ReceiveBuffer[12] & 0xFF;
-	setpointTwo <<= 8;
-	setpointTwo |= ReceiveBuffer[11] & 0xFF;
-	setpointTwo <<= 8;
-	setpointTwo |= ReceiveBuffer[10] & 0xFF;
-
-	Motor1.Setpoint = setpointOne;
-	Motor2.Setpoint = setpointTwo;
+	memcpy(&Motor1.Setpoint, &ReceiveBuffer[6], 4);
+	memcpy(&Motor2.Setpoint, &ReceiveBuffer[10], 4);
 }
 
 void _SetPosGetData(char* buffer)
@@ -467,6 +422,11 @@ void _GetConfiguration()
 	ResponseFillIndex += 16;
 }
 
+void _SetBaudRate(uint8* buffer)
+{
+	UART_SetBaudRateMode(buffer[0]);
+}
+
 /**
  * Validate the CRC-16 of an incoming packet, stored in ReceiveBuffer
  */
@@ -517,7 +477,8 @@ void Command_Task()
 		if(crcOK == FALSE) //NACK message
 		{
 			badCommandsRecieved++;
-			return;
+//			if(ReceiveBuffer[5] != CommandConfigure)
+				return;
 		}
 
 		switch(ReceiveBuffer[5])
@@ -571,6 +532,9 @@ void Command_Task()
 			break;
 		case CommandGetConfiguration:
 			_SendResponseMessage(CommandGetConfiguration, crcOK);
+			break;
+		case CommandSetBaudRate:
+			_SetBaudRate(&ReceiveBuffer[6]);
 			break;
 		}
 	}
@@ -679,7 +643,7 @@ void Command_ResponseTask()
 	if(ResponseIndex == 0)
 	{
 		TXEN_SetVal();
-		for(int i=0;i<10000;i++);
+		for(int i=0;i<5;i++);
 	}
 
 	// We have to wait a bit before we send our first byte.

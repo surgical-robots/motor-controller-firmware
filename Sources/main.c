@@ -113,6 +113,9 @@ int main(void)
 	GetPots = TRUE;
 	GetCurrent = TRUE;
 
+	// set UART to fast baud rate
+	UART_SetBaudRateMode(1);
+
 	// Initialize the FRAM
 	Fram_init();
 
@@ -159,9 +162,8 @@ int main(void)
 			config->motor2 = Motor2;
 
 			ExitCritical();
-			Fram_write();
 			// End write parameters to FRAM
-
+			Fram_write();
 
 		  if(Motor_IsMoving)
 		  {

@@ -31,6 +31,7 @@ typedef enum {
 	CommandGetPots,
 	CommandGetCurrent,
 	CommandGetConfiguration,    //16 x10
+	CommandSetBaudRate,
 	CommandGetVersion,          //   x11
 	CommandInvalidCommand       //   x12
 } command_t;

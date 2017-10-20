@@ -6,7 +6,7 @@
 **     Component   : AsynchroSerial
 **     Version     : Component 02.611, Driver 01.01, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-06-07, 13:12, # CodeGen: 40
+**     Date/Time   : 2017-10-19, 11:17, # CodeGen: 59
 **     Abstract    :
 **         This component "AsynchroSerial" implements an asynchronous serial
 **         communication. The component supports different settings of
@@ -53,6 +53,7 @@
 **         SendChar        - byte UART_SendChar(UART_TComData Chr);
 **         GetCharsInRxBuf - word UART_GetCharsInRxBuf(void);
 **         GetCharsInTxBuf - word UART_GetCharsInTxBuf(void);
+**         SetBaudRateMode - byte UART_SetBaudRateMode(byte Mod);
 **
 **     Copyright : 1997 - 2014 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -271,6 +272,43 @@ word UART_GetCharsInRxBuf(void)
 word UART_GetCharsInTxBuf(void)
 {
   return (word)(((SerFlag & FULL_TX) != 0U)? 1U : 0U); /* Return number of chars in the transmitter buffer */
+}
+
+/*
+** ===================================================================
+**     Method      :  UART_SetBaudRateMode (component AsynchroSerial)
+**     Description :
+**         This method changes the channel communication speed (baud
+**         rate). This method can be used only if the user specifies
+**         a list of possible period settings at design time (see
+**         <Timing dialog box> - Runtime setting - from a list of
+**         values). Each of these settings constitutes a _/mode/_
+**         and Processor Expert^[TM] assigns them a _/mode
+**         identifier/_. The prescaler and compare values
+**         corresponding to each mode are calculated at design time.
+**         The user may switch modes at runtime by referring to a
+**         mode identifier. No run-time calculations are performed,
+**         all the calculations are performed at design time.
+**     Parameters  :
+**         NAME            - DESCRIPTION
+**         Mod             - Timing mode to set
+**
+**     Returns     :
+**         ---             - Error code, possible codes:
+**                           ERR_OK - OK
+**                           ERR_SPEED - This device does not work in
+**                           the active speed mode
+** ===================================================================
+*/
+byte UART_SetBaudRateMode(byte Mod)
+{
+  LDD_TError Error;
+
+  Error = ASerialLdd1_SelectBaudRate(ASerialLdd1_DeviceDataPtr, (LDD_SERIAL_TBaudMode)Mod); /* Set baud rate mode. */
+  if (Error == ERR_PARAM_MODE) {
+    Error = ERR_VALUE;
+  }
+  return (byte)Error;
 }
 
 /*

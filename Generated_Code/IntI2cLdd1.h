@@ -6,7 +6,7 @@
 **     Component   : I2C_LDD
 **     Version     : Component 01.016, Driver 01.07, CPU db: 3.50.001
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2017-03-11, 19:47, # CodeGen: 38
+**     Date/Time   : 2017-10-19, 09:37, # CodeGen: 54
 **     Abstract    :
 **          This component encapsulates the internal I2C communication
 **          interface. The implementation of the interface is based
@@ -29,7 +29,7 @@
 **          I2C channel                                    : I2C0
 **          Interrupt service                              : Enabled
 **            Interrupt                                    : INT_I2C0
-**            Interrupt priority                           : medium priority
+**            Interrupt priority                           : high priority
 **            ISR name                                     : IntI2cLdd1_Interrupt
 **          Settings                                       : 
 **            Mode selection                               : MASTER
